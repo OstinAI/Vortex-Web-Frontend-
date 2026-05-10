@@ -1,0 +1,743 @@
+:root {
+    --vortex-bg: #050505;
+    --vortex-accent: #00E5FF;
+    --vortex-border: rgba(0, 229, 255, 0.15);
+    --header-h: 70px;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--vortex-bg);
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+/* Шапка */
+.warehouse-top-bar {
+    height: var(--header-h);
+    background: #000;
+    border-bottom: 1px solid var(--vortex-border);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* Сетка */
+.warehouse-layout-grid {
+    display: flex;
+    margin-top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    width: 100%;
+}
+
+.warehouse-zone {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.zone-left {
+    width: 30%;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.zone-right {
+    flex-grow: 1;
+}
+
+/* Линия управления размером (Ресайзер) */
+.vortex-resizer-h {
+    width: 2px; /* Сама линия остается тонкой */
+    cursor: col-resize;
+    background: var(--vortex-border); /* В обычном состоянии тусклая */
+    transition: all 0.3s ease; /* Плавный переход свечения */
+    z-index: 10;
+    position: relative;
+}
+
+    /* Эффект при наведении */
+    .vortex-resizer-h:hover {
+        background: var(--vortex-accent); /* Линия становится яркой */
+        /* Тонкое неоновое свечение: 
+       0 0 5px - небольшое размытие, 
+       0 0 2px - плотное ядро свечения */
+        box-shadow: 0 0 5px rgba(0, 229, 255, 0.5), 0 0 2px rgba(0, 229, 255, 0.8);
+    }
+
+
+/* ___________________________________________________________________________________________ */
+
+/* Контейнер для кнопок внутри шапки */
+.vortex-header-controls {
+    display: flex;
+    align-items: center; /* Центровка по вертикали (между верхом и низом) */
+    gap: 15px;
+    margin-left: 10px; /* Отступ от левого края */
+    height: 100%; /* Растягиваем на всю высоту шапки для центровки */
+}
+
+/* Кнопка назад: тонкая и аккуратная галочка */
+.btn-vortex-back {
+    background: transparent;
+    border: none;
+    color: #00E5FF; /* Твой синий цвет */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Убрал отступы для чистоты */
+    transition: all 0.3s ease;
+    /* Мягкое неоновое свечение (тусклое как на скриншоте) */
+    filter: drop-shadow(0 0 2px rgba(0, 229, 255, 0.4));
+}
+
+    .btn-vortex-back:hover {
+        filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.7));
+        transform: translateX(-1px);
+    }
+
+/* Кнопка Создать склад */
+.btn-vortex-create {
+    background: #111111;
+    border: 1px solid #1a1a1a;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+    .btn-vortex-create:hover {
+        border-color: #00E5FF;
+        color: #00E5FF;
+        box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+    }
+
+/* ___________________________________________________________________________________________ */
+
+/* ФОН МОДАЛКИ (Размытие) */
+.vortex-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px); /* Размытие заднего плана */
+}
+
+/* КОНТЕНТ ОКНА */
+.vortex-modal-content {
+    background-color: #0a0a0a;
+    margin: 10% auto;
+    padding: 25px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.vortex-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .vortex-modal-header h2 {
+        color: #fff;
+        font-size: 16px;
+        letter-spacing: 2px;
+        margin: 0;
+    }
+
+/* ИНПУТЫ */
+.vortex-input-group {
+    margin-bottom: 20px;
+}
+
+    .vortex-input-group label {
+        display: block;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    .vortex-input-group input {
+        width: 100%;
+        background: #111;
+        border: 1px solid #222;
+        padding: 12px;
+        border-radius: 8px;
+        color: #fff;
+        box-sizing: border-box;
+        transition: all 0.3s;
+    }
+
+        .vortex-input-group input:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+
+/* КНОПКИ В МОДАЛКЕ */
+.vortex-modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.btn-confirm {
+    background: #00E5FF;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Сетка для карточек в правой панели */
+#right-side {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    align-content: start;
+    overflow-y: auto;
+}
+
+/* Карточка склада */
+.warehouse-card {
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Текст внутри */
+    .warehouse-card h3 {
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        text-align: center;
+        padding: 10px;
+        z-index: 2;
+        transition: color 0.3s;
+    }
+
+    /* Неоновый перелив при наведении */
+    .warehouse-card:hover {
+        transform: scale(1.05);
+        border-color: #00E5FF;
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.1);
+    }
+
+        .warehouse-card:hover h3 {
+            color: #00E5FF;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+        }
+
+    /* Анимированный блик */
+    .warehouse-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    .warehouse-card:hover::after {
+        opacity: 1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+/* Шапка внутри открытого склада */
+/* Контейнер-обертка, чтобы поднять контент */
+.warehouse-content-inner {
+    margin-top: -20px; /* Поднимаем всю массу вверх на 20 пикселей */
+    width: 100%;
+}
+
+/* Группировка кнопки и заголовка */
+.header-left-part {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между галочкой и названием */
+}
+
+/* Название склада — теперь строго белое */
+.warehouse-title {
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* Шапка контента */
+.warehouse-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: transparent;
+}
+
+/* Переиспользование стилей нашей кнопки назад для единообразия */
+.btn-vortex-back {
+    background: transparent;
+    border: none;
+    color: #00E5FF; /* Тот самый неон */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 2px rgba(0, 229, 255, 0.4));
+}
+
+    .btn-vortex-back:hover {
+        filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.8));
+        transform: scale(1.1);
+    }
+
+/* Заголовки таблицы тоже сделаем белыми для стиля */
+.vortex-table th {
+    color: #ffffff;
+    opacity: 0.9;
+    font-weight: 800;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    padding: 12px;
+}
+
+/* ФИКС РАЗМЕРА: Если внутри правой зоны есть контент склада, выключаем сетку карточек */
+#right-side:has(.warehouse-content-inner) {
+    display: block !important; /* Отменяет Grid, чтобы контент занял всю ширину */
+    padding: 20px !important; /* Внутренний отступ для всей секции */
+}
+
+/* Твой рабочий код ниже */
+
+/* Контейнер-обертка, чтобы поднять контент */
+.warehouse-content-inner {
+    margin-top: -20px; /* Поднимаем всю массу вверх на 20 пикселей */
+    width: 100%;
+}
+
+/* Группировка кнопки и заголовка */
+.header-left-part {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между галочкой и названием */
+}
+
+/* Название склада — теперь строго белое */
+.warehouse-title {
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* Шапка контента */
+.warehouse-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0; /* Убрал боковой padding, так как он есть у родителя */
+    background: transparent;
+    width: 100%;
+}
+
+/* Переиспользование стилей нашей кнопки назад для единообразия */
+.btn-vortex-back {
+    background: transparent;
+    border: none;
+    color: #00E5FF; /* Тот самый неон */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 2px rgba(0, 229, 255, 0.4));
+}
+
+    .btn-vortex-back:hover {
+        filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.8));
+        transform: scale(1.1);
+    }
+
+/* Заголовки таблицы */
+.vortex-table th {
+    color: #ffffff;
+    opacity: 0.9;
+    font-weight: 800;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    padding: 12px;
+}
+
+/* Гарантируем, что таблица растянется */
+.vortex-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Специальные стили для текстовой области */
+.vortex-input-group textarea {
+    width: 100%;
+    background: #111;
+    border: 1px solid #222;
+    padding: 12px;
+    border-radius: 8px;
+    color: #fff;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: none;
+    transition: all 0.3s;
+}
+
+    .vortex-input-group textarea:focus {
+        outline: none;
+        border-color: #00E5FF;
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+    }
+
+/* Стилизация выпадающего списка */
+.vortex-input-group select {
+    width: 100%;
+    background: #111;
+    border: 1px solid #222;
+    padding: 12px;
+    border-radius: 8px;
+    color: #00E5FF; /* Акцентный цвет для выбора */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.vortex-file-dropzone {
+    border: 2px dashed rgba(0, 229, 255, 0.3);
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgba(0, 0, 0, 0.2);
+    color: #00E5FF;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+    .vortex-file-dropzone:hover {
+        border-color: #00E5FF;
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+.file-preview-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.file-preview-item {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+
+
+
+
+
+
+
+
+/* Общие настройки таблицы */
+.vortex-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; /* Расстояние между строками */
+    margin-top: 10px;
+}
+
+    /* Заголовки */
+    .vortex-table th {
+        padding: 12px 20px;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 800;
+        border: none;
+    }
+
+/* Стили строк */
+.vortex-table-row {
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .vortex-table-row td {
+        padding: 16px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+        /* Закругление углов строк */
+        .vortex-table-row td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px 0 0 12px;
+        }
+
+        .vortex-table-row td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0 12px 12px 0;
+        }
+
+    /* Эффект при наведении */
+    .vortex-table-row:hover {
+        background: rgba(0, 229, 255, 0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+        .vortex-table-row:hover td {
+            border-color: rgba(0, 229, 255, 0.2);
+        }
+
+/* Кастомные колонки */
+.artikul-badge {
+    background: rgba(0, 229, 255, 0.1);
+    color: #00E5FF;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: 'Monaco', monospace;
+    font-size: 12px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.product-sub {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.stock-value {
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.unit-tag {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.price-value {
+    color: #00FF41; /* Матричный зеленый */
+    font-weight: 800;
+    font-size: 15px;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.currency {
+    color: rgba(0, 255, 65, 0.5);
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+/* 1. ПОДНИМАЕМ КОНТЕНТ ВЫШЕ */
+.warehouse-content-inner {
+    margin-top: -40px; /* Увеличил отрицательный отступ, чтобы поднять всё выше */
+    width: 100%;
+}
+
+.warehouse-content-header {
+    padding: 10px 40px; /* Уменьшил вертикальные отступы в шапке (было 30px) */
+    border-bottom: 1px solid rgba(0, 229, 255, 0.05);
+}
+
+.warehouse-table-container {
+    padding: 0px 40px; /* Убрал верхний отступ у контейнера таблицы */
+}
+
+/* 2. НОВАЯ НЕОНОВАЯ ЦЕНА (БЕЛО-ГОЛУБАЯ) */
+.price-value {
+    color: #ffffff; /* Основной цвет белый */
+    font-weight: 800;
+    font-size: 15px;
+    /* Мягкое неоновое свечение */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+.currency {
+    color: rgba(0, 229, 255, 0.8); /* Знак валюты подчеркивает неон */
+    font-size: 12px;
+    margin-left: 4px;
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+}
+
+/* Уточнение для заголовков таблицы, чтобы они тоже были ближе */
+.vortex-table {
+    margin-top: 0; /* Убираем лишний отступ сверху у таблицы */
+}
+
+    .vortex-table th {
+        padding: 8px 20px; /* Уменьшил высоту заголовков */
+    }
+
+/* Настройка зоны, когда открыт склад */
+#right-side:has(.warehouse-content-inner) {
+    display: block !important;
+    padding: 10px !important; /* Ровно 10px отступы от краев секции для всего контента */
+    overflow-y: auto;
+}
+
+.warehouse-content-inner {
+    margin-top: 0; /* Убираем отрицательный маржин */
+    width: 100%;
+}
+
+/* Шапка внутри склада (Кнопка и Название) */
+.warehouse-content-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0 15px 0; /* Отступ только снизу, чтобы отделить от таблицы */
+    background: transparent;
+    width: 100%;
+}
+
+/* Группа кнопки и заголовка */
+.header-left-part {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние 10px между стрелочкой и текстом */
+}
+
+/* Таблица и заголовки */
+.warehouse-table-container {
+    padding: 0; /* Обнуляем, так как падинг 10px уже есть у родителя #right-side */
+}
+
+.vortex-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 10px; /* Расстояние 10px между кнопкой/заголовком и началом таблицы (артикулом) */
+}
+
+    /* Заголовки колонок */
+    .vortex-table th {
+        padding: 5px 20px; /* Минимальная высота для заголовков */
+        text-align: left;
+    }
+
+/* Кнопка назад в контенте */
+.btn-vortex-back {
+    /* Стили остаются прежними, убираем лишние внешние отступы */
+    margin: 0;
+}

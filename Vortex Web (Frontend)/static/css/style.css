@@ -1,0 +1,407 @@
+:root {
+    --deep-blue: #0a192f;
+    --vortex-light: #2c5474;
+    --vortex-dark: #0e2e47;
+    --neon-blue: #00FFFF;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/logo.png');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35);
+    z-index: -1;
+}
+
+/* Навигация */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+.nav-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--neon-blue);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .nav-link:hover {
+        color: var(--neon-blue);
+    }
+
+    .nav-link.disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+/* Лендинг */
+.landing-content {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .landing-content h1 {
+        font-size: 64px;
+        margin: 0;
+        text-shadow: 0 0 20px var(--vortex-light);
+    }
+
+/* Контейнеры авторизации и регистрации */
+.auth-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    z-index: 100;
+}
+
+.auth-card {
+    background: rgba(10, 25, 47, 0.75);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    text-align: center;
+}
+
+.logo-wrapper {
+    text-align: center;
+}
+
+.bee-gif {
+    width: 80px;
+    filter: drop-shadow(0 0 10px var(--vortex-light));
+}
+
+.vortex-title {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-align: center;
+    margin: 10px 0 0 0;
+    background: linear-gradient(180deg, #ffffff 0%, var(--vortex-light) 60%, var(--vortex-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.vortex-sub {
+    color: var(--vortex-light);
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin-bottom: 25px;
+}
+
+/* Поля ввода */
+.input-field {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .input-field input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 18px;
+        color: white;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid rgba(255,255,255,0.2);
+        outline: none;
+        transition: 0.3s;
+        box-sizing: border-box;
+    }
+
+    .input-field label {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        color: rgba(255,255,255,0.5);
+        pointer-events: none;
+        transition: 0.3s;
+    }
+
+    .input-field input:focus ~ label, .input-field input:not(:placeholder-shown) ~ label {
+        top: -12px;
+        font-size: 12px;
+        color: var(--neon-blue);
+    }
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+    .remember-me input {
+        width: 18px;
+        height: 18px;
+    }
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--vortex-dark), var(--vortex-light));
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 30px rgba(44, 84, 116, 0.7);
+    }
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    min-height: 20px;
+    margin-bottom: 10px;
+}
+
+/* Финальное решение для автозаполнения Vortex */
+.input-field input:-webkit-autofill,
+.input-field input:-webkit-autofill:hover,
+.input-field input:-webkit-autofill:focus,
+.input-field input:-webkit-autofill:active {
+    /* Фоновая заливка цветом системы */
+    -webkit-box-shadow: 0 0 0 1000px var(--deep-blue) inset !important;
+    /* Принудительно белый текст (основной хак) */
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    /* Цвет мигающего курсора тоже делаем белым/неоновым */
+    caret-color: var(--neon-blue) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    border-bottom: 2px solid var(--neon-blue) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* CRM Dashboard элементы */
+.dashboard-header {
+    position: absolute;
+    top: 20px;
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.header-left {
+    display: flex;
+    gap: 15px;
+}
+
+.neon-block {
+    background: rgba(14, 46, 71, 0.6);
+    border-top: 2px solid var(--neon-blue);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: skewX(-15deg);
+    box-shadow: 0 0 15px rgba(0,255,255,0.2);
+}
+
+    .neon-block div, .neon-block img {
+        transform: skewX(15deg);
+    }
+
+    .neon-block img {
+        height: 35px;
+    }
+
+.dashboard-footer {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 20px;
+}
+
+.tools-menu {
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: 0.5s;
+    pointer-events: none;
+    margin-bottom: 15px;
+    transform: translateX(-50px);
+}
+
+    .tools-menu.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+.tool-btn {
+    width: 50px;
+    height: 50px;
+    background: var(--vortex-dark);
+    border-bottom: 2px solid var(--neon-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .tool-btn img {
+        width: 30px;
+    }
+
+.main-tools-trigger img {
+    height: 100px;
+    cursor: pointer;
+}
+
+.exit-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+    .exit-btn img {
+        height: 70px;
+    }
+
+
+/* Базовые настройки для исключения прокрутки */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Убираем background-color: #000, чтобы не было лишней черноты */
+}
+
+.bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/pexels-thales13-27173061.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Увеличиваем яркость (было 0.15), теперь фото будет видно */
+    filter: brightness(0.6);
+    z-index: 0;
+}
+
+/* Стеклянная прозрачная шапка */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    /* Эффект прозрачного стекла */
+    background: rgba(255, 255, 255, 0.05); /* Очень легкий белый налет */
+    backdrop-filter: blur(20px); /* Усилили размытие для глубины */
+    -webkit-backdrop-filter: blur(20px);
+    /* Тонкий блик по краю */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: 0.3s;
+}
+
+/* Настройка холста, чтобы он был между фоном и текстом */
+#spiralCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 1; /* Над bg-image (0), но под navbar (100) */
+}
+
+/* Контент лендинга */
+.landing-content {
+    position: relative;
+    z-index: 2; /* Над точками */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.main-cta {
+    position: absolute;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-decoration: none; /* Убираем подчеркивание ссылки */
+    /* Стили как у кнопки */
+    padding: 15px 35px;
+    font-size: 18px;
+    background: #00ffff;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+    transition: 0.3s;
+}
+
+    .main-cta:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 1);
+        transform: translate(-50%, -50%) scale(1.05);
+    }

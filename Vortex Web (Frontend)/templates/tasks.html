@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vortex Tasks</title>
+    <link rel="stylesheet" href="../static/css/tasks.css">
+</head>
+<body class="vortex-runtime">
+
+    <header class="vortex-top-bar">
+        <div class="vortex-header-controls">
+            <button class="btn-vortex-back" onclick="history.back()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="header-actions">
+                <button id="btn-create-task" class="btn-vortex-action" onclick="openTaskModal()">
+                    СОЗДАТЬ ЗАДАЧУ
+                </button>
+
+                <button id="btn-global-tasks" class="btn-vortex-action secondary" onclick="toggleGlobalTasks()" style="display: none;">
+                    ВСЕ ЗАДАЧИ
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="vortex-layout-grid">
+        <div class="vortex-zone zone-left" id="left-side" style="width: 30%; padding: 20px; overflow-y: auto;">
+            <h3 class="vortex-title" style="margin-bottom: 25px;">АНАЛИТИКА</h3>
+
+            <div class="chart-container" style="margin-bottom: 40px;">
+                <label class="vortex-label" style="display: block; margin-bottom: 10px; text-align: center;">СОСТОЯНИЕ ЗАДАЧ</label>
+                <canvas id="statusChart" height="200"></canvas>
+            </div>
+
+            <div class="chart-container" style="margin-bottom: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <label class="vortex-label" style="display: block; margin-bottom: 15px; text-align: center;">ИНДЕКС СКОРОСТИ (КПД)</label>
+
+                <div id="speed-index-value" style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">0.0</div>
+
+                <div class="speed-progress-bg" style="height: 8px; width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 10px; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <div id="speed-index-bar" style="height: 100%; width: 50%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease;"></div>
+                </div>
+
+                <div class="speed-labels" style="display: flex; justify-content: space-between; width: 100%; font-size: 10px; color: #555; margin-top: 8px; text-transform: uppercase;">
+                    <span>-10</span>
+                    <span>0</span>
+                    <span>+10</span>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <label class="vortex-label" style="display: block; margin-bottom: 10px; text-align: center;">БАЛАНС ЗАДАЧ (FOCUS)</label>
+                <canvas id="radarChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <label class="vortex-label" style="display: block; margin-bottom: 10px; text-align: center;">НАГРУЗКА ПО ПРИОРИТЕТАМ</label>
+                <canvas id="priorityChart"></canvas>
+            </div>
+
+            
+        </div>
+
+        <div class="vortex-resizer-h" id="resizer"></div>
+
+        <div class="vortex-zone zone-right" id="right-side" style="width: 70%;">
+            <div class="tasks-header-control" style="margin-top: -5px;">
+                <h3 class="vortex-title">ЗАДАЧИ</h3>
+
+                <div class="vortex-filters">
+                    <select id="task-view-mode" class="vortex-input-select" onchange="loadTasks()">
+                        <option value="my">Мои задачи</option>
+                        <option value="all">Все задачи</option>
+                    </select>
+
+                    <select id="filter-status" class="vortex-input-select" onchange="loadTasks()">
+                        <option value="">Все статусы</option>
+                        <option value="open" selected>Открытые</option>
+                        <option value="in_progress">В работе</option>
+                        <option value="done">Выполненные</option>
+                        <option value="overdue">Просроченные</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="tasks-list-container" class="tasks-scroll-area">
+                <div class="loading-state">Загрузка задач...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-task-create" class="vortex-modal">
+        <div class="vortex-modal-content">
+            <div class="vortex-modal-header">
+                <h2 id="task-modal-title">НОВАЯ ЗАДАЧА</h2>
+                <button class="btn-close" onclick="closeTaskModal()">&times;</button>
+            </div>
+
+            <div class="vortex-modal-body">
+                <input type="hidden" id="edit-task-id" value="">
+
+                <div class="vortex-input-group">
+                    <label>НАЗВАНИЕ ЗАДАЧИ</label>
+                    <input type="text" id="task-title" placeholder="Краткая суть задачи...">
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>ОПИСАНИЕ</label>
+                    <textarea id="task-desc" rows="4" placeholder="Детальное описание..."></textarea>
+                </div>
+
+                <div class="vortex-input-row" style="display: flex; gap: 15px;">
+                    <div class="vortex-input-group" style="flex: 1;">
+                        <label>ПРИОРИТЕТ</label>
+                        <select id="task-priority">
+                            <option value="normal">Обычный</option>
+                            <option value="urgent">Срочный (urgent)</option>
+                        </select>
+                    </div>
+
+                    <div class="vortex-input-group" style="flex: 1;">
+                        <label>ДЕДЛАЙН (КРАЙНИЙ СРОК)</label>
+                        <input type="datetime-local" id="task-deadline">
+                    </div>
+                </div>
+
+                <div class="vortex-input-group" id="assignees-group">
+                    <label>ОТВЕТСТВЕННЫЕ (КОМУ)</label>
+
+                    <div class="vortex-custom-select" id="vortex-assignee-select">
+                        <div class="vortex-chips-container" id="assignee-chips" onclick="toggleAssigneeDropdown()">
+                            <span class="vortex-placeholder" id="assignee-placeholder">Выберите сотрудников...</span>
+                        </div>
+
+                        <div class="vortex-dropdown-menu" id="assignee-dropdown">
+                            <div style="padding: 10px; color: #666; font-size: 11px; text-align: center;">Загрузка...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vortex-input-group" id="status-group" style="display: none; margin-top: 15px;">
+                    <label class="vortex-label">СТАТУС ВЫПОЛНЕНИЯ</label>
+                    <select id="task-status" class="vortex-input-select">
+                        <option value="open" style="color: #ffffff;">○ Новая (Ждет)</option>
+                        <option value="in_progress" style="color: #ffcc00;">● В работе</option>
+                        <option value="done" style="color: #00ff44;">✓ Завершена</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="vortex-modal-footer">
+                <button class="btn-cancel" onclick="closeTaskModal()">ОТМЕНА</button>
+                <button class="btn-confirm" onclick="saveTask()">СОХРАНИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/config.js"></script>
+    <script src="../static/js/tasks.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

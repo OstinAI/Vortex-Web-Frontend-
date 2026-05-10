@@ -1,0 +1,422 @@
+/* contact.css */
+
+.contact-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+    .contact-container.active {
+        display: flex;
+    }
+
+/* Общие панели */
+.vortex-side-panel, .mail-folders-panel, .mail-list-panel {
+    border-right: 1px solid var(--vortex-border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.panel-header {
+    padding: 15px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--vortex-accent);
+    border-bottom: 1px solid var(--vortex-border);
+}
+
+/* WhatsApp Стили */
+.vortex-side-panel {
+    width: 300px;
+}
+
+.chat-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-scroll-area {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-input-area {
+    padding: 15px;
+    background: var(--vortex-bg-dark);
+    border-top: 1px solid var(--vortex-border);
+    display: flex;
+    gap: 10px;
+}
+
+/* Почта Стили */
+.mail-folders-panel {
+    width: 200px;
+}
+
+.mail-list-panel {
+    width: 350px;
+}
+
+.mail-content-panel {
+    flex-grow: 1;
+    position: relative;
+    padding: 20px;
+}
+
+.mail-item {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+}
+
+    .mail-item:hover {
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+.message-bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.msg-in {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.05);
+    border-left: 2px solid var(--vortex-accent);
+}
+
+.msg-out {
+    align-self: flex-end;
+    background: rgba(0, 229, 255, 0.1);
+    border-right: 2px solid var(--vortex-accent);
+}
+
+.media-content {
+    max-width: 250px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.btn-compose {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* static/css/contact.css */
+
+/* Панель, в которой лежит список */
+.mail-list-panel {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Панель должна занимать всю высоту */
+}
+
+/* Сам контейнер со списком писем */
+#mail-items-list {
+    flex-grow: 1; /* Занимает всё оставшееся место в панели */
+    overflow-y: auto; /* ВКЛЮЧАЕТ СКРОЛЛ внутри блока */
+    height: calc(100vh - 100px); /* Ограничиваем высоту (подбери под свой дизайн) */
+    display: block;
+}
+
+    /* Стилизация скроллбара (опционально, для красоты Vortex) */
+    #mail-items-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    #mail-items-list::-webkit-scrollbar-thumb {
+        background: var(--vortex-accent);
+        border-radius: 10px;
+    }
+
+/* Фикс для панели писем */
+.mail-list-panel {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+}
+
+/* Контейнер и само поле поиска */
+.mail-search-container {
+    padding: 10px;
+    border-bottom: 1px solid var(--vortex-border);
+}
+
+#mail-search-input {
+    width: 100%;
+    box-sizing: border-box; /* Важно: чтобы padding не расширял ширину */
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--vortex-border);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+}
+
+    #mail-search-input:focus {
+        border-color: var(--vortex-accent);
+    }
+
+/* Список писем должен занимать оставшееся место */
+#mail-items-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+
+/* Скрываем почту по умолчанию */
+#section-mail {
+    display: none;
+}
+
+/* Включаем сетку 20/30/50 только когда вкладка активна */
+#section-mail.active {
+    display: flex !important;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 70px);
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+    /* Пропорции колонок внутри активной почты */
+    #section-mail.active .mail-folders-panel {
+        flex: 0 0 20%;
+        border-right: 1px solid rgba(0, 229, 255, 0.1);
+        overflow-y: auto;
+    }
+
+    #section-mail.active .mail-list-panel {
+        flex: 0 0 30%;
+        border-right: 1px solid rgba(0, 229, 255, 0.1);
+        overflow-y: auto;
+    }
+
+    #section-mail.active .mail-content-panel {
+        flex: 0 0 50%;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+/* Контейнер вкладок */
+.vortex-nav-tabs {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
+/* Базовый стиль кнопки */
+.vortex-tab-button {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    /* Текст внутри кнопки */
+    .vortex-tab-button .tab-text {
+        color: #666; /* Неактивный цвет */
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: color 0.3s;
+    }
+
+    /* Индикатор (полоска снизу) */
+    .vortex-tab-button .tab-indicator {
+        width: 0;
+        height: 2px;
+        background: var(--vortex-accent); /* Твой основной зеленый/циановый цвет */
+        margin-top: 6px;
+        transition: width 0.3s ease, box-shadow 0.3s;
+    }
+
+    /* Эффект при наведении */
+    .vortex-tab-button:hover .tab-text {
+        color: #bbb;
+    }
+
+    /* Состояние ACTIVE */
+    .vortex-tab-button.active .tab-text {
+        color: var(--vortex-accent); /* Яркий цвет при активации */
+    }
+
+    .vortex-tab-button.active .tab-indicator {
+        width: 100%;
+        box-shadow: 0 0 10px var(--vortex-accent);
+    }
+
+    /* Небольшой глянцевый блеск при наведении */
+    .vortex-tab-button:active {
+        transform: translateY(1px);
+    }
+
+.vortex-compose-button-inline {
+    width: 100%;
+    background: transparent;
+    /* В спокойствии рамки нет */
+    border: 1px solid transparent;
+    /* В спокойствии текст белый */
+    color: #ffffff;
+    padding: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    display: block;
+}
+
+    /* Эффект при наведении */
+    .vortex-compose-button-inline:hover {
+        color: var(--vortex-accent); /* Текст становится неоновым */
+        border: 1px solid var(--vortex-accent); /* Появляется рамка */
+        background: rgba(0, 255, 0, 0.05); /* Очень слабый фон */
+        /* Неоновое свечение текста и рамки */
+        text-shadow: 0 0 8px var(--vortex-accent);
+        box-shadow: 0 0 12px rgba(0, 255, 0, 0.2), inset 0 0 8px rgba(0, 255, 0, 0.1);
+    }
+
+    /* Эффект при клике */
+    .vortex-compose-button-inline:active {
+        transform: scale(0.97);
+        background: var(--vortex-accent);
+        color: #000;
+        text-shadow: none;
+    }
+
+/* Текст кнопки */
+.vortex-btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Эффект неонового свечения вокруг */
+.vortex-compose-button:hover {
+    background: var(--vortex-accent);
+    color: #000;
+    box-shadow: 0 0 20px var(--vortex-accent);
+}
+
+/* Анимация при нажатии */
+.vortex-compose-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 10px var(--vortex-accent);
+}
+
+/* Декоративный элемент "сканирования" или блика (опционально) */
+.vortex-btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.1), transparent );
+    transition: 0.5s;
+}
+
+.vortex-compose-button:hover .vortex-btn-glow {
+    left: 100%;
+}
+
+/* Контейнер для всего письма */
+.email-view-wrapper {
+    position: relative;
+    padding: 20px;
+    padding-right: 20px; /* Общий отступ справа для контента */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Стили кнопки ОТВЕТИТЬ */
+.mail-reply-btn {
+    position: absolute;
+    top: 20px; /* Отступ сверху от границы контейнера */
+    right: 20px; /* ТОТ САМЫЙ ОТСТУП 20px от правого края */
+    background: var(--vortex-accent);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    z-index: 10;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+    .mail-reply-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .mail-reply-btn:active {
+        transform: translateY(0);
+    }
+
+/* Основной контейнер письма */
+.email-view-container {
+    position: relative; /* Обязательно для дочернего absolute */
+    padding: 25px; /* Внутренние отступы самого письма */
+    padding-right: 40px; /* Запас справа, чтобы текст не подлезал под кнопку */
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+}
+
+/* Кнопка ОТВЕТИТЬ */
+.vortex-reply-button {
+    position: absolute;
+    top: 25px; /* Отступ сверху */
+    right: 20px; /* ТВОЙ ЗАПРОС: Ровно 20px от правого края */
+    background: var(--vortex-accent);
+    color: #000;
+    border: none;
+    padding: 10px 22px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    z-index: 100; /* Чтобы была поверх всего */
+    transition: all 0.2s ease;
+}
+
+    .vortex-reply-button:hover {
+        box-shadow: 0 0 15px var(--vortex-accent);
+        transform: translateY(-1px);
+    }
+
+/* Стиль для активной папки и выбранного письма */
+#mail-folders-list .mail-item.active,
+#mail-items-list .mail-item.active {
+    background: rgba(0, 229, 255, 0.1) !important; /* Легкое свечение фона */
+    border-left: 3px solid var(--vortex-accent) !important; /* Акцентная полоса слева */
+    color: var(--vortex-accent);
+    box-shadow: inset 10px 0 15px rgba(0, 229, 255, 0.05);
+}
+
+/* Дополнительный эффект для текста внутри активного элемента */
+.mail-item.active div {
+    opacity: 1 !important;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>VORTEX CORE</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body class="vortex-runtime">
+    <div id="vortex-side-tasks" class="vortex-side-panel"></div>
+
+    <div class="vortex-background"></div>
+
+    <header class="vortex-top-bar">
+        <div class="vortex-info-grid">
+            <div class="vortex-status-node"><span id="txt-clock">Загрузка...</span></div>
+            <div class="vortex-status-node"><span id="txt-task">Задачи...</span></div>
+            <div class="vortex-status-node"><span id="txt-plan">План...</span></div>
+
+            <div class="vortex-status-node">
+                <div class="kl-label">В РАБОТЕ</div>
+                <div id="txt-kl-count" class="kl-value">0</div>
+            </div>
+
+            <div class="vortex-status-node" style="flex-direction: row; gap: 10px; padding: 0 15px; border-left: 1px solid rgba(0, 229, 255, 0.2);">
+                <div id="user-initial-circle" style="width: 24px; height: 24px; background: var(--vortex-accent); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);">..</div>
+                <div id="user-display-name" style="color: var(--vortex-accent); font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">ЗАГРУЗКА...</div>
+            </div>
+        </div>
+
+
+
+    </header>
+
+    <footer class="vortex-bottom-bar">
+        <div class="vortex-tools-container">
+            <div class="vortex-trigger" onclick="vortexToggleTools()">
+                <img src="{{ url_for('static', filename='images/tools.gif') }}">
+            </div>
+
+            <div class="vortex-tools-grid" id="tools-menu">
+                <div class="vortex-tool-cell" data-label="Статистика" ondblclick="openStat()">
+                    <img src="{{ url_for('static', filename='images/bars.gif') }}">
+                </div>
+                <div class="vortex-tool-cell" data-label="Задачи" ondblclick="openTasks()">
+                    <img src="{{ url_for('static', filename='images/task.gif') }}">
+                </div>
+                <div class="vortex-tool-cell" data-label="Склад" ondblclick="openWH()">
+                    <img src="{{ url_for('static', filename='images/crane.gif') }}">
+                </div>
+                <div class="vortex-tool-cell" data-label="CRM" ondblclick="openCRM()">
+                    <img src="{{ url_for('static', filename='images/crm.gif') }}">
+                </div>
+                <div class="vortex-tool-cell" data-label="Контакт-центр" ondblclick="openContact()">
+                    <img src="{{ url_for('static', filename='images/24-hour-service.gif') }}">
+                </div>
+                <div class="vortex-tool-cell" data-label="Сотрудники" ondblclick="openEmpl()">
+                    <img src="{{ url_for('static', filename='images/user.gif') }}">
+                </div>
+                <div id="tool-settings" class="vortex-tool-cell" data-label="Настройки" ondblclick="openSettings()">
+                    <img src="{{ url_for('static', filename='images/technology.gif') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="vortex-exit-zone">
+            <div class="vortex-exit-btn" onclick="vortexLogout()">
+                <img src="{{ url_for('static', filename='images/import.gif') }}">
+            </div>
+        </div>
+
+        <div id="vortex-side-tasks" class="vortex-side-panel">
+        </div>
+
+
+
+    </footer>
+
+    <div id="vortex-hint" class="vortex-ui-hint"></div>
+
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="../static/js/cart/CardUserExtension.js"></script>
+
+</body>
+</html>

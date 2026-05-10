@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex Settings | Настройки</title>
+    <link rel="stylesheet" href="static/css/settings.css">
+</head>
+<body class="vortex-runtime">
+
+    <header class="vortex-top-bar">
+        <div class="vortex-header-controls">
+            <button class="btn-vortex-back" onclick="window.history.back()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <span class="vortex-header-title">НАСТРОЙКИ СИСТЕМЫ</span>
+        </div>
+
+        <div class="vortex-header-actions">
+            <button class="btn-glass-vortex btn-automation" onclick="openAutomation()">
+                АВТОМАТИЗАЦИЯ
+            </button>
+            <button class="btn-glass-vortex btn-integration" onclick="openIntegrations()">
+                ИНТЕГРАЦИИ
+            </button>
+        </div>
+    </header>
+
+    <main class="vortex-layout-grid">
+        <section class="tasks-scroll-area" style="width: 100%; padding-top: 0 !important; scrollbar-width: none; -ms-overflow-style: none;">
+
+
+
+            <div id="settings-content-area" class="settings-viewport"></div>
+
+            <div class="settings-viewport"></div>
+
+        </section>
+    </main>
+
+
+    <script src="static/js/config.js"></script>
+    <script src="static/js/mailru/mailru.js"></script>
+    <script src="static/js/mailru/contactmail.js"></script>
+    <script src="static/js/whatsapp/whatsapp_integration.js"></script>
+    <script src="static/js/settings.js"></script>
+
+</body>
+</html>

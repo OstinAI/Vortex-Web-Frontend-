@@ -1,0 +1,402 @@
+/* static/css/dashboard.css */
+
+:root {
+    --vortex-accent: #00E5FF;
+    --vortex-bg-dark: #050507;
+    --vortex-glass: rgba(255, 255, 255, 0.03);
+    --vortex-border: rgba(255, 255, 255, 0.08);
+}
+
+.vortex-runtime {
+    background: var(--vortex-bg-dark);
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #fff;
+}
+
+.vortex-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/pexels-sheken-astro-211351917-13923686.jpg') no-repeat center;
+    background-size: cover;
+    /* Увеличили яркость до 0.45 и убрали размытие для четкости */
+    filter: brightness(0.45);
+    z-index: -1;
+}
+
+/* ВЕРХНЯЯ ПАНЕЛЬ: Перенос вправо и выравнивание в ряд */
+.vortex-top-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    /* justify-content: flex-end;  <-- Это свойство прижимает всё содержимое к правому краю */
+    justify-content: flex-end;
+    padding: 30px 50px; /* Отступ справа, чтобы не прилипало к краю экрана */
+    box-sizing: border-box;
+    z-index: 50;
+}
+
+.vortex-info-grid {
+    display: flex;
+    flex-direction: row; /* Выстраиваем кнопки в горизонтальную линию */
+    gap: 15px; /* Расстояние между кнопками */
+}
+
+.vortex-status-node {
+    background: var(--vortex-glass);
+    border: 1px solid var(--vortex-border);
+    /* Уменьшаем вертикальные и горизонтальные отступы */
+    padding: 8px 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* УДАЛЯЕМ min-width: 140px; */
+    min-width: fit-content; /* Кнопка будет сжиматься до размера текста */
+
+    transition: 0.3s ease;
+}
+
+    .vortex-status-node span {
+        font-size: 14px; /* Размер текста остается прежним */
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-align: center;
+        line-height: 1.2; /* Немного уменьшаем межстрочный интервал для компактности */
+        white-space: pre-line;
+    }
+
+    /* Эффект при наведении */
+    .vortex-status-node:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+/* Нижняя панель */
+.vortex-bottom-bar {
+    position: absolute;
+    bottom: 30px; /* Немного опустили ниже для минимализма */
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Инструменты слева, Выход справа */
+    padding: 0 20px; /* УМЕНЬШЕНО: теперь кнопки максимально близко к краям экрана */
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.vortex-tools-container {
+    display: flex;
+    flex-direction: row; /* Расположение: [Tools] [Меню] */
+    align-items: center;
+    gap: 15px; /* Уменьшили зазор между триггером и иконками */
+}
+
+/* --- Сетка инструментов --- */
+.vortex-tools-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-40px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+    .vortex-tools-grid.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+/* --- Сами иконки (круглые ячейки) --- */
+.vortex-tool-cell {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    background: var(--vortex-glass);
+    border: 1px solid var(--vortex-border);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    /* Начальное состояние */
+    opacity: 0;
+    transform: translateX(-50px);
+    /* Плавность движения */
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* ОБРАТНАЯ ВОЛНА: Когда меню закрывается (.active уходит), 
+       кнопки будут исчезать по очереди в обратном порядке */
+    transition-delay: 0s;
+    cursor: grab;
+    overflow: hidden; /* Обрезает гифку, если она вылезет */
+}
+
+    /* Настройка самих GIF (уменьшаем, чтобы они сидели внутри круга) */
+    .vortex-tool-cell img {
+        width: 34px; /* Уменьшил с 42px до 34px, чтобы было красиво */
+        height: 34px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+/* Активация появления */
+.vortex-tools-grid.active .vortex-tool-cell {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+    /* ОЧЕРЕДНОСТЬ ВЫЛЕТА (Когда открываем) */
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(1) {
+        transition-delay: 0.05s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(2) {
+        transition-delay: 0.10s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(3) {
+        transition-delay: 0.15s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(4) {
+        transition-delay: 0.20s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(5) {
+        transition-delay: 0.25s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(6) {
+        transition-delay: 0.30s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(7) {
+        transition-delay: 0.35s;
+    }
+
+/* ОЧЕРЕДНОСТЬ УХОДА (Когда закрываем - обратный порядок) */
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(7) {
+    transition-delay: 0.05s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(6) {
+    transition-delay: 0.10s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(5) {
+    transition-delay: 0.15s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(4) {
+    transition-delay: 0.20s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(3) {
+    transition-delay: 0.25s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(2) {
+    transition-delay: 0.30s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(1) {
+    transition-delay: 0.35s;
+}
+
+/* Эффект наведения */
+.vortex-tool-cell:hover img {
+    transform: scale(1.15);
+}
+/* ... далее идут стили для img и наведения ... */
+
+/* Кнопки управления */
+.vortex-trigger img {
+    height: 85px; /* Чуть уменьшили масштаб под минимализм */
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.vortex-trigger:hover img {
+    transform: scale(1.08);
+}
+
+.vortex-exit-btn img {
+    height: 65px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.vortex-exit-btn:hover img {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.vortex-exit-btn:hover img {
+    opacity: 1;
+}
+
+/* Стиль для элемента, который сейчас тянут мышкой */
+.vortex-ghost {
+    opacity: 0.4;
+    border: 2px dashed var(--vortex-accent) !important;
+    background: rgba(0, 229, 255, 0.1) !important;
+}
+
+/* Изменяем курсор, чтобы было понятно, что можно тащить */
+.vortex-tool-cell {
+    cursor: grab;
+}
+
+    .vortex-tool-cell:active {
+        cursor: grabbing;
+    }
+
+/* Тултип */
+.vortex-ui-hint {
+    position: fixed;
+    display: none;
+    background: #000;
+    color: var(--vortex-accent);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid var(--vortex-accent);
+    z-index: 1000;
+}
+
+/* Скрываем настройки по умолчанию */
+#tool-settings {
+    display: none !important;
+}
+
+/* Левая панель задач */
+/* ПРАВАЯ ПАНЕЛЬ ЗАДАЧ */
+.vortex-side-panel {
+    position: fixed;
+    right: 50px;
+    /* УМЕНЬШАЕМ ЧИСЛО, ЧТОБЫ ПОДНЯТЬ ВЫШЕ */
+    top: 95px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+    /* Корректируем высоту, чтобы снизу не упиралось в футер */
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    padding-left: 5px;
+}
+
+/* Сам заголовок (если он есть в HTML внутри этой панели) */
+.side-panel-header {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--vortex-accent);
+    /* Добавляем дополнительный отступ самому заголовку снизу */
+    margin-bottom: 20px;
+    padding-left: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Карточка задачи — без изменений стилей, только базовые параметры */
+.mini-task-card {
+    width: 100%;
+    min-height: 30px;
+    background: var(--vortex-glass);
+    border: 1px solid var(--vortex-border);
+    border-left: 4px solid var(--vortex-accent);
+    padding: 8px 12px;
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+}
+
+    .mini-task-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+.mini-task-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--vortex-accent);
+    margin-bottom: 4px;
+}
+
+.mini-task-desc {
+    font-size: 11px;
+    color: #ccc;
+    line-height: 1.3;
+    white-space: normal;
+}
+
+.vortex-status-node {
+    display: flex;
+    flex-direction: column; /* Элементы будут друг под другом */
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.kl-label {
+    font-size: 10px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.kl-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--vortex-accent); /* Ваш голубой цвет */
+    margin-top: -2px; /* Поднимаем число чуть выше, если есть лишний зазор */
+}
+
+/* Заголовок над списком задач */
+.side-panel-header {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--vortex-accent);
+    margin-bottom: 15px;
+    padding-left: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Название задачи — теперь белое */
+.mini-task-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff !important; /* Принудительно белый цвет */
+    margin-bottom: 4px;
+}
+
+/* Описание задачи — серый текст */
+.mini-task-desc {
+    font-size: 11px;
+    color: #888888;
+    line-height: 1.3;
+}
+
+.mini-task-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 4px solid var(--vortex-accent);
+    padding: 10px;
+    margin-bottom: 8px;
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+}
+

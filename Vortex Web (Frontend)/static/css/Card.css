@@ -1,0 +1,1657 @@
+:root {
+    --vortex-accent: #00E5FF;
+    --vortex-bg-dark: #0b0f14;
+    --vortex-border: rgba(255, 255, 255, 0.1);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--vortex-bg-dark);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ШАПКА: Уменьшили высоту (padding 10px вместо 25px) */
+.vortex-top-bar {
+    width: 100%;
+    padding: 10px 25px;
+    background: #000;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--vortex-border);
+}
+
+.vortex-info-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vortex-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Кнопка назад чуть меньше */
+.vortex-back-btn {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--vortex-border);
+    border-radius: 6px;
+    color: var(--vortex-accent);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Динамический блок названия воронки */
+.vortex-pipeline-name {
+    padding: 5px 15px;
+    border: 1px solid var(--vortex-accent);
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    width: fit-content; /* Ширина по тексту */
+}
+
+/* ИНДИКАТОРЫ: Динамическая ширина */
+.vortex-indicators-group {
+    display: flex;
+    gap: 10px;
+}
+
+.vortex-status-node {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--vortex-border);
+    border-radius: 10px;
+    padding: 6px 15px; /* Внутренние отступы создают размер */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content; /* ТЕПЕРЬ ДИНАМИЧНЫЙ: тянется под текст */
+    min-width: auto; /* Убираем жесткие ограничения */
+}
+
+.time-main {
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.date-sub {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+}
+
+.status-text {
+    font-size: 12px;
+    font-weight: 800;
+    color: #FFFFFF !important;
+    white-space: nowrap; /* Чтобы текст не переносился */
+}
+
+.month-text {
+    font-size: 10px;
+    color: #fff;
+    opacity: 0.7;
+}
+
+.balance-text {
+    font-size: 13px;
+    color: var(--vortex-accent);
+    font-weight: 800;
+}
+
+/* СЕТКА (без изменений) */
+.vortex-layout-grid {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.vortex-zone {
+    height: 100%;
+    box-sizing: border-box;
+    border-right: 1px solid var(--vortex-border);
+}
+
+.zone-left {
+    width: 25%;
+}
+
+.zone-center {
+    width: 25%;
+}
+
+.zone-right {
+    width: 50%;
+    border-right: none;
+}
+
+/* Стиль для имени клиента в шапке */
+.vortex-client-label {
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.05); /* Легкий фон */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Неброская рамка */
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    width: fit-content;
+    white-space: nowrap;
+}
+
+.vortex-actions-group {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+/* Кнопка Сохранить */
+.vortex-btn-save {
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid var(--vortex-accent);
+    color: var(--vortex-accent);
+    padding: 5px 15px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Плавный переход */
+    text-transform: uppercase;
+}
+
+    /* Эффект при наведении */
+    .vortex-btn-save:hover {
+        background: var(--vortex-accent);
+        color: #FFFFFF !important; /* Текст становится белым */
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); /* Добавляем легкое свечение */
+    }
+
+/* Кнопка Редактировать (без изменений, для симметрии) */
+.vortex-btn-edit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+    .vortex-btn-edit:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+        color: #FFFFFF;
+    }
+
+/* Кнопка Редактировать (оранжевая/белая для отличия) */
+.vortex-btn-edit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+    .vortex-btn-edit:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+    }
+
+/* Деление центральной зоны */
+.center-sector {
+    width: 100%;
+    border-bottom: 1px solid var(--vortex-border);
+    display: flex;
+    flex-direction: column;
+}
+
+.sector-top {
+    height: 45%;
+}
+
+.sector-middle {
+    height: 35%;
+}
+
+.sector-bottom {
+    height: 20%;
+    border-bottom: none;
+}
+
+/* Обновляем цвета заголовков */
+.sector-title {
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFFFFF; /* Сделали белым */
+    background: rgba(255, 255, 255, 0.05);
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--vortex-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Контейнер для секторов */
+.vortex-zone.zone-center {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Стили секторов */
+.center-sector {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Разделитель (Resizer) */
+.sector-resizer {
+    height: 4px;
+    background: transparent;
+    cursor: row-resize;
+    transition: background 0.2s;
+    width: 100%;
+    z-index: 10;
+}
+
+    .sector-resizer:hover, .sector-resizer.is-dragging {
+        background: var(--vortex-accent); /* Подсвечивается синим при наведении */
+    }
+
+/* Область полей внутри сектора */
+.fields-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+/* Область полей */
+.fields-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.field-item {
+    margin-bottom: 15px;
+}
+
+.field-label {
+    display: block;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.field-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: #fff;
+    padding: 8px;
+    font-size: 13px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+    .field-input:disabled {
+        background: transparent;
+        border-color: transparent;
+        padding-left: 0;
+    }
+
+    .field-input:focus {
+        border-color: var(--vortex-accent);
+    }
+
+/* Стили модального окна */
+.vortex-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+}
+
+.vortex-modal-content {
+    background-color: #0b0f14;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--vortex-accent);
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+}
+
+.modal-header {
+    color: var(--vortex-accent);
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Изменим кнопку редактирования, чтобы она открывала модалку */
+.vortex-btn-edit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Стили для выпадающего списка в модалке */
+select.field-input {
+    appearance: none; /* Убираем стандартную стрелочку браузера */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    cursor: pointer;
+}
+
+    select.field-input option {
+        background-color: #0b0f14; /* Темный фон списка */
+        color: #fff;
+        padding: 10px;
+    }
+
+/* Стили для ЧИПСЕТА (Переключателя) в карточке */
+.vortex-chipset {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.chipset-label {
+    font-size: 11px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.vortex-toggle {
+    position: relative;
+    width: 44px;
+    height: 22px;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+    .vortex-toggle:checked {
+        background: var(--vortex-accent); /* Твой синий цвет */
+        border-color: var(--vortex-accent);
+    }
+
+    .vortex-toggle::before {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        background: #fff;
+        transition: 0.3s;
+    }
+
+    .vortex-toggle:checked::before {
+        left: 24px;
+    }
+
+/* Улучшаем вид календаря */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Делает иконку календаря белой */
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Иконка карандаша рядом с лейблом */
+.edit-pen-icon {
+    display: none; /* Скрыто по умолчанию */
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--vortex-accent);
+    opacity: 0.7;
+}
+
+    .edit-pen-icon:hover {
+        opacity: 1;
+        text-shadow: 0 0 5px var(--vortex-accent);
+    }
+
+/* Класс для активации режима управления */
+.management-active .edit-pen-icon {
+    display: inline-block;
+}
+
+.management-active #add-field-btn {
+    display: block !important;
+}
+
+/* Подсветка кнопки управления в активном состоянии */
+.btn-active-mode {
+    background: var(--vortex-accent) !important;
+    color: #000 !important;
+}
+
+/* Делаем текст ошибки и списка белым */
+#server-products-list {
+    color: #ffffff;
+    font-size: 13px;
+    padding: 10px;
+}
+
+.empty-state {
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+}
+
+/* Стили для элементов списка товаров */
+.server-product-item {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff; /* Белый текст заголовка товара */
+}
+
+    .server-product-item span {
+        font-weight: 500;
+    }
+
+    .server-product-item b {
+        color: var(--vortex-accent);
+    }
+
+    .server-product-item:hover {
+        background: rgba(0, 229, 255, 0.1);
+    }
+
+/* --- СЕКЦИЯ: ТОВАРЫ И ОПЛАТА --- */
+
+/* Контейнер управления в секции (инпуты оплаты) */
+.products-controls {
+    display: flex;
+    gap: 8px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--vortex-border);
+}
+
+    .products-controls input {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--vortex-border);
+        color: #fff;
+        padding: 6px 10px;
+        font-size: 12px;
+        border-radius: 4px;
+        outline: none;
+        flex: 1;
+    }
+
+        .products-controls input:focus {
+            border-color: var(--vortex-accent);
+        }
+
+/* Мини-кнопки для быстрых действий (+ТОВАР, ОК) */
+.mini-btn {
+    background: var(--vortex-accent);
+    border: none;
+    color: #000;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+}
+
+    .mini-btn:hover {
+        opacity: 0.8;
+    }
+
+/* Список выбранных позиций */
+.product-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
+    font-size: 13px;
+}
+
+    .product-row .price-tag {
+        color: var(--vortex-accent);
+        font-weight: 800;
+        font-family: monospace;
+    }
+
+    .product-row .type-tag {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.3);
+        margin-left: 8px;
+        text-transform: uppercase;
+    }
+
+/* Футер секции с итоговой суммой */
+.sector-footer {
+    padding: 12px 15px;
+    background: rgba(0, 229, 255, 0.05);
+    border-top: 1px solid var(--vortex-border);
+    text-align: right;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+}
+
+    .sector-footer span {
+        color: var(--vortex-accent);
+        margin-left: 5px;
+    }
+
+/* Контейнер для списка товаров в модалке */
+.modal-list-container {
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border-top: 1px solid var(--vortex-border);
+}
+
+/* Кнопка удаления для товаров/услуг */
+.delete-item-btn {
+    display: none; /* Скрыто по умолчанию */
+    margin-left: 10px;
+    cursor: pointer;
+    color: #ff4444;
+    font-weight: bold;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+    .delete-item-btn:hover {
+        transform: scale(1.2);
+        text-shadow: 0 0 5px #ff4444;
+    }
+
+/* Кнопка удаления для кастомных полей */
+.delete-field-btn {
+    display: none;
+    margin-left: 8px;
+    cursor: pointer;
+    color: #ff4444;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+    .delete-field-btn:hover {
+        opacity: 1;
+    }
+
+/* Показываем кнопки только когда активен режим управления */
+.management-active .delete-item-btn,
+.management-active .delete-field-btn {
+    display: inline-block;
+}
+
+/* Горизонтальный ресайзер */
+.vortex-resizer-h {
+    width: 4px;
+    height: 100%;
+    background: transparent;
+    cursor: col-resize; /* Курсор изменения ширины */
+    transition: background 0.2s;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+    .vortex-resizer-h:hover, .vortex-resizer-h.is-dragging {
+        background: var(--vortex-accent);
+    }
+
+.vortex-zone {
+    min-width: 150px; /* Чтобы зоны не "схлопывались" совсем */
+}
+
+/* Состояние успешного сохранения */
+.vortex-btn-save.success-flash {
+    background-color: #00C851 !important; /* Приятный зеленый */
+    border-color: #007E33 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(0, 200, 81, 0.6);
+    transform: scale(1.05); /* Легкое увеличение для эффекта */
+}
+
+/* Стиль для названия этапа в шапке */
+.vortex-stage-label {
+    color: var(--vortex-accent);
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+/* Добавим небольшой отступ, чтобы элементы не слипались */
+.vortex-controls-group > * {
+    margin-right: 4px;
+}
+
+/* Контейнер выпадающего списка */
+.vortex-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background: #0b0f14;
+    border: 1px solid var(--vortex-accent);
+    border-radius: 6px;
+    margin-top: 5px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Элемент списка */
+.dropdown-item {
+    padding: 10px 15px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+    .dropdown-item:hover {
+        background: rgba(0, 229, 255, 0.1);
+        color: var(--vortex-accent);
+    }
+
+/* Активные состояния для элементов, которые можно кликать */
+.vortex-pipeline-name, .vortex-stage-label {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+    .vortex-pipeline-name:hover, .vortex-stage-label:hover {
+        opacity: 0.8;
+    }
+
+/* Контейнер для кнопок внутри заголовка */
+.title-left-buttons {
+    display: flex;
+    gap: 5px;
+    padding-left: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+/* Стиль кнопок (на основе десктопной логики) */
+.mini-tool-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+    .mini-tool-btn:hover {
+        background: var(--vortex-accent);
+        color: #000;
+        border-color: var(--vortex-accent);
+    }
+
+/* Растягиваем зону отображения под кнопками */
+#right-panel-display {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Сама правая зона должна занимать все отведенное ей место */
+.zone-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Должна заполнять родительский грид/контейнер */
+    min-width: 200px; /* Минимальный порог, чтобы не схлопнулась */
+}
+
+/* Шапочка секции */
+/* Уменьшаем высоту заголовка секции */
+.sector-title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 32px; /* Фиксируем небольшую высоту */
+    min-height: 32px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+}
+
+/* Уменьшаем отступы в контейнере кнопок */
+.title-left-buttons {
+    display: flex;
+    gap: 4px;
+    padding: 0 10px; /* Убираем вертикальный отступ, оставляем только боковые */
+    height: 100%;
+    align-items: center;
+}
+
+/* Делаем сами кнопки чуть меньше, чтобы они влезли в низкую шапку */
+.mini-tool-btn {
+    padding: 2px 8px; /* Совсем тонкие кнопки */
+    font-size: 8px; /* Уменьшаем шрифт для компактности */
+    height: 22px; /* Фиксированная высота кнопок */
+    line-height: 1;
+}
+
+/* Специфичный размер для окна комментария */
+.comment-modal-size {
+    width: 400px;
+    max-width: 90%;
+}
+
+/* Пометка "КОММЕНТАРИЙ" внутри окна */
+.comment-label-prefix {
+    color: var(--vortex-accent);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+/* Стилизация поля ввода */
+.comment-textarea {
+    width: 100%;
+    height: 150px; /* Фиксированная высота */
+    resize: none; /* Запрещаем менять размер пользователю */
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+    .comment-textarea:focus {
+        border-color: var(--vortex-accent);
+        outline: none;
+    }
+
+.history-item {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+}
+
+.history-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.history-date {
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+}
+
+/* Стили для желтой пометки КОММЕНТАРИЙ */
+.comment-badge {
+    color: #FFD700; /* Золотистый/Желтый */
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+
+.history-text {
+    color: #eee;
+    line-height: 1.4;
+}
+
+/* Основной контейнер окна */
+.elegant-modal-size {
+    width: 460px; /* Фиксированная ширина */
+    background: #111419 !important; /* Тёмно-графитовый фон */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    margin: 12% auto !important;
+    padding: 0 !important;
+    position: relative;
+    
+    /* МЯГКОЕ СВЕЧЕНИЕ ОКНА */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 
+                0 0 40px rgba(0, 229, 255, 0.12) !important;
+}
+
+/* Внутренний контейнер */
+.modal-body-fixed {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем всё содержимое */
+}
+
+/* Заголовок (убираем прыжки) */
+.elegant-modal-header {
+    width: 100%;
+    text-align: left; /* Как на скрине сделки */
+    color: var(--vortex-accent); /* Синий акцент */
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+/* Текстовое поле */
+.elegant-textarea {
+    width: 100% !important;
+    height: 160px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px;
+    color: #fff;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 25px; /* Отступ до кнопок */
+    outline: none;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+.elegant-textarea:focus {
+    border-color: var(--vortex-accent);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+/* СТРОКА КНОПОК (ГЛАВНОЕ ИСПРАВЛЕНИЕ) */
+.elegant-buttons-row {
+    display: flex;
+    width: 100%;
+    gap: 15px; /* Расстояние между кнопками */
+    justify-content: flex-start; /* Выравнивание по левому краю или центру */
+}
+
+/* Кнопки */
+.elegant-action-btn, .elegant-cancel-btn {
+    flex: 1; /* Кнопки будут одинаковой ширины */
+    padding: 12px 0 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    border-radius: 6px !important;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Синяя кнопка Сохранить */
+.elegant-action-btn {
+    background: rgba(0, 229, 255, 0.1) !important;
+    border: 1px solid var(--vortex-accent) !important;
+    color: var(--vortex-accent) !important;
+}
+
+.elegant-action-btn:hover {
+    background: var(--vortex-accent) !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+/* Серая кнопка Отмена */
+.elegant-cancel-btn {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #777 !important;
+}
+
+.elegant-cancel-btn:hover {
+    border-color: #fff;
+    color: #fff !important;
+}
+
+/* Оверлей (затемнение) на весь экран */
+.comment-modal-overlay {
+    position: fixed; /* ВАЖНО: фиксируем относительно экрана */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Затемнение */
+    backdrop-filter: blur(4px); /* Размытие заднего фона */
+    display: flex;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали */
+    z-index: 9999; /* Поверх всех элементов */
+}
+
+/* Само окно */
+.elegant-modal-size {
+    width: 460px;
+    background: #111419 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 0 !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 229, 255, 0.12) !important;
+    /* Убираем margin: auto, так как flex-центровка в оверлее сделает всё сама */
+}
+
+.modal-body-fixed {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ПРАВАЯ ПАНЕЛЬ: ФИКСИРОВАННАЯ ВЫСОТА И СКРОЛЛ */
+/* --- ИСПРАВЛЕНИЕ ПРОКРУТКИ --- */
+.zone-right {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Фиксируем высоту по высоте экрана */
+    overflow: hidden;
+}
+
+#right-panel-display {
+    flex: 1; /* Растягивается на всю оставшуюся высоту */
+    overflow-y: auto !important; /* Принудительный скролл */
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.1); /* Легкий фон для глубины */
+    /* Стили скроллбара */
+    scrollbar-width: thin;
+    scrollbar-color: var(--vortex-accent) transparent;
+}
+
+    /* Красивый скроллбар для Chrome */
+    #right-panel-display::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    #right-panel-display::-webkit-scrollbar-thumb {
+        background: var(--vortex-accent);
+        border-radius: 10px;
+    }
+
+/* --- СТИЛИЗАЦИЯ ТЕКСТА И ПЛАШЕК --- */
+
+/* Системное уведомление (Синий неон) */
+.system-badge {
+    color: var(--vortex-accent); /* Твой ярко-синий #00E5FF */
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 229, 255, 0.05);
+}
+
+/* Комментарий (Золотистый) */
+.comment-badge {
+    color: #FFD700;
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255, 215, 0, 0.05);
+}
+
+/* Разделение текста, чтобы системный текст не был тусклым */
+.history-item {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s;
+}
+
+    .history-item:hover {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+.history-text {
+    margin-top: 8px;
+    color: #ffffff; /* Текст теперь всегда белый и читаемый */
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Стили для закрепленной области */
+#pinned-notes-area {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    max-height: 200px; /* Ограничим, чтобы не перекрыло всё окно */
+    overflow-y: auto;
+}
+
+/* Приятная желтая заметка */
+.history-item.note-type {
+    background: rgba(241, 196, 15, 0.08) !important; /* Очень мягкий желтый фон */
+    border-left: 4px solid #f1c40f !important; /* Яркая полоска слева для акцента */
+    margin: 8px;
+    border-radius: 6px;
+    border-bottom: none;
+}
+
+/* Заголовок заметки */
+.note-title {
+    color: #f1c40f;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+    letter-spacing: 0.5px;
+}
+
+.note-badge {
+    background: #f1c40f;
+    color: #000;
+    font-size: 9px;
+    font-weight: 900;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Обновление системного значка, чтобы не был черным */
+.system-badge {
+    color: var(--vortex-accent) !important;
+    border: 1px solid var(--vortex-accent);
+    background: rgba(0, 229, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Пурпурная/Фиолетовая плашка для заметок */
+.note-badge {
+    color: #BF40BF; /* Насыщенный фиолетовый */
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(191, 64, 191, 0.4);
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(191, 64, 191, 0.1);
+    text-transform: uppercase;
+}
+
+/* Оформление самой закрепленной заметки */
+.history-item.is-pinned-note {
+    background: rgba(255, 255, 255, 0.03) !important; /* Почти прозрачный фон */
+    border-left: 4px solid #BF40BF !important; /* Фиолетовая полоса сбоку */
+    margin: 8px;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+/* Белый текст внутри заметки */
+.note-body {
+    color: #FFFFFF !important; /* Текст заметки — белый */
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+/* Заголовок заметки (сделаем его чуть светлее фиолетовым) */
+.note-caption {
+    color: #E0B0FF; /* Светло-лавандовый */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.history-item.is-task-item {
+    border-left: 3px solid #00E5FF;
+    background: rgba(0, 229, 255, 0.02);
+    margin-bottom: 5px;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+    .history-item.is-task-item:hover {
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+/* Просроченная задача */
+.task-overdue {
+    border-left: 4px solid #ff4d4d !important;
+    background: rgba(255, 77, 77, 0.05) !important;
+}
+
+/* Выполненная задача */
+.task-completed {
+    border-left: 4px solid #28a745 !important;
+    background: rgba(40, 167, 69, 0.05) !important;
+    opacity: 0.7;
+}
+
+.chart-container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.sector-title-modern {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #00E5FF;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+/* Делаем скроллбар тонким и в стиле Vortex */
+/* Стилизация скроллбара для левой панели */
+#zone-left::-webkit-scrollbar {
+    width: 4px; /* Тонкая полоска */
+}
+
+#zone-left::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Прозрачный фон дорожки */
+}
+
+#zone-left::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.2); /* Цвет бегунка */
+    border-radius: 10px;
+}
+
+    #zone-left::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 229, 255, 0.5); /* Цвет при наведении */
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.3); /* Легкое свечение */
+    }
+
+/* Для Firefox */
+#zone-left {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 229, 255, 0.2) transparent;
+}
+
+/* Пункты кастомного фильтра */
+.filter-opt {
+    padding: 10px 15px;
+    color: #eee;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.05);
+    text-transform: uppercase;
+}
+
+    .filter-opt:last-child {
+        border-bottom: none;
+    }
+
+    .filter-opt:hover {
+        background: rgba(0, 229, 255, 0.1);
+        color: #00E5FF;
+        padding-left: 20px; /* Эффект сдвига при наведении */
+    }
+
+    /* Активный пункт */
+    .filter-opt.active {
+        color: #00E5FF;
+        background: rgba(0, 229, 255, 0.15);
+    }
+
+/* --- НОВЫЙ ДИЗАЙН МОДАЛЬНОГО ОКНА (СТИЛЬ КИБЕРПАНК/VORTEX) --- */
+
+/* Фон модального окна (затемнение) */
+.vortex-modal-v2 {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.85); /* Глубокое затемнение */
+    backdrop-filter: blur(2px);
+    animation: fadeInVortex 0.2s;
+}
+
+/* Контент модального окна */
+.vortex-modal-content-v2 {
+    background-color: #000000; /* Абсолютно черный */
+    margin: 8% auto;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #1a1a1a; /* Тонкая темная рамка */
+    border-radius: 4px; /* Почти острые углы */
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.1); /* Легкое циановое свечение */
+    overflow: hidden;
+    color: #ffffff;
+    animation: slideInVortex 0.3s;
+}
+
+@keyframes fadeInVortex {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInVortex {
+    from {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Шапка окна */
+.vortex-modal-header-v2 {
+    padding: 10px 15px;
+    background-color: #080808; /* Чуть светлее фона */
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .vortex-modal-header-v2 h2 {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+.btn-close-v2 {
+    background: none;
+    border: none;
+    color: #444;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+    .btn-close-v2:hover {
+        color: #00E5FF; /* Циан при наведении */
+    }
+
+/* Тело окна */
+.vortex-modal-body-v2 {
+    padding: 15px;
+}
+
+/* Общие лейблы групп */
+.group-label-v2 {
+    display: block;
+    font-size: 10px;
+    color: #00E5FF; /* Твой фирменный циан */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+}
+
+/* --- Управление количеством --- */
+.quantity-selector-group-v2 {
+    margin-bottom: 20px;
+}
+
+.quantity-controls-v2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #00E5FF; /* Циановая рамка */
+    border-radius: 2px;
+    background-color: #000;
+    max-width: 160px;
+}
+
+    .quantity-controls-v2 input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 8px;
+        color: #ffffff;
+        width: 50px;
+    }
+
+        /* Скрываем стрелочки */
+        .quantity-controls-v2 input::-webkit-outer-spin-button,
+        .quantity-controls-v2 input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+.qty-btn-v2 {
+    background: transparent;
+    border: none;
+    color: #00E5FF;
+    font-size: 18px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .qty-btn-v2:hover {
+        background-color: rgba(0, 229, 255, 0.1);
+    }
+
+/* --- Список товаров --- */
+.list-header-v2 {
+    margin-bottom: 8px;
+}
+
+/* Переиспользуем твой класс скролла, если он есть */
+.picker-list-v2 {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #000;
+}
+
+/* Элемент списка */
+.picker-item-v2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #111; /* Почти невидимая рамка */
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+    .picker-item-v2:hover {
+        border-color: #00E5FF; /* Неоновая рамка при наведении */
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.15); /* Свечение */
+    }
+
+/* Информация о товаре */
+.item-title-v2 {
+    font-size: 13px;
+    color: #ffffff;
+}
+
+/* Цена товара */
+.item-price-v2 {
+    font-weight: bold;
+    font-size: 14px;
+    color: #00E5FF; /* Жирный циан */
+    white-space: nowrap;
+}
+
+/* Футер окна */
+.vortex-modal-footer-v2 {
+    padding: 10px 15px;
+    border-top: 1px solid #1a1a1a;
+    text-align: right;
+    background-color: #080808;
+}
+
+    /* Кнопка ОТМЕНА (в стиле Vortex) */
+    .vortex-modal-footer-v2 .vortex-btn-save.mini {
+        background: transparent;
+        border: 1px solid #333;
+        color: #888;
+    }
+
+        .vortex-modal-footer-v2 .vortex-btn-save.mini:hover {
+            border-color: #ff4444; /* Красный акцент при наведении на отмену */
+            color: #ff4444;
+        }
+
+/* Общие стили для кнопок в секторе действий */
+.mini-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 4px 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+    .mini-btn:hover {
+        border-color: #00E5FF; /* Твой фирменный циан */
+        color: #00E5FF;
+        box-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
+    }
+
+/* Стили элементов внутри списка в модальном окне */
+.picker-item-v2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #111;
+    background-color: #000; /* Черный фон */
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .picker-item-v2:hover {
+        border-color: #00E5FF;
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+
+.item-title-v2 {
+    font-size: 13px;
+    color: #ffffff; /* Текст названия всегда белый */
+}
+
+.item-category-v2 {
+    font-size: 10px;
+    color: #444; /* Подпись 'Услуга' или 'Товар' делаем неброской */
+    text-transform: uppercase;
+}
+
+/* Контент модального окна в синем стиле Vortex */
+.vortex-modal-content-v2 {
+    /* Твой фирменный темно-синий градиент вместо черного */
+    background: linear-gradient(145deg, #020b12 0%, #050505 100%);
+    margin: 8% auto;
+    width: 90%;
+    max-width: 500px;
+    /* Циановая рамка с легким свечением */
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 4px;
+    /* Сине-циановая тень для эффекта глубины */
+    box-shadow: 0 0 30px rgba(0, 150, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.05);
+    overflow: hidden;
+    color: #ffffff;
+    animation: slideInVortex 0.3s;
+}
+
+/* Сделаем шапку чуть светлее, чтобы она выделялась */
+.vortex-modal-header-v2 {
+    padding: 12px 15px;
+    background-color: rgba(0, 229, 255, 0.07); /* Очень прозрачный синий */
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Фон элементов списка тоже сделаем темно-синим оттенком */
+.picker-item-v2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
+    margin-bottom: 6px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .picker-item-v2:hover {
+        background-color: rgba(0, 229, 255, 0.05);
+        border-color: #00E5FF;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        transform: translateX(3px); /* Легкий сдвиг при наведении */
+    }
+
+/* Поле количества теперь тоже подсвечено синим изнутри */
+.quantity-controls-v2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #00E5FF;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.3);
+    max-width: 160px;
+    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+/* Плавное поведение прокрутки для всей области */
+.fields-scroll-area,
+.picker-list-v2 {
+    scroll-behavior: smooth; /* Плавный переход к элементам */
+    scrollbar-width: thin; /* Тонкий скролл для Firefox */
+    scrollbar-color: rgba(0, 229, 255, 0.3) transparent;
+}
+
+    /* Настройка скроллбара для Chrome, Safari и Edge */
+    .picker-list-v2::-webkit-scrollbar {
+        width: 4px; /* Делаем его очень тонким, чтобы не отвлекал */
+    }
+
+    .picker-list-v2::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2); /* Почти прозрачный трек */
+        border-radius: 10px;
+    }
+
+    .picker-list-v2::-webkit-scrollbar-thumb {
+        /* Градиентный ползунок в твоем синем стиле */
+        background: linear-gradient(to bottom, #00E5FF, #005f73);
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0, 229, 255, 0.5); /* Неоновое свечение */
+    }
+
+        .picker-list-v2::-webkit-scrollbar-thumb:hover {
+            background: #00E5FF;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+        }
+
+/* Эффект мягкого появления элементов при прокрутке */
+.picker-item-v2 {
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    will-change: transform; /* Оптимизация для плавности */
+}
+
+.vortex-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 15px;
+}
+
+.user-initials {
+    width: 24px;
+    height: 24px;
+    background: var(--vortex-accent);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.user-full-name {
+    color: var(--vortex-accent);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}

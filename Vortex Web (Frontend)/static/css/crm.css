@@ -1,0 +1,897 @@
+﻿:root {
+    --vortex-accent: #00E5FF;
+    --vortex-bg-dark: #050507;
+    --vortex-border: rgba(255, 255, 255, 0.08);
+    --vortex-glow: rgba(0, 229, 255, 0.3);
+    --vortex-glass: rgba(255, 255, 255, 0.03);
+}
+
+/* --- БАЗОВЫЕ СТИЛИ --- */
+.vortex-runtime {
+    background: var(--vortex-bg-dark);
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #fff;
+    /* Ускоряем отрисовку шрифтов */
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+}
+
+.vortex-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Уходит на самый задний план */
+    overflow: hidden;
+    background-color: #050507; /* Цвет-заглушка, пока видео грузится */
+}
+
+#vortex-video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%); /* Центрируем видео */
+    object-fit: cover; /* Растягиваем без искажения пропорций */
+}
+
+.vortex-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Затемнение: 70% черного, чтобы интерфейс "горел" на фоне видео */
+    background: linear-gradient(rgba(5, 5, 7, 0.7), rgba(5, 5, 7, 0.8));
+    z-index: 1;
+}
+
+/* --- ФИКСИРОВАННАЯ ШАПКА --- */
+.vortex-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; /* Установили 80 пикселей */
+    padding: 0 20px;
+    z-index: 1000;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center; /* Центрируем контент по вертикали для базы */
+
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(5, 5, 7, 0.4) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vortex-info-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.vortex-controls-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Убираем лишние зазоры */
+    gap: 0;
+    /* Фиксированный отступ всей группы от верха */
+    margin-top: 10px;
+}
+
+/* Стили для самих кнопок (Сделка, Назад и т.д.) */
+.vortex-status-node.primary-node,
+.vortex-status-node.action-node {
+    /* Если нужно подкорректировать размер самих кнопок, делай это здесь */
+    margin-bottom: 5px;
+}
+
+.vortex-indicators-group {
+    display: flex;
+    gap: 15px;
+}
+
+/* --- СТИЛИ УЗЛОВ СТАТУСА --- */
+.vortex-status-node {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px 20px;
+    min-width: auto;
+    width: fit-content;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
+    /* Подсказываем браузеру вынести на отдельный слой для плавности */
+    will-change: transform;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+    .vortex-status-node:hover {
+        border-color: var(--vortex-accent);
+        transform: translateY(-2px);
+    }
+
+/* Оптимизированная анимация пульсации (только через opacity и тень) */
+@keyframes pulse-glow {
+    0% {
+        opacity: 0.8;
+        text-shadow: 0 0 5px var(--vortex-glow);
+    }
+
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 15px var(--vortex-accent);
+    }
+
+    100% {
+        opacity: 0.8;
+        text-shadow: 0 0 5px var(--vortex-glow);
+    }
+}
+
+#txt-manager-task, #txt-manager-total-pay {
+    animation: pulse-glow 3s infinite ease-in-out;
+    letter-spacing: 0.5px;
+}
+
+.primary-node {
+    border-color: var(--vortex-accent);
+    background: rgba(0, 229, 255, 0.05);
+    cursor: pointer;
+}
+
+    .primary-node:hover {
+        background: var(--vortex-accent);
+        color: #000;
+    }
+
+.action-node {
+    background: rgba(0, 229, 255, 0.05);
+    cursor: pointer;
+}
+
+/* --- ПЕРЕКЛЮЧАТЕЛЬ ВИДОВ --- */
+.view-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    /* Добавляем 8px снизу, чтобы поднять кнопки выше линии границы */
+    padding: 0 0 8px 0;
+    margin: 0;
+    /* Убеждаемся, что трансформ сброшен */
+    transform: translateY(0);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    align-self: flex-end; /* Оставляет их в нижней части контейнера */
+}
+
+    .view-btn.active {
+        color: var(--vortex-accent);
+        /* Теперь активная полоска будет внутри шапки, а не поверх её границы */
+        border-bottom: 2px solid var(--vortex-accent);
+    }
+
+/* --- КАНБАН-ХОЛСТ --- */
+/* Для Канбана */
+.vortex-canvas {
+    display: flex;
+    gap: 8px;
+    /* 90px сверху = шапка(80) + зазор(10) */
+    padding: 45px 10px 10px 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: stretch;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Для вида списком тоже ставим 10px */
+.vortex-list-container {
+    padding: 45px 10px 10px 10px;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Колонки этапов (УБРАЛИ BLUR ДЛЯ СКОРОСТИ) */
+.vortex-stage-column {
+    /* Уменьшаем ширину этапа */
+    min-width: 260px;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--vortex-border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+    .vortex-stage-column:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+.stage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 2px solid var(--vortex-accent);
+}
+
+.stage-btn {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    color: var(--vortex-accent);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-weight: 800;
+    font-size: 13px;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.stage-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+    .stage-body::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .stage-body::-webkit-scrollbar-thumb {
+        background: var(--vortex-border);
+        border-radius: 10px;
+    }
+
+/* --- КАРТОЧКА СДЕЛКИ (ОПТИМИЗИРОВАНА ДЛЯ GPU) --- */
+.vortex-deal-card {
+    /* Делаем градиент очень длинным (синий -> неоновый -> синий) */
+    background: linear-gradient(135deg, #0e2e47 0%, #00E5FF 50%, #0e2e47 100%);
+    background-size: 200% 100%; /* Ширина фона в 2 раза больше карточки */
+    background-position: 0% 0%; /* Начальная точка (глубокий синий) */
+
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: grab;
+    will-change: transform, background-position, box-shadow;
+    /* Увеличиваем время анимации фона до 0.5s для мягкого перелива */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-position 0.5s ease-out, box-shadow 0.3s ease;
+}
+
+    .vortex-deal-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        /* Сдвигаем градиент на 100% — получается эффект перелива */
+        background-position: 100% 0%;
+        /* Добавляем глубокое неоновое свечение */
+        box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        border-color: rgba(0, 229, 255, 0.5);
+    }
+
+.deal-card-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.deal-card-info {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+/* Линия внутри карточки тоже начинает светиться при наведении на саму карточку */
+.vortex-deal-card:hover .deal-card-info {
+    border-color: rgba(0, 229, 255, 0.3);
+}
+
+.deal-card-owner {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+/* --- МОДАЛЬНЫЕ ОКНА (БЕЗ ТЯЖЕЛОГО БЛЮРА) --- */
+.vortex-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85); /* Затемнение без блюра работает быстрее */
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #0f1318;
+    padding: 30px;
+    border-radius: 20px;
+    width: 500px;
+    max-width: 95%;
+    position: relative;
+    /* МЯГКОЕ НЕОНОВОЕ СВЕЧЕНИЕ */
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.05);
+}
+
+.vortex-input {
+    width: 100%;
+    background: #050507;
+    border: 1px solid var(--vortex-border);
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    outline: none;
+}
+
+    .vortex-input:focus {
+        border-color: var(--vortex-accent);
+    }
+
+/* Кнопки */
+.vortex-btn-primary {
+    background: var(--vortex-accent);
+    color: #000;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.vortex-btn-danger {
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* Вид списком */
+.vortex-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+    .vortex-table td {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 15px;
+        border-top: 1px solid var(--vortex-border);
+        border-bottom: 1px solid var(--vortex-border);
+    }
+
+/* Контейнер списка */
+#funnel-list {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--vortex-border);
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Элемент воронки */
+.funnel-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+    .funnel-item:hover {
+        background: rgba(0, 229, 255, 0.05);
+        border-color: rgba(0, 229, 255, 0.3);
+    }
+
+/* Название воронки */
+.funnel-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Метка [АКТИВНА] */
+.funnel-status-active {
+    color: var(--vortex-accent);
+    font-size: 10px;
+    margin-left: 10px;
+    text-shadow: 0 0 5px var(--vortex-glow);
+}
+
+/* КНОПКА УДАЛЕНИЯ */
+.btn-delete-funnel {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .btn-delete-funnel:hover {
+        background: #ff4d4d;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
+    }
+
+.funnel-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.vortex-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--vortex-border);
+    padding: 12px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.vortex-btn-add {
+    background: var(--vortex-accent);
+    color: #000;
+    border: none;
+    width: 45px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .vortex-btn-add:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px var(--vortex-accent);
+    }
+
+/* --- МОДАЛЬНОЕ ОКНО УПРАВЛЕНИЯ ВОРОНКАМИ --- */
+#pipeline-modal .modal-content {
+    background: #0f1318;
+    padding: 30px;
+    border-radius: 20px;
+    width: 500px;
+    max-width: 95%;
+    position: relative;
+    /* НЕОНОВОЕ СВЕЧЕНИЕ ОКНА */
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.05);
+}
+
+/* ЗАГОЛОВОК МОДАЛКИ */
+#pipeline-modal h3 {
+    color: var(--vortex-accent);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px var(--vortex-glow);
+}
+
+/* НАЗВАНИЕ ПОЛЯ (ПОДНЯТО ВЫШЕ) */
+#pipeline-modal .vortex-label {
+    display: block;
+    margin-bottom: 12px; /* Увеличен зазор, чтобы текст визуально был выше */
+    font-size: 11px;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ПОЛЕ ВВОДА И КНОПКА + */
+.vortex-field-group .vortex-input {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--vortex-border);
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: border-color 0.3s;
+}
+
+    .vortex-field-group .vortex-input:focus {
+        border-color: var(--vortex-accent);
+    }
+
+/* КНОПКА ПЛЮС (ДОБАВИТЬ) */
+#pipeline-modal .vortex-btn-primary {
+    background: var(--vortex-accent);
+    color: #050507;
+    font-weight: 900;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    #pipeline-modal .vortex-btn-primary:hover {
+        box-shadow: 0 0 15px var(--vortex-accent);
+        transform: scale(1.05);
+    }
+
+/* СПИСОК ВОРОНОК */
+/* СКРЫВАЕМ СКРОЛЛБАР */
+    #pipeline-manage-list {
+        scrollbar-width: none; /* Для Firefox */
+        -ms-overflow-style: none; /* Для Internet Explorer и Edge */
+    }
+
+    #pipeline-manage-list::-webkit-scrollbar {
+        display: none; /* Для Chrome, Safari и Opera */
+    }
+
+/* ЭЛЕМЕНТ ВОРОНКИ (СТРОКА ПОЛНОСТЬЮ КЛИКАБЕЛЬНАЯ) */
+.pipeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin: 5px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer; /* Указатель на всей строке */
+    transition: all 0.2s;
+}
+
+    .pipeline-item:hover {
+        border-color: rgba(0, 229, 255, 0.3);
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+/* КНОПКА УДАЛЕНИЯ (КРАСНЫЙ КВАДРАТ С КРЕСТИКОМ) */
+.btn-delete-pipeline {
+    background: #ff4d4d !important; /* Принудительно красный */
+    color: #fff !important;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    position: relative;
+}
+
+    .btn-delete-pipeline:hover {
+        background: #ff1a1a !important;
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
+    }
+
+    /* РИСУЕМ КРЕСТИК ЧЕРЕЗ ПСЕВДОЭЛЕМЕНТ */
+    .btn-delete-pipeline::before {
+        content: '✕'; /* Символ крестика */
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+/* Если в HTML остался старый класс pipeline-del-btn, 
+   сделаем его совместимым */
+.pipeline-del-btn {
+    display: none; /* Скрываем старый минус, если он пролезет */
+}
+
+/* КНОПКА ЗАКРЫТЬ */
+.vortex-btn-danger {
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+    .vortex-btn-danger:hover {
+        opacity: 0.9;
+        box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+    }
+
+/* ТЕКСТ "НЕТ СДЕЛОК" ВНУТРИ ЭТАПА */
+.empty-deals-plug {
+    width: 100%; /* Растягиваем на всю ширину колонки */
+    text-align: center; /* Выравнивание по горизонтали (лево-право) */
+    padding: 20px 0; /* Оставляем вертикальный отступ как есть */
+
+    font-size: 11px; /* Немного уменьшаем размер текста */
+    font-weight: 600; /* Оставляем полужирным для читаемости */
+    color: #fff; /* Цвет текста */
+    opacity: 0.3; /* Делаем его тусклым, чтобы не отвлекал */
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Небольшой разряд между буквами для стиля */
+}
+
+/* --- СТИЛИ ТАБЛИЦЫ СПИСКА --- */
+.vortex-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px; /* Отступ между строками */
+    margin-top: 10px;
+}
+
+    .vortex-table th {
+        text-align: left;
+        padding: 12px 15px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid var(--vortex-border);
+    }
+
+.vortex-list-row td {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-top: 1px solid var(--vortex-border);
+    border-bottom: 1px solid var(--vortex-border);
+    transition: all 0.2s ease;
+}
+
+/* Эффект при наведении на строку */
+.vortex-list-row:hover td {
+    background: rgba(0, 229, 255, 0.08);
+    border-color: rgba(0, 229, 255, 0.3);
+    transform: scale(1.002);
+}
+
+/* Закругление краев строк */
+.vortex-list-row td:first-child {
+    border-left: 1px solid var(--vortex-border);
+    border-radius: 10px 0 0 10px;
+}
+
+.vortex-list-row td:last-child {
+    border-right: 1px solid var(--vortex-border);
+    border-radius: 0 10px 10px 0;
+}
+
+/* Название сделки — строго белое без свечения */
+.list-deal-title {
+    color: #ffffff !important;
+    text-shadow: none !important;
+    font-weight: 600;
+}
+
+/* Ответственный (Марк и др.) — делаем чуть ярче */
+.vortex-list-row td:nth-child(4) {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* Сумма в конце — подсветим акцентным цветом, если она есть */
+.vortex-list-row td:last-child {
+    color: var(--vortex-accent);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Выравнивание содержимого последней колонки (Сумма) */
+.vortex-table td:last-child,
+.list-amount-cell {
+    text-align: right !important; /* Прижимаем текст к правому краю */
+    padding-right: 25px; /* Добавляем небольшой отступ от края для красоты */
+    font-weight: 800;
+    color: var(--vortex-accent);
+}
+
+/* Если в HTML используется фиксированная ширина для колонок, 
+   убедись, что последняя колонка занимает достаточно места */
+.vortex-table th:last-child {
+    text-align: right !important;
+    padding-right: 25px;
+}
+
+/* --- МОДАЛЬНОЕ ОКНО СОЗДАНИЯ СДЕЛКИ (#deal-modal) --- */
+#deal-modal .modal-content {
+    background: #0f1318;
+    padding: 25px;
+    border-radius: 20px;
+    width: 450px;
+    max-width: 90%;
+    /* НЕОНОВАЯ ГРАНИЦА И СВЕЧЕНИЕ */
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.05);
+}
+
+/* ЗАГОЛОВОК ОКНА */
+#deal-modal h3 {
+    color: var(--vortex-accent);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--vortex-glow);
+}
+
+/* СТИЛИЗАЦИЯ ПОЛЕЙ ВВОДА И ВЫПАДАЮЩИХ СПИСКОВ (SELECT) */
+#deal-modal .vortex-input,
+#deal-modal select {
+    /* Исправление ширины: теперь поле клиента будет вровень с воронками */
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block;
+    /* Глубокий синий фон в тон модалки */
+    background-color: #0f1318 !important;
+    border: 1px solid var(--vortex-border);
+    color: #fff !important;
+    /* Одинаковые отступы и высота для всех полей */
+    padding: 10px 15px !important;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-top: 5px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    /* Убираем стандартную стрелку браузера */
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+    /* Стилизация пунктов списка (option) */
+    #deal-modal select option {
+        background-color: #0f1318;
+        color: #fff;
+        padding: 10px;
+    }
+
+/* Кастомная неоновая стрелка для select */
+#deal-modal .select-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+    #deal-modal .select-wrapper::after {
+        content: '▼';
+        font-size: 10px;
+        color: var(--vortex-accent);
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none; /* Клик проходит сквозь стрелку */
+    }
+
+#deal-modal .vortex-input:focus,
+#deal-modal select:focus {
+    border-color: var(--vortex-accent);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+/* УМЕНЬШЕННЫЕ КНОПКИ (СОЗДАТЬ И ОТМЕНА) */
+#deal-modal .vortex-btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    justify-content: flex-end;
+}
+
+#deal-modal .vortex-btn-primary,
+#deal-modal .vortex-btn-danger {
+    padding: 8px 18px; /* Уменьшенный размер */
+    font-size: 12px; /* Уменьшенный шрифт */
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    min-width: 90px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+#deal-modal .vortex-btn-primary {
+    background: var(--vortex-accent);
+    color: #050507;
+}
+
+#deal-modal .vortex-btn-danger {
+    background: rgba(255, 77, 77, 0.2);
+    border: 1px solid rgba(255, 77, 77, 0.4);
+    color: #ff4d4d;
+}
+
+#deal-modal .vortex-btn-primary:hover {
+    box-shadow: 0 0 15px var(--vortex-accent);
+    transform: scale(1.03);
+}
+
+#deal-modal .vortex-btn-danger:hover {
+    background: #ff4d4d !important;
+    color: #fff !important;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+}
+
+/* Подписи к полям (Label) */
+#deal-modal label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+/* Секции для отступов */
+.vortex-card-section {
+    width: 100%;
+    margin-bottom: 15px;
+}

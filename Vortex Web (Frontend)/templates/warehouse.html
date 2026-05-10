@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vortex Warehouse</title>
+    <link rel="stylesheet" href="../static/css/warehouse.css">
+</head>
+<body class="vortex-runtime">
+
+    <header class="warehouse-top-bar" style="height: 60px; display: flex; align-items: center;">
+        <div class="vortex-header-controls" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 20px; box-sizing: border-box;">
+
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="btn-vortex-back" onclick="history.back()" style="display: flex; align-items: center; justify-content: center; height: 38px; width: 38px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <button id="main-action-btn" class="btn-vortex-create" onclick="openWarehouseModal()" style="height: 38px; padding: 0 20px; display: flex; align-items: center;">
+                    СОЗДАТЬ СКЛАД
+                </button>
+            </div>
+
+            <div class="vortex-indicators-group" style="display: flex; align-items: center; height: 100%;">
+                <div class="vortex-status-node" id="current-user-node"
+                     style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px; padding: 0 18px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; height: 40px; box-sizing: border-box; align-self: center;">
+
+                    <div id="user-initial-circle"
+                         style="width: 24px; height: 24px; background: var(--vortex-accent); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); flex-shrink: 0;">
+                        ..
+                    </div>
+
+                    <div id="user-display-name"
+                         style="color: var(--vortex-accent); font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; line-height: 40px; display: flex; align-items: center;">
+                        ЗАГРУЗКА...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="warehouse-layout-grid">
+        <div class="warehouse-zone zone-left" id="left-side"></div>
+        <div class="vortex-resizer-h" id="resizer"></div>
+        <div class="warehouse-zone zone-right" id="right-side"></div>
+    </div>
+
+    <div id="modal-create-warehouse" class="vortex-modal">
+        <div class="vortex-modal-content">
+            <div class="vortex-modal-header">
+                <h2>НОВЫЙ СКЛАД</h2>
+                <button class="btn-close" onclick="closeWarehouseModal()">&times;</button>
+            </div>
+            <div class="vortex-modal-body">
+                <div class="vortex-input-group">
+                    <label>НАЗВАНИЕ СКЛАДА</label>
+                    <input type="text" id="warehouse-name" placeholder="Введите название...">
+                </div>
+                <div class="vortex-input-group">
+                    <label>АДРЕС / ЛОКАЦИЯ</label>
+                    <input type="text" id="warehouse-address" placeholder="Укажите адрес...">
+                </div>
+            </div>
+            <div class="vortex-modal-footer">
+                <button class="btn-cancel" onclick="closeWarehouseModal()">ОТМЕНА</button>
+                <button class="btn-confirm" onclick="saveWarehouse()">СОЗДАТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-product-create" class="vortex-modal">
+        <div class="vortex-modal-content">
+            <div class="vortex-modal-header">
+                <h2 id="product-modal-title">НОВЫЙ ОБЪЕКТ</h2>
+                <button class="btn-close" onclick="closeProductModal()">&times;</button>
+            </div>
+
+            <div class="vortex-modal-body">
+                <div class="vortex-input-group">
+                    <label>ТИП ОБЪЕКТА</label>
+                    <select id="product-kind" onchange="toggleKindFields()">
+                        <option value="product">ТОВАР (СКЛАДСКОЙ)</option>
+                        <option value="service">УСЛУГА (ЦИФРОВОЙ)</option>
+                    </select>
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>НАЗВАНИЕ</label>
+                    <input type="text" id="product-title" placeholder="Наименование товара...">
+                </div>
+
+                <div class="vortex-input-group" id="group-quantity">
+                    <label>НАЧАЛЬНЫЙ ОСТАТОК (КОЛ-ВО)</label>
+                    <input type="number" id="product-qty" value="0" min="0">
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>БАЗОВАЯ ЦЕНА</label>
+                    <input type="number" id="product-price" placeholder="0.00">
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>МЕДИА (ФОТО/ВИДЕО)</label>
+                    <div class="vortex-file-dropzone" onclick="document.getElementById('product-files').click()">
+                        <span>КЛИКНИТЕ ДЛЯ ЗАГРУЗКИ</span>
+                        <input type="file" id="product-files" multiple accept="image/*,video/*" style="display:none" onchange="handleFileSelect(this)">
+                    </div>
+                    <div id="file-preview-container" class="file-preview-list"></div>
+                </div>
+            </div>
+
+            <div class="vortex-modal-footer">
+                <button class="btn-cancel" onclick="closeProductModal()">ОТМЕНА</button>
+                <button class="btn-confirm" onclick="saveProduct()">СОЗДАТЬ И ПРИНЯТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/config.js"></script>
+    <script src="../static/js/warehouse.js"></script>
+    <script src="../static/js/cart/CardUserExtension.js"></script>
+
+
+</body>
+</html>

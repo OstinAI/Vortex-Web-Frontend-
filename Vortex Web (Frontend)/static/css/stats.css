@@ -1,0 +1,125 @@
+/* Используем твои переменные */
+:root {
+    --vortex-bg-dark: #020b12;
+    --vortex-bg-black: #050505;
+    --vortex-accent: #00E5FF;
+    --vortex-border: rgba(0, 229, 255, 0.15);
+    --header-h: 70px;
+    --text-main: #ffffff;
+    --text-muted: #888888;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(180deg, var(--vortex-bg-dark) 0%, var(--vortex-bg-black) 100%);
+    color: var(--text-main);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ШАПКА */
+.vortex-top-bar {
+    height: var(--header-h);
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid var(--vortex-border);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.vortex-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 15px;
+    width: 100%;
+}
+
+.btn-vortex-back {
+    background: transparent;
+    border: none;
+    color: var(--vortex-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+    .btn-vortex-back:hover {
+        transform: translateX(-5px);
+    }
+
+/* СЕТКА И КОНТЕНТ */
+.vortex-layout-grid {
+    display: flex;
+    margin-top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+}
+
+.tasks-scroll-area {
+    height: 100%;
+    overflow-y: auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.zone-left .vortex-title {
+    margin: 0 0 30px 0;
+    padding-left: 15px;
+    border-left: 3px solid var(--vortex-accent);
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 5px;
+}
+
+/* ГРАФИКИ */
+.chart-container {
+    background: rgba(2, 11, 18, 0.5);
+    border: 1px solid var(--vortex-border);
+    border-radius: 8px;
+    padding: 20px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vortex-label {
+    color: var(--vortex-accent);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+canvas {
+    max-height: 100% !important;
+    width: 100% !important;
+}
+
+.btn-vortex-back {
+    background: transparent;
+    border: none;
+    color: var(--vortex-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+    .btn-vortex-back:hover {
+        transform: translateX(-3px); /* Легкое смещение при наведении */
+        filter: drop-shadow(0 0 5px var(--vortex-accent)); /* Свечение */
+    }
+
+    .btn-vortex-back svg {
+        display: block;
+    }

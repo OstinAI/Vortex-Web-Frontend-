@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX - Technologies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div id="galaxy-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; font-family: 'Segoe UI', Roboto, sans-serif;">
+
+        <a href="/registration" id="cta-button" class="main-cta">
+            ПОПРОБОВАТЬ БЕСПЛАТНО
+        </a>
+
+        <style>
+            .feature-label {
+                position: absolute;
+                color: white;
+                pointer-events: auto;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 8px 14px;
+                border-radius: 20px;
+                border: 1px solid rgba(0, 255, 255, 0.3);
+                white-space: nowrap;
+                font-size: 13px;
+                font-weight: 500;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                transition: opacity 0.3s;
+            }
+
+                .feature-label:hover {
+                    border-color: #00ffff;
+                    transform: scale(1.05);
+                }
+        </style>
+
+        <div class="feature-label" id="feat-0">🧠 ИИ Аналитика</div>
+        <div class="feature-label" id="feat-1">🔗 Сквозная автоматизация</div>
+        <div class="feature-label" id="feat-2">💬 WhatsApp</div>
+        <div class="feature-label" id="feat-3">📸 Instagram</div>
+        <div class="feature-label" id="feat-4">🎵 TikTok</div>
+        <div class="feature-label" id="feat-5">✈️ Telegram</div>
+        <div class="feature-label" id="feat-6">🤖 ИИ Менеджер</div>
+        <div class="feature-label" id="feat-7">📊 Real-time Статистика</div>
+        <div class="feature-label" id="feat-8">📧 Почта</div>
+        <div class="feature-label" id="feat-9">👤 Данные клиента</div>
+        <div class="feature-label" id="feat-10">🛠️ Техподдержка 24/7</div>
+        <div class="feature-label" id="feat-10">📦 Складской учет 2.0</div>
+        <div class="feature-label" id="feat-11">💳 Прием платежей</div>
+        <div class="feature-label" id="feat-12">📞 IP-Телефония</div>
+        <div class="feature-label" id="feat-13">📑 Конструктор документов</div>
+        <div class="feature-label" id="feat-14">🕵️ Контроль сотрудников</div>
+        <div class="feature-label" id="feat-15">🔐 Шифрование данных</div>
+        <div class="feature-label" id="feat-16">📱 Мобильное приложение</div>
+        <div class="feature-label" id="feat-17">🔌 Открытый API</div>
+        <div class="feature-label" id="feat-20">💼 LinkedIn</div>
+        <div class="feature-label" id="feat-21">🐦 Twitter / X</div>
+        <div class="feature-label" id="feat-22">💬 Viber</div>
+        <div class="feature-label" id="feat-23">🏢 Microsoft Teams</div>
+        <div class="feature-label" id="feat-24">🎧 Discord</div>
+        <div class="feature-label" id="feat-26">📊 KPI & Эффективность</div>
+        <div class="feature-label" id="feat-27">🛰️ GPS-Трекинг</div>
+        <div class="feature-label" id="feat-28">📸 Контроль задач</div>
+        <div class="feature-label" id="feat-29">⏳ Учет времени</div>
+        <div class="feature-label" id="feat-30">🏆 Геймификация</div>
+
+    </div>
+
+    <canvas id="spiralCanvas"></canvas>
+    <div class="bg-image"></div>
+
+    <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+
+    <div class="navbar">
+        <div class="nav-logo">VORTEX</div>
+        <div class="nav-links">
+            <a href="/registration" class="nav-link">Регистрация</a>
+            <a href="#" class="nav-link" id="login-nav" onclick="toggleAuth()">Вход</a>
+        </div>
+    </div>
+
+    <div class="landing-content" id="landing-text">
+        <h1>VORTEX CORE</h1>
+        <p>Интеллектуальная система автоматизации бизнес-процессов.</p>
+    </div>
+
+    <div id="auth-form" class="auth-container">
+        <div class="auth-card">
+            <div class="logo-wrapper">
+                <img src="{{ url_for('static', filename='images/123.gif') }}" class="bee-gif" alt="Vortex Logo">
+            </div>
+            <h1 class="vortex-title">VORTEX</h1>
+            <p class="vortex-sub">technologies</p>
+            <div class="error-message" id="error-box"></div>
+
+            <div class="input-field">
+                <input type="text" id="company" required placeholder=" " spellcheck="false" autocomplete="organization">
+                <label>Компания</label>
+            </div>
+
+            <div class="input-field">
+                <input type="text" id="username" required placeholder=" " spellcheck="false" autocomplete="username">
+                <label>Логин</label>
+            </div>
+
+            <div class="input-field">
+                <input type="password" id="password" required placeholder=" " spellcheck="false" autocomplete="current-password">
+                <label>Пароль</label>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Запомнить логин</label>
+            </div>
+
+            <button class="login-btn" onclick="handleLogin()">ВХОД</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+    <script src="/static/js/style/style.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vortex Contact | СВЯЗЬ</title>
+    <link rel="stylesheet" href="static/css/stats.css">
+    <link rel="stylesheet" href="static/css/contact.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header class="vortex-top-bar">
+        <div class="vortex-header-controls">
+            <button class="btn-vortex-back" onclick="window.history.back()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="vortex-nav-tabs" style="margin-top: 15px; display: flex; gap: 10px; padding-left: 5px;">
+                <button class="vortex-tab-button active" id="tab-whatsapp" onclick="switchContactTab('whatsapp')">
+                    <span class="tab-text">WHATSAPP</span>
+                    <div class="tab-indicator"></div>
+                </button>
+
+                <button class="vortex-tab-button" id="tab-mail" onclick="switchContactTab('mail')">
+                    <span class="tab-text">ПОЧТА</span>
+                    <div class="tab-indicator"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="vortex-layout-grid">
+
+        <div id="section-whatsapp" class="contact-container active">
+            <div class="vortex-side-panel" id="wa-contacts">
+                <div class="panel-header">КОНТАКТЫ</div>
+                <div class="contacts-list" id="wa-list"></div>
+            </div>
+            <div class="chat-main">
+                <div id="chat-messages" class="chat-scroll-area">
+                    <div class="vortex-placeholder">Выберите чат для начала общения</div>
+                </div>
+                <div class="chat-input-area">
+                    <button class="btn-attach" id="wa-attach">+</button>
+                    <input type="text" id="wa-input" placeholder="Введите сообщение...">
+                    <button class="btn-send" id="wa-send">ОТПРАВИТЬ</button>
+                    <input type="file" id="wa-file-input" style="display:none">
+                </div>
+            </div>
+        </div>
+
+        <div id="section-mail" class="contact-container">
+            <div class="mail-folders-panel">
+                <div class="panel-header">ПАПКИ</div>
+                <div id="mail-folders-list"></div>
+            </div>
+
+            <div class="mail-list-panel" style="display: flex; flex-direction: column; height: 100%; position: relative;">
+                <div class="panel-header">ПИСЬМА</div>
+
+                <div class="mail-search-container" style="padding: 10px;">
+                    <input type="text" id="mail-search-input" placeholder="Поиск по письмам..."
+                           style="width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div style="padding: 0 10px 10px 10px;">
+                    <button class="vortex-compose-button-inline" onclick="openComposeModal()">
+                        + НАПИСАТЬ НОВОЕ ПИСЬМО
+                    </button>
+                </div>
+
+                <div id="mail-items-list" style="flex: 1; overflow-y: auto;">
+                </div>
+            </div>
+
+            <div class="mail-content-panel" style="position: relative; height: 100%; display: flex; flex-direction: column;">
+                <div id="mail-view" class="mail-body-area" style="flex: 1; overflow-y: auto;">
+                    <div class="vortex-placeholder">Выберите письмо</div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script src="static/js/config.js"></script>
+    <script src="static/js/mailru/mailru.js"></script>
+    <script src="static/js/contact.js"></script>
+    <script src="static/js/mailru/massagenewmail.js"></script>
+    <script src="static/js/whatsapp/WhatsAppManager.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vortex Employees</title>
+    <link rel="stylesheet" href="../static/css/employees.css">
+</head>
+<body class="vortex-runtime">
+
+    <header class="vortex-top-bar">
+
+        <div class="vortex-header-controls">
+            <button class="btn-vortex-back" onclick="history.back()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
+            <div class="header-actions">
+                <button class="btn-vortex-action" onclick="openEmployeeModal()">
+                    ДОБАВИТЬ СОТРУДНИКА
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="vortex-layout-grid">
+
+        <div class="vortex-zone zone-left" id="left-side" style="width: 30%;">
+            <div class="tasks-scroll-area">
+                <h3 class="vortex-title">АНАЛИТИКА ШТАТА</h3>
+
+                <div class="chart-container">
+                    <label class="vortex-label">ТЕКУЩИЙ СТАТУС</label>
+                    <canvas id="statusEmpChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <label class="vortex-label">СТРУКТУРА ДОЛЖНОСТЕЙ</label>
+                    <canvas id="positionChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <label class="vortex-label">ДИНАМИКА НАЙМА (ГОР)</label>
+                    <canvas id="hiringChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <label class="vortex-label">ТЕКУЧЕСТЬ (ACTIVE vs FIRED)</label>
+                    <canvas id="retentionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="vortex-resizer-h" id="resizer"></div>
+
+        <div class="vortex-zone zone-right" id="right-side" style="width: 70%;">
+            <div class="tasks-header-control">
+                <h3 class="vortex-title" style="margin-left: 20px;">СПИСОК СОТРУДНИКОВ</h3>
+            </div>
+            <div id="employees-list-container" class="tasks-scroll-area">
+                <div class="loading-state">Загрузка...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-employee" class="vortex-modal">
+        <div class="vortex-modal-content">
+            <div class="vortex-modal-header">
+                <h2 id="modal-title">РЕГИСТРАЦИЯ СОТРУДНИКА</h2>
+
+            </div>
+
+            <div class="vortex-modal-body">
+                <input type="hidden" id="employee-id">
+
+                <div class="vortex-form-section">
+                    <div class="vortex-input-group">
+                        <label>ФИО ПОЛНОСТЬЮ</label>
+                        <input type="text" id="emp-fullname" placeholder="Иванов Иван Иванович">
+                    </div>
+                </div>
+
+                <div class="vortex-input-row">
+                    <div class="vortex-input-group">
+                        <label>ТЕЛЕФОН</label>
+                        <input type="text" id="emp-phone" placeholder="+7 (___) ___-__-__">
+                    </div>
+                    <div class="vortex-input-group">
+                        <label>E-MAIL</label>
+                        <input type="email" id="emp-email" placeholder="vortex@example.com">
+                    </div>
+
+                    <div class="vortex-input-group">
+                        <label>ДОЛЖНОСТЬ (ШТАТНАЯ)</label>
+                        <input type="text" id="emp-position" placeholder="Специалист">
+                    </div>
+
+                </div>
+
+                <div class="vortex-input-row">
+                    <div class="vortex-input-group">
+                        <label>СИСТЕМНАЯ РОЛЬ</label>
+                        <div class="vortex-custom-select">
+                            <div class="vortex-select-selected" onclick="toggleVortexSelect('role-dropdown')">
+                                <span id="selected-role-text">Сотрудник (User)</span>
+                                <input type="hidden" id="emp-role" value="User">
+                                <svg class="select-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" /></svg>
+                            </div>
+                            <div class="vortex-select-dropdown" id="role-dropdown">
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'User', 'Сотрудник (User)')">Сотрудник (User)</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'Manager', 'Менеджер')">Менеджер</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'Director', 'Директор')">Директор</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'Observer', 'Наблюдатель')">Наблюдатель</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'WarehouseHead', 'Зав. складом')">Зав. складом</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('role', 'Admin', 'Администратор')">Администратор</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vortex-input-group">
+                        <label>СТАТУС В СИСТЕМЕ</label>
+                        <div class="vortex-custom-select">
+                            <div class="vortex-select-selected" onclick="toggleVortexSelect('status-dropdown')">
+                                <span id="selected-status-text">В ШТАТЕ</span>
+                                <input type="hidden" id="emp-status" value="active">
+                                <svg class="select-arrow" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" /></svg>
+                            </div>
+                            <div class="vortex-select-dropdown" id="status-dropdown">
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'active', 'В ШТАТЕ')">В ШТАТЕ</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'intern', 'СТАЖЕР')">СТАЖЕР</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'vacation', 'В ОТПУСКЕ')">В ОТПУСКЕ</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'sick', 'БОЛЬНИЧНЫЙ')">БОЛЬНИЧНЫЙ</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'exchange', 'ПО ОБМЕНУ')">ПО ОБМЕНУ</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'outstaff', 'ВНЕШТАТНИК')">ВНЕШТАТНИК</div>
+                                <div class="vortex-select-item" onclick="selectVortexOption('status', 'fired', 'УВОЛЕН')">УВОЛЕН</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vortex-input-row">
+                    <div class="vortex-input-group">
+                        <label>ДАТА РОЖДЕНИЯ</label>
+                        <input type="date" id="emp-birth">
+                    </div>
+                    <div class="vortex-input-group">
+                        <label>ДАТА ДОГОВОРА</label>
+                        <input type="date" id="emp-hire">
+                    </div>
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>АДРЕС РЕГИСТРАЦИИ / ПРОЖИВАНИЯ</label>
+                    <input type="text" id="emp-address" placeholder="г. Город, ул. Улица, д. 00">
+                </div>
+
+                <div class="vortex-form-divider">ПРАВА ДОСТУПА</div>
+
+                <div class="vortex-input-row">
+                    <div class="vortex-input-group">
+                        <label>ЛОГИН (SYSTEM ID)</label>
+                        <input type="text" id="emp-login" placeholder="user_login">
+                    </div>
+                    <div class="vortex-input-group">
+                        <label>ПАРОЛЬ</label>
+                        <input type="password" id="emp-password" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div class="vortex-input-group">
+                    <label>СЛУЖЕБНАЯ ЗАМЕТКА</label>
+                    <textarea id="emp-note" rows="2" placeholder="Дополнительная информация..."></textarea>
+                </div>
+            </div>
+
+            <div class="vortex-modal-footer">
+                <button class="btn-cancel" onclick="closeEmployeeModal()">ОТМЕНИТЬ</button>
+                <button id="btn-save-employee" class="btn-confirm" onclick="saveEmployee()">ПОДТВЕРДИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/config.js"></script>
+    <script src="../static/js/employees.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
