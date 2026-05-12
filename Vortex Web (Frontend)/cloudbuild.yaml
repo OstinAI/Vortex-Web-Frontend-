@@ -20,6 +20,7 @@ steps:
       - 'gcr.io/$PROJECT_ID/vortex-frontend'
       - '--region'
       - 'us-central1' # Проверьте ваш регион!
+      - '--allow-unauthenticated'
 
 options:
   logging: CLOUD_LOGGING_ONLY
