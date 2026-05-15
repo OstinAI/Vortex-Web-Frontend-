@@ -405,3 +405,26 @@ body, html {
         box-shadow: 0 0 40px rgba(0, 255, 255, 1);
         transform: translate(-50%, -50%) scale(1.05);
     }
+
+.auth-footer {
+    /* Делаем отступ 25 пикселей от кнопки ВХОД */
+    margin-top: 25px;
+    text-align: center;
+}
+
+.reg-link {
+    /* Чистый белый цвет, как ты и просил */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.8; /* Делаем чуть приглушенным, чтобы не отвлекать от кнопки */
+    transition: all 0.3s ease;
+}
+
+    .reg-link:hover {
+        opacity: 1; /* При наведении становится ярко-белым */
+        text-decoration: underline;
+        /* Добавим легкое свечение при наведении в стиле Vortex */
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }

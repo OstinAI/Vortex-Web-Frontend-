@@ -13,8 +13,11 @@ if (canvas) {
     let galaxyTwist = Math.random() * 7 + 5;
     let armCount = Math.floor(Math.random() * 3) + 2;
 
+    // === НАСТРОЙКИ НАКЛОНА ГАЛАКТИКИ ===
+    const galaxyScaleY = 0.4; // Степень сплющивания (от 0 до 1). Чем меньше, тем сильнее наклонена "от нас"
+    const galaxyTilt = 0.2;   // Поворот всей галактики в радианах (примерно -11 градусов). Сдвигает левый/правый край выше/ниже
+
     // 1. АВТОМАТИЧЕСКИЙ СБОР ВСЕХ ПЛАШЕК
-    // Ищем все элементы с классом feature-label
     const featureLabels = document.querySelectorAll('.feature-label');
     const featElements = Array.from(featureLabels);
     const totalFeatures = featElements.length;
@@ -54,9 +57,7 @@ if (canvas) {
             else if (roll < 0.18) type = 'pulsar';
 
             // 2. РАСПРЕДЕЛЕНИЕ ПРЕИМУЩЕСТВ ПО ОРБИТАМ
-            // Привязываем плашки к первым N точкам
             const isFeature = i <= totalFeatures;
-            // Увеличиваем разброс distance, чтобы они летали на разном удалении
             const distance = isFeature ? (0.25 + (i * 0.05)) : (0.05 + Math.random() * 0.95);
 
             const angle = (distance * galaxyTwist) + (Math.floor(Math.random() * armCount) * (Math.PI * 2 / armCount));
@@ -93,14 +94,16 @@ if (canvas) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const maxRadius = Math.min(canvas.width, canvas.height) * 0.48;
+
+        // Увеличиваем радиус, так как при сплющивании галактика визуально уменьшается
+        const maxRadius = Math.min(canvas.width, canvas.height) * 0.65;
         angleOffset -= 0.0006;
 
         // 3. ПОЗИЦИОНИРОВАНИЕ ЦЕНТРАЛЬНОЙ КНОПКИ
         const cta = document.getElementById('cta-button');
         if (cta) {
             cta.style.left = centerX + 'px';
-            cta.style.top = (centerY + 160) + 'px'; // Опустил чуть ниже, чтобы не мешать заголовку
+            cta.style.top = (centerY + 100) + 'px';
         }
 
         // Отрисовка взрывов и пыли
@@ -123,18 +126,32 @@ if (canvas) {
                 return;
             }
 
+            // Исходный радиус и угол на "круглой" карте
             const r = p.distRatio * maxRadius;
             const currentAngle = p.baseAngle + angleOffset;
-            let x = centerX + Math.cos(currentAngle) * r;
-            let y = centerY + Math.sin(currentAngle) * r;
+
+            // 1. Считаем плоские круглые координаты (относительно центра 0,0)
+            const flatX = Math.cos(currentAngle) * r;
+            const flatY = Math.sin(currentAngle) * r;
+
+            // 2. Сплющиваем по вертикали (имитируем взгляд под углом)
+            const scaledX = flatX;
+            const scaledY = flatY * galaxyScaleY;
+
+            // 3. Поворачиваем всю сцену на угол наклона (galaxyTilt)
+            const cosT = Math.cos(galaxyTilt);
+            const sinT = Math.sin(galaxyTilt);
+
+            let x = centerX + (scaledX * cosT - scaledY * sinT);
+            let y = centerY + (scaledX * sinT + scaledY * cosT);
 
             // Логика затягивания в центр
             if (p.type !== 'core_blackhole') {
                 const dxC = centerX - x;
                 const dyC = centerY - y;
                 const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-                if (distC < 150) {
-                    p.baseAngle += 0.01 * ((150 - distC) / 150);
+                if (distC < 100) { // уменьшил радиус затягивания под новый масштаб
+                    p.baseAngle += 0.01 * ((100 - distC) / 100);
                     p.distRatio -= 0.0001;
                     if (distC < (points[0].baseRadius + 5)) {
                         p.alive = false;
@@ -143,7 +160,7 @@ if (canvas) {
                 }
             }
 
-            // Интерактив с мышью
+            // Интерактив с мышью (работает по уже наклоненным координатам)
             const dxM = x - mouse.x;
             const dyM = y - mouse.y;
             const distM_Sq = dxM * dxM + dyM * dyM;
@@ -172,14 +189,34 @@ if (canvas) {
             if (p.type === 'core_blackhole' || p.type === 'blackhole') {
                 const isCore = p.type === 'core_blackhole';
                 const diskR = p.baseRadius * (isCore ? 6 : 4);
-                const grad = ctx.createRadialGradient(x, y, p.baseRadius, x, y, diskR);
+
+                // --- 1. РИСУЕМ НАКЛОНЕННЫЙ СВЕТЯЩИЙСЯ ДИСК ---
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(galaxyTilt);
+                ctx.scale(1, galaxyScaleY); // Сплющиваем ТОЛЬКО свечение
+
+                const grad = ctx.createRadialGradient(0, 0, p.baseRadius, 0, 0, diskR);
                 grad.addColorStop(0, isCore ? 'rgba(255, 220, 100, 0.9)' : 'rgba(255, 100, 0, 0.7)');
                 grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
                 ctx.fillStyle = grad;
-                ctx.beginPath(); ctx.arc(x, y, diskR, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath();
+                ctx.arc(0, 0, diskR, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore(); // Сбрасываем сплющивание холста
+
+                // --- 2. РИСУЕМ ИДЕАЛЬНО КРУГЛУЮ СФЕРУ (ЯДРО) ---
+                // Здесь мы НЕ применяем scale, поэтому ядро всегда остается кругом
+                ctx.save();
+                ctx.translate(x, y);
                 ctx.fillStyle = '#000';
-                ctx.beginPath(); ctx.arc(x, y, p.baseRadius, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath();
+                ctx.arc(0, 0, p.baseRadius, 0, Math.PI * 2); // Честная круглая сфера
+                ctx.fill();
+                ctx.restore();
+
             } else {
+                // Отрисовка обычных звезд и пульсаров (остается без изменений)
                 const isPulsar = p.type === 'pulsar';
                 let s = p.baseRadius;
                 if (isPulsar) s += (Math.sin(Date.now() * 0.005 + i) + 0.5);

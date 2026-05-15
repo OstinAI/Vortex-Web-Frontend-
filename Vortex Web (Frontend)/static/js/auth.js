@@ -78,3 +78,28 @@ async function handleLogin() {
         errorBox.innerText = "Сервер недоступен";
     }
 }
+
+// Слушаем клики по всему документу
+document.addEventListener('mousedown', (event) => {
+    const form = document.getElementById('auth-form');
+    const landing = document.getElementById('landing-text');
+    const authCard = document.querySelector('.auth-card');
+    const loginBtn = document.getElementById('login-nav'); // Кнопка "Вход" в меню
+
+    // Если форма скрыта — ничего не делаем
+    if (!form || form.style.display === 'none') return;
+
+    // ПРОВЕРКА: 
+    // 1. Клик был НЕ внутри карточки (.auth-card)
+    // 2. Клик был НЕ по кнопке "Вход" (чтобы она не закрывала форму сразу после открытия)
+    if (!authCard.contains(event.target) && event.target !== loginBtn) {
+
+        console.log("Клик за пределами окна! Закрываю...");
+
+        form.style.display = 'none';
+
+        if (landing) {
+            landing.style.opacity = '1';
+        }
+    }
+});
