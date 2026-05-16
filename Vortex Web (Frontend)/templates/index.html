@@ -10,7 +10,9 @@
 </head>
 <body>
 
-    <div id="galaxy-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; font-family: 'Segoe UI', Roboto, sans-serif;">
+    <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none;"></canvas>
+
+    <div id="galaxy-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2; font-family: 'Segoe UI', Roboto, sans-serif;">
 
         <a href="/registration" id="cta-button" class="main-cta">
             ПОПРОБОВАТЬ БЕСПЛАТНО
@@ -21,7 +23,7 @@
             .feature-label {
                 position: absolute;
                 color: white;
-                pointer-events: auto;
+                pointer-events: auto; /* Чтобы на плашки можно было нажимать/наводить */
                 background: rgba(0, 0, 0, 0.7);
                 padding: 8px 14px;
                 border-radius: 20px;
@@ -30,42 +32,21 @@
                 font-size: 13px;
                 font-weight: 500;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                transition: opacity 0.3s;
+                transition: opacity 0.3s, transform 0.1s ease-out;
+                display: none; /* Изначально скрыты, JS включит на ПК и Планшетах */
             }
 
                 .feature-label:hover {
                     border-color: #00ffff;
-                    transform: scale(1.05);
+                    transform: scale(1.05) !important;
                 }
 
-            /* ==========================================================================
-               ИСПРАВЛЕННАЯ АДАПТИВНОСТЬ УСТРОЙСТВ
-               ========================================================================== */
-
-            /* 1. ДЛЯ ТЕЛЕФОНОВ (Экран до 600px) — СКРЫВАЕМ ВСЕ ПЛАШКИ И ГАЛАКТИКУ */
+            /* АДАПТИВНОСТЬ: гасим и холст, и оверлей на смартфонах */
             @media (max-width: 600px) {
-                .feature-label {
-                    display: none !important; /* Убираем плашки (0 штук) */
-                }
-
-                #spiralCanvas {
-                    display: none !important; /* Полностью отключаем галактику на телефонах */
+                #spiralCanvas, #galaxy-overlay {
+                    display: none !important;
                 }
             }
-
-            /* 2. ДЛЯ ПЛАНШЕТОВ (Экран от 601px до 1024px) — ОСТАВЛЯЕМ ТОЛЬКО 5 ШТУК */
-            @media (min-width: 601px) and (max-width: 1024px) {
-                .feature-label {
-                    display: none !important; /* Прячем все обычные */
-                }
-
-                    .feature-label.always-visible {
-                        display: block !important; /* Показываем только эти 5 */
-                    }
-            }
-
-            /* 3. ДЛЯ КОМПЬЮТЕРОВ И ТВ (Экраны от 1025px и выше) */
-            /* Здесь ничего не пишем, чтобы вернуть стандартное отображение всех 30 плашек */
         </style>
 
         <div class="feature-label always-visible" id="feat-0">🧠 ИИ Аналитика</div>
@@ -101,9 +82,9 @@
 
     </div>
 
-    <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
     <div class="bg-image"></div>
 
+  
     <div class="navbar">
         <div class="nav-logo">VORTEX</div>
         <div class="nav-links">
