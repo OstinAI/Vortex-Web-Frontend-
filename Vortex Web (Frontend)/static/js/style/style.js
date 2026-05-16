@@ -1,4 +1,4 @@
-const canvas = document.getElementById('spiralCanvas');
+﻿const canvas = document.getElementById('spiralCanvas');
 
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -13,11 +13,11 @@ if (canvas) {
     let galaxyTwist = Math.random() * 7 + 5;
     let armCount = Math.floor(Math.random() * 3) + 2;
 
-    // === ��������� ������� ��������� ===
+    // === НАСТРОЙКИ НАКЛОНА ГАЛАКТИКИ ===
     const galaxyScaleY = 0.4;
     const galaxyTilt = 0.2;
 
-    // 1. �������������� ���� ���� ������
+    // 1. АВТОМАТИЧЕСКИЙ СБОР ВСЕХ ПЛАШЕК
     const featureLabels = document.querySelectorAll('.feature-label');
     const featElements = Array.from(featureLabels);
     const totalFeatures = featElements.length;
@@ -38,7 +38,7 @@ if (canvas) {
         galaxyTwist = Math.random() * 8 + 4;
         armCount = Math.floor(Math.random() * 3) + 2;
 
-        // ����������� ������ ����
+        // Центральная черная дыра
         points.push({
             distRatio: 0,
             baseAngle: 0,
@@ -56,7 +56,7 @@ if (canvas) {
             else if (roll < 0.04) type = 'blackhole';
             else if (roll < 0.18) type = 'pulsar';
 
-            // ����������� ������ ���� � ��� ������� ���� ������� � ������� ��� ���� �������
+            // Привязываем только если у нас реально есть элемент в массиве под этим номером
             const isFeature = i <= totalFeatures;
             const distance = isFeature ? (0.25 + (i * 0.05)) : (0.05 + Math.random() * 0.95);
 
@@ -105,10 +105,11 @@ if (canvas) {
             cta.style.left = '0px';
             cta.style.top = '0px';
             cta.style.margin = '0px';
-            cta.style.transform = `translate3d(${centerX}px, ${centerY + 100}px, 0) translateX(-50%)`;
+            // 🚀 ИСПРАВЛЕНО: Изменили +100 на +120, чтобы опустить кнопку на 20px ниже
+            cta.style.transform = `translate3d(${centerX}px, ${centerY + 125}px, 0) translateX(-50%)`;
         }
 
-        // ������
+        // Взрывы
         for (let idx = explosions.length - 1; idx >= 0; idx--) {
             const ex = explosions[idx];
             ctx.beginPath();
@@ -120,7 +121,7 @@ if (canvas) {
             if (ex.alpha <= 0) explosions.splice(idx, 1);
         }
 
-        // ����
+        // Пыль
         for (let idx = dustParticles.length - 1; idx >= 0; idx--) {
             const d = dustParticles[idx];
             d.x += d.vx;
@@ -174,17 +175,24 @@ if (canvas) {
             const dxM = x - mouse.x;
             const dyM = y - mouse.y;
             const distM_Sq = dxM * dxM + dyM * dyM;
-            if (distM_Sq < 14400) {
+
+            // 🚀 ИСПРАВЛЕНО: Добавлено условие p.featureIdx === -1
+            // Теперь мышка физически будет отталкивать ТОЛЬКО обычные звезды бэкграунда.
+            // Плашки (кнопки) больше не будут реагировать на мышь в JS и перестанут улетать!
+            if (p.featureIdx === -1 && distM_Sq < 14400) {
                 const distM = Math.sqrt(distM_Sq);
                 const forceM = (120 - distM) / 120;
                 x += (dxM / distM) * forceM * 30;
                 y += (dyM / distM) * forceM * 30;
             }
 
+            // Запись финальных координат для отрисовки звезды и смещения HTML-плашки
             p.x = x;
             p.y = y;
 
-            // 4. ������������ ������������� (�������� �� data-��������� ��� ���������)
+           
+
+            // 4. ИСПРАВЛЕННАЯ СИНХРОНИЗАЦИЯ (Проверка по data-атрибутам для планшетов)
             if (p.featureIdx !== undefined && p.featureIdx >= 0 && p.featureIdx < totalFeatures) {
                 const el = featElements[p.featureIdx];
                 if (el) {
@@ -194,11 +202,11 @@ if (canvas) {
                         const width = window.innerWidth;
 
                         if (width <= 600) {
-                            // ������� � ������� ������ � �������
+                            // Мобилки — убираем плашки с концами
                             el.style.display = 'none';
                         }
                         else if (width > 600 && width <= 1024) {
-                            // �������� � ���������� ������ ��, � ���� ���� ������ data-tablet
+                            // Планшеты — показываем ТОЛЬКО те, у кого есть маркер data-tablet
                             if (el.getAttribute('data-tablet') === 'true') {
                                 el.style.display = 'block';
                                 el.style.left = '0px';
@@ -206,22 +214,33 @@ if (canvas) {
                                 el.style.transform = `translate3d(${x + 12}px, ${y - 12}px, 0)`;
                                 el.style.opacity = '1';
                             } else {
-                                el.style.display = 'none'; // ��� ��������� 25 ������ ������������� �����
+                                el.style.display = 'none'; // Все остальные 25 плашек принудительно гасим
                             }
                         }
                         else {
-                            // ���������� � �� � �������� ��������� ��
+                            // Компьютеры и ТВ — включаем абсолютно всё
                             el.style.display = 'block';
                             el.style.left = '0px';
                             el.style.top = '0px';
-                            el.style.transform = `translate3d(${x + 12}px, ${y - 12}px, 0)`;
+
+                            // 🚀 ИСПРАВЛЕНО: Проверяем, наведен ли курсор на этот конкретный элемент прямо сейчас
+                            const isHovered = el.matches(':hover');
+
+                            if (isHovered) {
+                                // Если наведен — плавно соединяем позицию от JS и увеличение
+                                el.style.transform = `translate3d(${x + 12}px, ${y - 12}px, 0) scale(1.05)`;
+                            } else {
+                                // Если мышь далеко — обычный полет
+                                el.style.transform = `translate3d(${x + 12}px, ${y - 12}px, 0) scale(1)`;
+                            }
+
                             el.style.opacity = '1';
                         }
                     }
                 }
             }
 
-            // ��������� ������� ���������
+            // Отрисовка графики галактики
             if (p.type === 'core_blackhole' || p.type === 'blackhole') {
                 const isCore = p.type === 'core_blackhole';
                 const diskR = p.baseRadius * (isCore ? 6 : 4);

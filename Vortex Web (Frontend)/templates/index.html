@@ -31,13 +31,15 @@
                 font-size: 13px;
                 font-weight: 500;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                transition: opacity 0.3s, transform 0.1s ease-out;
                 display: none; /* Управляется строго через JS */
+                /* 🚀 Оставляем плавность только для цвета и прозрачности */
+                transition: opacity 0.3s, border-color 0.3s, background-color 0.3s;
             }
 
+                /* 🚀 При наведении меняем только цвета шапки, размер здесь НЕ трогаем */
                 .feature-label:hover {
                     border-color: #00ffff;
-                    transform: scale(1.05) !important;
+                    background-color: rgba(0, 0, 0, 0.9);
                 }
 
             /* На телефонах выключаем ТОЛЬКО галактику и летающие плашки. Кнопка выше НЕ исчезнет! */
@@ -84,11 +86,25 @@
     <div class="bg-image"></div>
 
 
-    <div class="navbar">
+    <div class="navbar" style="z-index: 20;">
         <div class="nav-logo">VORTEX</div>
+
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <div class="nav-links">
             <a href="#" class="nav-link" id="login-nav" onclick="toggleAuth()">Вход</a>
         </div>
+    </div>
+
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="#about" class="side-link">О нас</a>
+            <a href="#rates" class="side-link">Тарифы</a>
+        </nav>
     </div>
 
     <div class="landing-content" id="landing-text">
@@ -133,9 +149,13 @@
         </div>
     </div>
 
+
+
     <script src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
     <script src="/static/js/style/style.js"></script>
+    <link rel="stylesheet" href="/static/js/style/css/menu.css">
+    <script src="/static/js/style/menu.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,122 @@
+﻿/* Переопределяем поведение элементов внутри navbar */
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    /* 🚀 ИСПРАВЛЕНО: Меняем relative на fixed (или absolute), чтобы z-index начал работать строго поверх fixed-панели */
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* 🚀 ИСПРАВЛЕНО: Явно задаем слой выше, чем у панели (20 > 19) */
+    z-index: 20 !important;
+    /* 🚀 Твои отступы слева и справа по 15px для всей шапки */
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    box-sizing: border-box; /* Чтобы отступы не расширяли сам navbar */
+}
+
+/* Логотип VORTEX */
+.nav-logo {
+    margin-right: 20px !important; /* Оставляем 20px между надписью и 3 черточками */
+    margin-left: 0 !important; /* Убираем лишние отступы, так как работает padding у navbar */
+}
+
+/* Кнопка из 3 черточек */
+.burger-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    width: 30px !important;
+    height: 21px !important;
+    cursor: pointer !important;
+    z-index: 30 !important;
+    pointer-events: auto !important;
+}
+
+    /* 🛠️ ВОЗВРАЩАЕМ ПРОПАВШИЕ СТИЛИ ДЛЯ ЧЕРТОЧЕК */
+    .burger-menu span {
+        display: block !important;
+        width: 100% !important;
+        height: 3px !important;
+        background-color: #ffffff !important; /* Белый цвет линий */
+        border-radius: 3px !important;
+        transition: all 0.3s ease-in-out !important;
+    }
+
+/* Кнопка "Вход" — прижимаем к правому краю */
+.nav-links {
+    margin-left: auto !important; /* Автоматически уталкивает "Вход" в самый правый угол */
+    margin-right: 0 !important; /* Убираем лишний отступ, теперь там ровно 15px за счет navbar */
+}
+
+/* Анимация превращения 3 черточек в крестик */
+.burger-menu.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg) !important;
+    background-color: #00ffff !important;
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0 !important;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg) !important;
+    background-color: #00ffff !important;
+}
+
+/* Выпадающая панель меню */
+.side-panel {
+    position: fixed !important;
+    top: 60px !important; /* Твоя высота navbar */
+    left: 0 !important;
+    width: 100% !important;
+    /* 🚀 ИЗМЕНЕНО: Сделали цвет панели прозрачным (таким же, как у шапки) */
+    background: rgba(0, 0, 0, 0.5) !important; /* Мягкий полупрозрачный фон */
+    backdrop-filter: blur(10px) !important; /* Размытие заднего плана */
+
+    border-bottom: 1px solid rgba(0, 255, 255, 0.15) !important; /* Чуть более деликатная неоновая линия */
+    padding: 20px 0 !important;
+    transform: translateY(-200%) !important;
+    /* Оставляем 19 — теперь, когда у navbar position: fixed и z-index: 20, панель железно уйдет под него */
+    z-index: 19 !important;
+}
+
+    /* Включает плавность только тогда, когда это нужно */
+    .side-panel.animated {
+        transition: transform 0.4s ease-in-out !important;
+    }
+
+    /* Класс активации панели */
+    .side-panel.active {
+        transform: translateY(0) !important;
+    }
+
+/* 🚀 ИЗМЕНЕНО: Блок ссылок теперь выравнивается СЛЕВА */
+.side-nav {
+    display: flex !important;
+    flex-direction: row !important; /* В строчку */
+    justify-content: flex-start !important; /* Выравнивание по левому краю */
+    padding-left: 15px !important; /* Точно такой же отступ слева, как у логотипа VORTEX (15px) */
+    gap: 35px !important; /* Комфортное расстояние между "О нас" и "Тарифы" */
+}
+
+/* Ссылки внутри панели */
+.side-link {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 16px !important;
+    font-family: 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    display: inline-block !important; /* Дает право элементу масштабироваться */
+    /* 🚀 Теперь синтаксис идеальный и чистый */
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+    transform: scale(1) !important; /* Фиксируем начальный размер */
+}
+
+    /* Эффект плавного наведения */
+    .side-link:hover {
+        color: #00ffff !important; /* Цвет плавно перетечет в бирюзовый */
+        transform: scale(1.05) !important; /* Плавно увеличиваем на 5% */
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+    }

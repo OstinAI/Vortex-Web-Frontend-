@@ -127,6 +127,8 @@
     <Content Include="static\js\registration.js" />
     <Content Include="static\js\settings.js" />
     <Content Include="static\js\stats.js" />
+    <Content Include="static\js\style\css\menu.css" />
+    <Content Include="static\js\style\menu.js" />
     <Content Include="static\js\style\style.js" />
     <Content Include="static\js\tasks.js" />
     <Content Include="static\js\warehouse.js" />
@@ -152,6 +154,7 @@
     <Folder Include="static\images\" />
     <Folder Include="static\js\mailru\" />
     <Folder Include="static\js\cart\" />
+    <Folder Include="static\js\style\css\" />
     <Folder Include="static\js\whatsapp\" />
     <Folder Include="static\js\style\" />
     <Folder Include="static\video\" />
