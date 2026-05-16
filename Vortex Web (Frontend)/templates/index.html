@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORTEX - Technologies</title>
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -34,27 +37,41 @@
                     border-color: #00ffff;
                     transform: scale(1.05);
                 }
+
+            /* --- НОВОЕ: АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ И ПЛАНШЕТОВ --- */
+            @media (max-width: 1024px) {
+                /* Скрываем вообще все плашки по умолчанию на мобильных устройствах */
+                .feature-label {
+                    display: none !important;
+                }
+
+                    /* Показываем только те 5 штук, у которых есть класс always-visible */
+                    .feature-label.always-visible {
+                        display: block !important;
+                    }
+            }
         </style>
 
-        <div class="feature-label" id="feat-0">🧠 ИИ Аналитика</div>
-        <div class="feature-label" id="feat-1">🔗 Сквозная автоматизация</div>
-        <div class="feature-label" id="feat-2">💬 WhatsApp</div>
-        <div class="feature-label" id="feat-3">📸 Instagram</div>
-        <div class="feature-label" id="feat-4">🎵 TikTok</div>
+        <div class="feature-label always-visible" id="feat-0">🧠 ИИ Аналитика</div>
+        <div class="feature-label always-visible" id="feat-1">🔗 Сквозная автоматизация</div>
+        <div class="feature-label always-visible" id="feat-2">💬 WhatsApp</div>
+        <div class="feature-label always-visible" id="feat-3">📸 Instagram</div>
+        <div class="feature-label always-visible" id="feat-4">🎵 TikTok</div>
+
         <div class="feature-label" id="feat-5">✈️ Telegram</div>
         <div class="feature-label" id="feat-6">🤖 ИИ Менеджер</div>
         <div class="feature-label" id="feat-7">📊 Real-time Статистика</div>
         <div class="feature-label" id="feat-8">📧 Почта</div>
         <div class="feature-label" id="feat-9">👤 Данные клиента</div>
         <div class="feature-label" id="feat-10">🛠️ Техподдержка 24/7</div>
-        <div class="feature-label" id="feat-10">📦 Складской учет 2.0</div>
-        <div class="feature-label" id="feat-11">💳 Прием платежей</div>
-        <div class="feature-label" id="feat-12">📞 IP-Телефония</div>
-        <div class="feature-label" id="feat-13">📑 Конструктор документов</div>
-        <div class="feature-label" id="feat-14">🕵️ Контроль сотрудников</div>
-        <div class="feature-label" id="feat-15">🔐 Шифрование данных</div>
-        <div class="feature-label" id="feat-16">📱 Мобильное приложение</div>
-        <div class="feature-label" id="feat-17">🔌 Открытый API</div>
+        <div class="feature-label" id="feat-11">📦 Складской учет 2.0</div>
+        <div class="feature-label" id="feat-12">💳 Прием платежей</div>
+        <div class="feature-label" id="feat-13">📞 IP-Телефония</div>
+        <div class="feature-label" id="feat-14">📑 Конструктор документов</div>
+        <div class="feature-label" id="feat-15">🕵️ Контроль сотрудников</div>
+        <div class="feature-label" id="feat-16">🔐 Шифрование данных</div>
+        <div class="feature-label" id="feat-17">📱 Мобильное приложение</div>
+        <div class="feature-label" id="feat-18">🔌 Открытый API</div>
         <div class="feature-label" id="feat-20">💼 LinkedIn</div>
         <div class="feature-label" id="feat-21">🐦 Twitter / X</div>
         <div class="feature-label" id="feat-22">💬 Viber</div>
@@ -76,7 +93,6 @@
     <div class="navbar">
         <div class="nav-logo">VORTEX</div>
         <div class="nav-links">
-            
             <a href="#" class="nav-link" id="login-nav" onclick="toggleAuth()">Вход</a>
         </div>
     </div>
@@ -125,9 +141,7 @@
 
     <script src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
-
     <script src="/static/js/style/style.js"></script>
-
 
 </body>
 </html>

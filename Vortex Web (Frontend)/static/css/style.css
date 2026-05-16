@@ -428,3 +428,25 @@ body, html {
         /* Добавим легкое свечение при наведении в стиле Vortex */
         text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
+
+#spiralCanvas {
+    /* Подсказываем браузеру, что холст будет постоянно меняться */
+    will-change: transform;
+    /* Включаем аппаратное ускорение */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.auth-card, .feature-label {
+    /* Чтобы плашки не "прыгали", выносим их отрисовку на GPU */
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+#cta-button {
+    position: absolute; /* Кнопка должна летать поверх холста */
+    left: 0;
+    top: 0;
+    will-change: transform; /* Подсказываем видеокарте телевизора/телефона, что элемент будет двигаться */
+    transition: none !important; /* ВАЖНО: отключаем CSS-анимации переходов, чтобы они не конфликтовали с циклом JS */
+}
