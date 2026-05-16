@@ -18,38 +18,61 @@
         </a>
 
         <style>
-            .feature-label {
-                position: absolute;
-                color: white;
-                pointer-events: auto;
-                background: rgba(0, 0, 0, 0.7);
-                padding: 8px 14px;
-                border-radius: 20px;
-                border: 1px solid rgba(0, 255, 255, 0.3);
-                white-space: nowrap;
-                font-size: 13px;
-                font-weight: 500;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                transition: opacity 0.3s;
-            }
+                 /* Базовые стили для всех плашек преимуществ */
+                 .feature-label {
+                     position: absolute;
+                     color: white;
+                     pointer-events: auto;
+                     background: rgba(0, 0, 0, 0.7);
+                     padding: 8px 14px;
+                     border-radius: 20px;
+                     border: 1px solid rgba(0, 255, 255, 0.3);
+                     white-space: nowrap;
+                     font-size: 13px;
+                     font-weight: 500;
+                     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                     transition: opacity 0.3s;
+                 }
 
-                .feature-label:hover {
-                    border-color: #00ffff;
-                    transform: scale(1.05);
-                }
+                     .feature-label:hover {
+                         border-color: #00ffff;
+                         transform: scale(1.05);
+                     }
 
-            /* --- НОВОЕ: АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ И ПЛАНШЕТОВ --- */
-            @media (max-width: 1024px) {
-                /* Скрываем вообще все плашки по умолчанию на мобильных устройствах */
-                .feature-label {
-                    display: none !important;
-                }
+                 /* ==========================================================================
+            НОВАЯ АДАПТИВНОСТЬ: ЖЕСТКИЙ КОНТРОЛЬ ЧЕРЕЗ CSS
+            ========================================================================== */
 
-                    /* Показываем только те 5 штук, у которых есть класс always-visible */
-                    .feature-label.always-visible {
-                        display: block !important;
-                    }
-            }
+                 /* 1. ДЛЯ ТЕЛЕФОНОВ (Экран до 600px) — ПОКАЗЫВАЕМ 0 ШТУК */
+                 @media (max-width: 600px) {
+                     .feature-label {
+                         display: none !important; /* Полностью выключаем всё */
+                     }
+                 }
+
+                 /* 2. ДЛЯ ПЛАНШЕТОВ (Экран от 601px до 1024px) — ПОКАЗЫВАЕМ ТОЛЬКО 5 ШТУК */
+                 @media (min-width: 601px) and (max-width: 1024px) {
+                     /* Сначала скрываем абсолютно все плашки */
+                     .feature-label {
+                         display: none !important;
+                     }
+                         /* Принудительно включаем обратно только первые 5 штук в списке HTML */
+                         .feature-label:nth-child(-n+6) {
+                             display: block !important;
+                         }
+                 }
+
+                 /* 3. ДЛЯ ТЕЛЕВИЗОРОВ И МОНИТОРОВ fullHD (Экран от 1025px до 1920px) — ПОКАЗЫВАЕМ ТОЛЬКО 5 ШТУК */
+                 @media (min-width: 1025px) and (max-width: 1920px) {
+                     /* Скрываем все плашки для телевизоров */
+                     .feature-label {
+                         display: none !important;
+                     }
+                         /* Включаем обратно только первые 5 штук для телевизоров */
+                         .feature-label:nth-child(-n+6) {
+                             display: block !important;
+                         }
+                 }
         </style>
 
         <div class="feature-label always-visible" id="feat-0">🧠 ИИ Аналитика</div>
