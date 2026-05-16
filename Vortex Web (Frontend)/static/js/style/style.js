@@ -106,7 +106,7 @@ if (canvas) {
             cta.style.top = '0px';
             cta.style.margin = '0px';
             // 🚀 ИСПРАВЛЕНО: Изменили +100 на +120, чтобы опустить кнопку на 20px ниже
-            cta.style.transform = `translate3d(${centerX}px, ${centerY + 125}px, 0) translateX(-50%)`;
+            cta.style.transform = `translate3d(${centerX}px, ${centerY + 80}px, 0) translateX(-50%)`;
         }
 
         // Взрывы
