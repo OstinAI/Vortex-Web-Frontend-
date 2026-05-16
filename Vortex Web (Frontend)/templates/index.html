@@ -6,7 +6,6 @@
     <title>VORTEX - Technologies</title>
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -18,61 +17,55 @@
         </a>
 
         <style>
-                 /* Базовые стили для всех плашек преимуществ */
-                 .feature-label {
-                     position: absolute;
-                     color: white;
-                     pointer-events: auto;
-                     background: rgba(0, 0, 0, 0.7);
-                     padding: 8px 14px;
-                     border-radius: 20px;
-                     border: 1px solid rgba(0, 255, 255, 0.3);
-                     white-space: nowrap;
-                     font-size: 13px;
-                     font-weight: 500;
-                     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                     transition: opacity 0.3s;
-                 }
+            /* Базовые стили для всех плашек преимуществ */
+            .feature-label {
+                position: absolute;
+                color: white;
+                pointer-events: auto;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 8px 14px;
+                border-radius: 20px;
+                border: 1px solid rgba(0, 255, 255, 0.3);
+                white-space: nowrap;
+                font-size: 13px;
+                font-weight: 500;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                transition: opacity 0.3s;
+            }
 
-                     .feature-label:hover {
-                         border-color: #00ffff;
-                         transform: scale(1.05);
-                     }
+                .feature-label:hover {
+                    border-color: #00ffff;
+                    transform: scale(1.05);
+                }
 
-                 /* ==========================================================================
-            НОВАЯ АДАПТИВНОСТЬ: ЖЕСТКИЙ КОНТРОЛЬ ЧЕРЕЗ CSS
-            ========================================================================== */
+            /* ==========================================================================
+               ИСПРАВЛЕННАЯ АДАПТИВНОСТЬ УСТРОЙСТВ
+               ========================================================================== */
 
-                 /* 1. ДЛЯ ТЕЛЕФОНОВ (Экран до 600px) — ПОКАЗЫВАЕМ 0 ШТУК */
-                 @media (max-width: 600px) {
-                     .feature-label {
-                         display: none !important; /* Полностью выключаем всё */
-                     }
-                 }
+            /* 1. ДЛЯ ТЕЛЕФОНОВ (Экран до 600px) — СКРЫВАЕМ ВСЕ ПЛАШКИ И ГАЛАКТИКУ */
+            @media (max-width: 600px) {
+                .feature-label {
+                    display: none !important; /* Убираем плашки (0 штук) */
+                }
 
-                 /* 2. ДЛЯ ПЛАНШЕТОВ (Экран от 601px до 1024px) — ПОКАЗЫВАЕМ ТОЛЬКО 5 ШТУК */
-                 @media (min-width: 601px) and (max-width: 1024px) {
-                     /* Сначала скрываем абсолютно все плашки */
-                     .feature-label {
-                         display: none !important;
-                     }
-                         /* Принудительно включаем обратно только первые 5 штук в списке HTML */
-                         .feature-label:nth-child(-n+6) {
-                             display: block !important;
-                         }
-                 }
+                #spiralCanvas {
+                    display: none !important; /* Полностью отключаем галактику на телефонах */
+                }
+            }
 
-                 /* 3. ДЛЯ ТЕЛЕВИЗОРОВ И МОНИТОРОВ fullHD (Экран от 1025px до 1920px) — ПОКАЗЫВАЕМ ТОЛЬКО 5 ШТУК */
-                 @media (min-width: 1025px) and (max-width: 1920px) {
-                     /* Скрываем все плашки для телевизоров */
-                     .feature-label {
-                         display: none !important;
-                     }
-                         /* Включаем обратно только первые 5 штук для телевизоров */
-                         .feature-label:nth-child(-n+6) {
-                             display: block !important;
-                         }
-                 }
+            /* 2. ДЛЯ ПЛАНШЕТОВ (Экран от 601px до 1024px) — ОСТАВЛЯЕМ ТОЛЬКО 5 ШТУК */
+            @media (min-width: 601px) and (max-width: 1024px) {
+                .feature-label {
+                    display: none !important; /* Прячем все обычные */
+                }
+
+                    .feature-label.always-visible {
+                        display: block !important; /* Показываем только эти 5 */
+                    }
+            }
+
+            /* 3. ДЛЯ КОМПЬЮТЕРОВ И ТВ (Экраны от 1025px и выше) */
+            /* Здесь ничего не пишем, чтобы вернуть стандартное отображение всех 30 плашек */
         </style>
 
         <div class="feature-label always-visible" id="feat-0">🧠 ИИ Аналитика</div>
@@ -108,10 +101,8 @@
 
     </div>
 
-    <canvas id="spiralCanvas"></canvas>
-    <div class="bg-image"></div>
-
     <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+    <div class="bg-image"></div>
 
     <div class="navbar">
         <div class="nav-logo">VORTEX</div>
