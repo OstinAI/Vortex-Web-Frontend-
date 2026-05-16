@@ -12,18 +12,17 @@
 
     <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none;"></canvas>
 
+    <a href="/registration" id="cta-button" class="main-cta" style="z-index: 15;">
+        ПОПРОБОВАТЬ БЕСПЛАТНО
+    </a>
+
     <div id="galaxy-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2; font-family: 'Segoe UI', Roboto, sans-serif;">
 
-        <a href="/registration" id="cta-button" class="main-cta">
-            ПОПРОБОВАТЬ БЕСПЛАТНО
-        </a>
-
         <style>
-            /* Базовые стили для всех плашек преимуществ */
             .feature-label {
                 position: absolute;
                 color: white;
-                pointer-events: auto; /* Чтобы на плашки можно было нажимать/наводить */
+                pointer-events: auto;
                 background: rgba(0, 0, 0, 0.7);
                 padding: 8px 14px;
                 border-radius: 20px;
@@ -33,7 +32,7 @@
                 font-weight: 500;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.5);
                 transition: opacity 0.3s, transform 0.1s ease-out;
-                display: none; /* Изначально скрыты, JS включит на ПК и Планшетах */
+                display: none; /* Управляется строго через JS */
             }
 
                 .feature-label:hover {
@@ -41,7 +40,7 @@
                     transform: scale(1.05) !important;
                 }
 
-            /* АДАПТИВНОСТЬ: гасим и холст, и оверлей на смартфонах */
+            /* На телефонах выключаем ТОЛЬКО галактику и летающие плашки. Кнопка выше НЕ исчезнет! */
             @media (max-width: 600px) {
                 #spiralCanvas, #galaxy-overlay {
                     display: none !important;
@@ -49,11 +48,11 @@
             }
         </style>
 
-        <div class="feature-label always-visible" id="feat-0">🧠 ИИ Аналитика</div>
-        <div class="feature-label always-visible" id="feat-1">🔗 Сквозная автоматизация</div>
-        <div class="feature-label always-visible" id="feat-2">💬 WhatsApp</div>
-        <div class="feature-label always-visible" id="feat-3">📸 Instagram</div>
-        <div class="feature-label always-visible" id="feat-4">🎵 TikTok</div>
+        <div class="feature-label always-visible" data-tablet="true" id="feat-0">🧠 ИИ Аналитика</div>
+        <div class="feature-label always-visible" data-tablet="true" id="feat-1">🔗 Сквозная автоматизация</div>
+        <div class="feature-label always-visible" data-tablet="true" id="feat-2">💬 WhatsApp</div>
+        <div class="feature-label always-visible" data-tablet="true" id="feat-3">📸 Instagram</div>
+        <div class="feature-label always-visible" data-tablet="true" id="feat-4">🎵 TikTok</div>
 
         <div class="feature-label" id="feat-5">✈️ Telegram</div>
         <div class="feature-label" id="feat-6">🤖 ИИ Менеджер</div>
@@ -84,7 +83,7 @@
 
     <div class="bg-image"></div>
 
-  
+
     <div class="navbar">
         <div class="nav-logo">VORTEX</div>
         <div class="nav-links">

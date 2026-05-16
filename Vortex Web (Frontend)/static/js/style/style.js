@@ -184,30 +184,33 @@ if (canvas) {
             p.x = x;
             p.y = y;
 
-            // 4. Ѕ≈«ќѕј—Ќјя —»Ќ’–ќЌ»«ј÷»я («ащита от неопределенных элементов)
+            // 4. »—ѕ–ј¬Ћ≈ЌЌјя —»Ќ’–ќЌ»«ј÷»я (ѕроверка по data-атрибутам дл€ планшетов)
             if (p.featureIdx !== undefined && p.featureIdx >= 0 && p.featureIdx < totalFeatures) {
                 const el = featElements[p.featureIdx];
-                if (el) { // ∆естка€ проверка: существует ли вообще эта плашка на странице?
+                if (el) {
                     if (!p.alive) {
                         el.style.display = 'none';
                     } else {
                         const width = window.innerWidth;
 
                         if (width <= 600) {
+                            // ћобилки Ч убираем плашки с концами
                             el.style.display = 'none';
                         }
                         else if (width > 600 && width <= 1024) {
-                            if (p.featureIdx > 4) {
-                                el.style.display = 'none';
-                            } else {
+                            // ѕланшеты Ч показываем “ќЋ№ ќ те, у кого есть маркер data-tablet
+                            if (el.getAttribute('data-tablet') === 'true') {
                                 el.style.display = 'block';
                                 el.style.left = '0px';
                                 el.style.top = '0px';
                                 el.style.transform = `translate3d(${x + 12}px, ${y - 12}px, 0)`;
                                 el.style.opacity = '1';
+                            } else {
+                                el.style.display = 'none'; // ¬се остальные 25 плашек принудительно гасим
                             }
                         }
                         else {
+                            //  омпьютеры и “¬ Ч включаем абсолютно всЄ
                             el.style.display = 'block';
                             el.style.left = '0px';
                             el.style.top = '0px';
