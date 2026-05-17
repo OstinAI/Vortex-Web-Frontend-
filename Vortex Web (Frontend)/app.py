@@ -3,6 +3,25 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# Фавикон
+@app.after_request
+def inject_vortex_favicon(response):
+    if response.mimetype == 'text/html':
+        html_content = response.get_data(as_text=True)
+        
+        # Если фавикона еще нет в коде страницы, вклеиваем его
+        if 'images/logo.png' not in html_content:
+            favicon_code = '<link rel="icon" type="image/png" href="/static/images/logo.png">'
+            
+            if '</head>' in html_content:
+                html_content = html_content.replace('</head>', f'    {favicon_code}\n</head>', 1)
+            elif '<body>' in html_content:
+                html_content = html_content.replace('<body>', f'<body>\n    {favicon_code}', 1)
+                
+            response.set_data(html_content)
+            
+    return response
+
 # Главная страница (Лендинг и вход)
 @app.route('/')
 def index():
