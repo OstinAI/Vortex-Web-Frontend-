@@ -584,13 +584,15 @@ function switchView(viewType) {
 }
 
 // [НОВОЕ] Загрузка данных специально для таблицы
+// [ШАГ 2] Оптимизированная загрузка данных специально для таблицы (List View)
 async function loadListData() {
     const listBody = document.getElementById('list-body');
     if (!listBody) return;
 
-    listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--vortex-accent);">ЗАГРУЗКА ДАННЫХ ОБ ОПЛАТАХ...</td></tr>';
+    listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--vortex-accent);">СИНХРОНИЗАЦИЯ ТАБЛИЦЫ...</td></tr>';
 
     try {
+        // 1. Получаем этапы текущей воронки
         const res = await fetch(`${API_BASE_URL}/api/crm/pipelines/${currentPipelineId}/stages`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
         });
@@ -600,57 +602,81 @@ async function loadListData() {
         listBody.innerHTML = '';
         const pipelineName = localStorage.getItem('vortex_last_pipeline_name') || "ВОРОНКА";
 
-        for (const stage of stages) {
-            const cardsRes = await fetch(`${API_BASE_URL}/api/crm/board/stage_cards?pipeline_id=${currentPipelineId}&stage_id=${stage.id}`, {
+        // 2. Собираем все карточки со всех этапов параллельно
+        const stageCardsPromises = stages.map(stage =>
+            fetch(`${API_BASE_URL}/api/crm/board/stage_cards?pipeline_id=${currentPipelineId}&stage_id=${stage.id}`, {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
-            });
-            const cardsData = await cardsRes.json();
-            const cards = cardsData.cards || [];
+            }).then(r => r.json()).then(d => ({ stage, cards: d.cards || [] }))
+        );
 
-            for (const card of cards) {
-                const row = document.createElement('tr');
-                row.className = 'vortex-list-row';
-                row.onclick = () => openClientPage(card.id);
+        const stagesWithCards = await Promise.all(stageCardsPromises);
 
-                // --- ПОЛУЧАЕМ СУММУ ИЗ ИСТОРИИ ПРОДАЖ ---
-                let realPaidAmount = 0;
-                try {
-                    // Используем тот же эндпоинт, что и в Card.js для индикатора оплат
-                    const payRes = await fetch(`${API_BASE_URL}/api/inventory/sales/pay?client_id=${card.id}`, {
-                        headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
-                    });
-                    const payData = await payRes.json();
+        // Массив для всех строк, которые мы отрисуем
+        const allRowsData = [];
 
-                    if (payData.ok) {
-                        // Берём total из ответа API (сумма всех оплат клиента)
-                        realPaidAmount = parseFloat(payData.total || 0);
-                    }
-                } catch (e) {
-                    console.error(`Ошибка получения оплаты для клиента ${card.id}:`, e);
-                }
-
-                const displayAmount = (realPaidAmount > 0)
-                    ? realPaidAmount.toLocaleString('ru-RU') + ' ₸'
-                    : '<span style="opacity:0.3">0 ₸</span>';
-
-                row.innerHTML = `
-                    <td class="list-deal-title">${card.title.toUpperCase()}</td>
-                    <td class="list-pipeline-name">${pipelineName.toUpperCase()}</td>
-                    <td><span class="vortex-status-node" style="font-size:10px; padding:4px 8px;">${stage.name.toUpperCase()}</span></td>
-                    <td class="list-manager-name">${card.owner_name || 'НЕ НАЗНАЧЕН'}</td>
-                    <td class="list-amount-cell">${displayAmount}</td>
-                `;
-                listBody.appendChild(row);
+        // 3. Вытягиваем карточки в плоский список
+        for (const item of stagesWithCards) {
+            for (const card of item.cards) {
+                allRowsData.push({ card, stage: item.stage });
             }
         }
 
-        if (listBody.innerHTML === '') {
-            listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; opacity:0.3; padding:40px;">ПУСТО</td></tr>';
+        if (allRowsData.length === 0) {
+            listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; opacity:0.3; padding:40px;">В ЭТОЙ ВОРОНКЕ НЕТ СДЕЛОК</td></tr>';
+            return;
         }
 
+        // 4. Оптимизированный параллельный запрос стоимостей/оплат для всех найденных клиентов
+        const paymentPromises = allRowsData.map(async (rowData) => {
+            let realPaidAmount = 0;
+            try {
+                const payRes = await fetch(`${API_BASE_URL}/api/inventory/sales/pay?client_id=${rowData.card.id}`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+                });
+                const payData = await payRes.json();
+                if (payData.ok) {
+                    realPaidAmount = parseFloat(payData.total || 0);
+                }
+            } catch (e) {
+                console.error(`Ошибка получения оплаты для клиента ${rowData.card.id}:`, e);
+            }
+            return { ...rowData, amount: realPaidAmount };
+        });
+
+        // Ждем завершения всех запросов по оплатам
+        const finalizedRows = await Promise.all(paymentPromises);
+
+        // 5. Отрисовываем строки в таблицу
+        finalizedRows.forEach(({ card, stage, amount }) => {
+            const row = document.createElement('tr');
+            row.className = 'vortex-list-row';
+
+            // ВАЖНО ДЛЯ ШАГА 2: Устанавливаем data-id, чтобы функция renderListView() могла его прочитать
+            row.setAttribute('data-id', card.id);
+
+            // Обработчик клика для открытия карточки
+            row.onclick = () => openClientPage(card.id);
+
+            const displayAmount = (amount > 0)
+                ? amount.toLocaleString('ru-RU') + ' ₸'
+                : '<span style="opacity:0.3">0 ₸</span>';
+
+            row.innerHTML = `
+                <td class="list-deal-title" style="font-weight:bold;">${card.title.toUpperCase()}</td>
+                <td class="list-pipeline-name">${pipelineName.toUpperCase()}</td>
+                <td><span class="vortex-status-node" style="font-size:10px; padding:4px 8px;">${stage.name.toUpperCase()}</span></td>
+                <td class="list-manager-name">${card.owner_name || '<span style="opacity:0.4">НЕ НАЗНАЧЕН</span>'}</td>
+                <td class="list-amount-cell" style="text-align:right; font-weight:bold; color:var(--vortex-accent, #00FFCC);">${displayAmount}</td>
+            `;
+            listBody.appendChild(row);
+        });
+
+        // Принудительно вызываем инициализацию обработчиков (если требуется дополнительная логика)
+        renderListView();
+
     } catch (err) {
-        console.error("Ошибка:", err);
-        listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">СБОЙ ОБНОВЛЕНИЯ</td></tr>';
+        console.error("Ошибка Шага 2 (Загрузка списка):", err);
+        listBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">СБОЙ ОБНОВЛЕНИЯ ДАННЫХ</td></tr>';
     }
 }
 
