@@ -95,11 +95,17 @@
     <template id="stage-template">
         <div class="vortex-stage-column">
             <div class="stage-header">
-                <button class="stage-btn del-btn" title="Удалить этап">−</button>
 
-                <input type="text" class="stage-input" placeholder="Название этапа...">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <button class="stage-btn del-btn" title="Удалить этап">−</button>
+                    <input type="text" class="stage-input" placeholder="Название этапа...">
+                    <button class="stage-btn add-btn" title="Добавить этап">+</button>
+                </div>
 
-                <button class="stage-btn add-btn" title="Добавить этап">+</button>
+                <div class="stage-neon-line">
+                    <input type="color" class="stage-color-picker" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                </div>
+
             </div>
             <div class="stage-body">
                 <div class="empty-deals-plug">НЕТ СДЕЛОК</div>

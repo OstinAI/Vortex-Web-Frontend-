@@ -463,22 +463,74 @@ function renderBoard(stages) {
         const delBtn = clone.querySelector('.del-btn');
         const addBtn = clone.querySelector('.add-btn');
 
-        column.dataset.id = stage.id;
-        input.value = stage.name;
+        // Безопасный поиск нижней полоски и палитры
+        const neonLine = clone.querySelector('.stage-neon-line');
+        const colorPicker = clone.querySelector('.stage-color-picker');
+
+        if (column) column.dataset.id = stage.id;
+        if (input) input.value = stage.name;
+
+        // Применение кастомного цвета из БД или неона по умолчанию (#00FFCC)
+        const defaultNeonColor = '#00ffff';
+        const currentStageColor = stage.color || defaultNeonColor;
+
+        if (neonLine) {
+            neonLine.style.backgroundColor = currentStageColor;
+            neonLine.style.boxShadow = `0 0 10px ${currentStageColor}80`; // Неоновый отсвет в цвет полоски
+        }
+        if (colorPicker) {
+            colorPicker.value = currentStageColor;
+        }
 
         // ЛОГИКА ПЛЮСОВ И МИНУСОВ
         if (!hasManagerAccess) {
-            // Если НЕ админ - удаляем кнопки из DOM
+            // Если НЕ админ - удаляем элементы управления из DOM
             if (delBtn) delBtn.remove();
             if (addBtn) addBtn.remove();
-            input.readOnly = true;
-            input.style.cursor = 'default';
+            if (colorPicker) colorPicker.remove(); // Обычный юзер не может вызывать палитру
+            if (input) {
+                input.readOnly = true;
+                input.style.cursor = 'default';
+            }
         } else {
             // Если админ - настраиваем события
             if (delBtn) delBtn.onclick = () => deleteStage(stage.id, stage.name);
             if (addBtn) addBtn.onclick = () => createNewStage();
-            input.onblur = () => updateStageName(stage.id, input.value);
-            input.onkeydown = (e) => { if (e.key === 'Enter') input.blur(); };
+            if (input) {
+                input.onblur = () => updateStageName(stage.id, input.value);
+                input.onkeydown = (e) => { if (e.key === 'Enter') input.blur(); };
+            }
+
+            // Настройка событий палитры на нижней полоске
+            if (colorPicker) {
+                // Изменение цвета в реальном времени при движении по кругу палитры
+                colorPicker.oninput = (e) => {
+                    const selectedColor = e.target.value;
+                    if (neonLine) {
+                        neonLine.style.backgroundColor = selectedColor;
+                        neonLine.style.boxShadow = `0 0 10px ${selectedColor}80`;
+                    }
+                };
+
+                // Фиксация и сохранение цвета на бэкенд при закрытии палитры
+                colorPicker.onchange = async (e) => {
+                    const finalColor = e.target.value;
+                    console.log(`[VORTEX] Сохраняем нижний цвет для этапа ${stage.id}:`, finalColor);
+
+                    try {
+                        await fetch(`${API_BASE_URL}/api/crm/stages/${stage.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${localStorage.getItem('vortex_token')}`
+                            },
+                            body: JSON.stringify({ color: finalColor })
+                        });
+                    } catch (err) {
+                        console.error("Ошибка при сохранении цвета этапа:", err);
+                    }
+                };
+            }
         }
 
         canvas.appendChild(clone);
@@ -497,14 +549,17 @@ function renderBoard(stages) {
             ghostClass: 'vortex-ghost',
             onEnd: (evt) => {
                 if (evt.from !== evt.to) {
-                    moveDeal(evt); //
+                    moveDeal(evt);
                 }
             }
         });
     });
 
     // 2. Перетаскивание самих колонок (только для админов)
-    if (sortableInstance) sortableInstance.destroy();
+    if (typeof sortableInstance !== 'undefined' && sortableInstance) {
+        if (typeof sortableInstance.destroy === 'function') sortableInstance.destroy();
+    }
+
     sortableInstance = new Sortable(canvas, {
         animation: 150,
         handle: '.stage-header',

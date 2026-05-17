@@ -233,12 +233,52 @@
 
 .stage-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 10px;
+    flex-direction: column; /* Изменяем на column, чтобы полоска была строго внизу */
+    padding: 12px 10px 8px 10px;
     background: rgba(255, 255, 255, 0.04);
-    border-bottom: 2px solid var(--vortex-accent);
+    border-bottom: none; /* УБРАЛИ грубую стандартную рамку */
+    position: relative;
 }
+
+.stage-neon-line {
+    height: 3px;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Элемент инпута палитры внутри неоновой линии */
+.stage-color-picker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: #0f1318 !important; /* Наш базовый тёмный фон */
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+    /* ГЛАВНОЕ РЕШЕНИЕ: Указываем браузеру, что элемент принадлежит тёмной теме.
+       Это заставит встроенное всплывающее окно стать тёмным во всех современных браузерах!
+    */
+    color-scheme: dark !important;
+}
+
+    /* Стандартизированная стилизация внутренней области для WebKit (Chrome/Edge/Opera) */
+    .stage-color-picker::-webkit-color-swatch-wrapper {
+        padding: 0;
+        background-color: #0f1318 !important;
+    }
+
+    .stage-color-picker::-webkit-color-swatch {
+        border: 1px solid rgba(0, 229, 255, 0.3) !important; /* Наша неоновая рамка */
+        border-radius: 2px;
+        background-color: #0f1318 !important;
+    }
 
 .stage-btn {
     width: 24px;
