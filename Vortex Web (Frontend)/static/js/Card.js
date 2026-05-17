@@ -235,18 +235,22 @@ async function loadCustomFields() {
                 }
 
                 // 2. Добавляем иконки управления (Карандаш и Крестик)
+                // Модификация: Добавлены атрибуты draggable и data-field-id на весь контейнер field-item
                 const fieldHtml = `
-                    <div class="field-item">
+                    <div class="field-item" draggable="true" data-field-id="${field.id}">
                         <div style="display: flex; align-items: center;">
-                            <label class="field-label">${field.title}</label>
-                            <span class="edit-pen-icon" onclick="renameFieldPrompt(${field.id}, '${field.title}')">✎</span>
-                            <span class="delete-field-btn" onclick="confirmDeleteField(${field.id})">✖</span>
+                            <label class="field-label" style="cursor: grab;">${field.title}</label>
+                            <span class="edit-pen-icon" onclick="renameFieldPrompt(${field.id}, '${field.title}')" style="cursor: pointer;">✎</span>
+                            <span class="delete-field-btn" onclick="confirmDeleteField(${field.id})" style="cursor: pointer;">✖</span>
                         </div>
                         ${fieldInputHtml}
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', fieldHtml);
             });
+
+            // Навешиваем Drag-and-Drop события на свежесозданные элементы
+            initFieldsDragAndDrop(container);
         }
     } catch (error) {
         console.error("Ошибка загрузки полей:", error);
@@ -2527,3 +2531,75 @@ async function updateCardPaymentIndicator() {
         sumEl.innerText = "0 ₸";
     }
 }
+
+// --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ ПЕРЕМЕЩЕНИЯ (Добавь их ниже) ---
+
+function initFieldsDragAndDrop(container) {
+    const items = container.querySelectorAll('.field-item');
+
+    items.forEach(item => {
+        item.addEventListener('dragstart', () => {
+            item.classList.add('dragging');
+        });
+
+        item.addEventListener('dragend', async () => {
+            item.classList.remove('dragging');
+            // Перезаписываем порядок на сервере сразу после отпускания мыши
+            await saveFieldsNewOrder(container);
+        });
+    });
+
+    container.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const draggingElement = document.querySelector('.dragging');
+        if (!draggingElement) return;
+
+        const afterElement = getDragAfterElement(container, e.clientY);
+        if (afterElement == null) {
+            container.appendChild(draggingElement);
+        } else {
+            container.insertBefore(draggingElement, afterElement);
+        }
+    });
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.field-item:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+async function saveFieldsNewOrder(container) {
+    const fieldElements = container.querySelectorAll('.field-item[data-field-id]');
+    const fieldIds = Array.from(fieldElements).map(el => parseInt(el.getAttribute('data-field-id')));
+
+    try {
+        // Было:
+		// const response = await fetch(`${API_BASE_URL}/api/crm_card/fields/reorder`, {
+
+		// НАДО СДЕЛАТЬ:
+		const response = await fetch(`${API_BASE_URL}/api/crm/fields/reorder`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('vortex_token')}`
+			},
+			body: JSON.stringify({ field_ids: fieldIds })
+		});
+        const resData = await response.json();
+        if (!resData.ok) {
+            console.error("Не удалось сохранить порядок полей:", resData.message);
+        }
+    } catch (error) {
+        console.error("Ошибка сети при изменении порядка полей:", error);
+    }
+}
+

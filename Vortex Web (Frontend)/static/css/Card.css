@@ -1655,3 +1655,18 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     font-weight: bold;
     letter-spacing: 1px;
 }
+
+/* Ёлемент, который мы сейчас тащим, станет полупрозрачным */
+[draggable="true"].dragging {
+    opacity: 0.4;
+    border: 2px dashed #00E5FF; /* ÷вет рамки (например, бирюзовый, как в интерфейсе) */
+}
+
+/* ћен€ем курсор мыши при наведении на кастомное поле, чтобы показать, что его можно схватить */
+[draggable="true"] {
+    cursor: grab;
+}
+
+    [draggable="true"]:active {
+        cursor: grabbing;
+    }
