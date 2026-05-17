@@ -1670,3 +1670,10 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     [draggable="true"]:active {
         cursor: grabbing;
     }
+
+/* Класс, который будет активировать размытие */
+.column-blurred {
+    filter: blur(8px);
+    pointer-events: none; /* Отключаем клики внутри, пока блок скрыт */
+    transition: filter 0.1s ease; /* Быстрое исчезновение/появление */
+}

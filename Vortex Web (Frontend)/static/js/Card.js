@@ -867,9 +867,19 @@ function initHorizontalResizers() {
                 const deltaX = moveEvent.pageX - startX;
                 const newWidth = startWidth + deltaX;
 
-                if (newWidth > 150) { // Минимальная ширина 150px
+                // Изменили лимит со 150 до 80, чтобы панель физически можно было сжать сильнее
+                if (newWidth > 80) {
                     targetEl.style.width = newWidth + 'px';
                     targetEl.style.flex = 'none'; // Фиксируем ширину
+
+                    // --- ХИТРЫЙ БЛЮР ДЛЯ ЛЕВОЙ ПАНЕЛИ ---
+                    if (targetId === 'zone-left') {
+                        if (newWidth <= 180) {
+                            targetEl.classList.add('column-blurred');
+                        } else {
+                            targetEl.classList.remove('column-blurred');
+                        }
+                    }
                 }
             };
 
@@ -901,6 +911,12 @@ function loadSavedWidths() {
         const el = document.getElementById('zone-left');
         el.style.width = saved.left;
         el.style.flex = 'none';
+
+        // --- ПРОВЕРКА БЛЮРА ПРИ ЗАГРУЗКЕ СТРАНИЦЫ ---
+        // Если из памяти восстановилась узкая колонка — сразу вешаем блюр
+        if (parseInt(saved.left) <= 180) {
+            el.classList.add('column-blurred');
+        }
     }
     if (saved.center) {
         const el = document.getElementById('resizable-container');
