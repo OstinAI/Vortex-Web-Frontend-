@@ -1,15 +1,24 @@
-# -*- coding: utf-8 -*-
+п»ї# -*- coding: utf-8 -*-
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Фавикон
+# рџљЂ Р”РћР‘РђР’Р¬ Р­РўРћРў РљР›РђРЎРЎРР§Р•РЎРљРР™ Р РћРЈРў Р”Р›РЇ РЎРўР РђРќРР¦Р« РўРђР РР¤РћР’
+@app.route('/tariffs')
+def tariffs_page():
+    return render_template('tariffs.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Р¤Р°РІРёРєРѕРЅ
 @app.after_request
 def inject_vortex_favicon(response):
     if response.mimetype == 'text/html':
         html_content = response.get_data(as_text=True)
         
-        # Если фавикона еще нет в коде страницы, вклеиваем его
+        # Р•СЃР»Рё С„Р°РІРёРєРѕРЅР° РµС‰Рµ РЅРµС‚ РІ РєРѕРґРµ СЃС‚СЂР°РЅРёС†С‹, РІРєР»РµРёРІР°РµРј РµРіРѕ
         if 'images/logo.png' not in html_content:
             favicon_code = '<link rel="icon" type="image/png" href="/static/images/logo.png">'
             
@@ -22,17 +31,17 @@ def inject_vortex_favicon(response):
             
     return response
 
-# Главная страница (Лендинг и вход)
+# Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° (Р›РµРЅРґРёРЅРі Рё РІС…РѕРґ)
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# НОВОЕ: Страница регистрации компании
+# РќРћР’РћР•: РЎС‚СЂР°РЅРёС†Р° СЂРµРіРёСЃС‚СЂР°С†РёРё РєРѕРјРїР°РЅРёРё
 @app.route('/registration')
 def registration():
     return render_template('registration.html')
 
-# Главное окно CRM
+# Р“Р»Р°РІРЅРѕРµ РѕРєРЅРѕ CRM
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
@@ -67,9 +76,9 @@ def settings():
 
 @app.route('/Card.html')
 def client_card():
-    # Эта функция просто берет файл из папки templates и отдает браузеру
+    # Р­С‚Р° С„СѓРЅРєС†РёСЏ РїСЂРѕСЃС‚Рѕ Р±РµСЂРµС‚ С„Р°Р№Р» РёР· РїР°РїРєРё templates Рё РѕС‚РґР°РµС‚ Р±СЂР°СѓР·РµСЂСѓ
     return render_template('Card.html')
 
 if __name__ == '__main__':
-    # Запуск на порту 8080
+    # Р—Р°РїСѓСЃРє РЅР° РїРѕСЂС‚Сѓ 8080
     app.run(debug=True, host='0.0.0.0', port=8080)

@@ -102,8 +102,8 @@
 
     <div class="side-panel" id="sidePanel">
         <nav class="side-nav">
-            <a href="#about" class="side-link">О нас</a>
-            <a href="#rates" class="side-link">Тарифы</a>
+            <a href="/about" class="side-link">О нас</a>
+            <a href="{{ url_for('tariffs_page') }}" class="side-link">Тарифы</a>
         </nav>
     </div>
 
@@ -156,6 +156,7 @@
     <script src="/static/js/style/style.js"></script>
     <link rel="stylesheet" href="/static/js/style/css/menu.css">
     <script src="/static/js/style/menu.js"></script>
+   
 
 </body>
 </html>

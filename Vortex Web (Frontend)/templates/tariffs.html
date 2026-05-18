@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тарифы - VORTEX Technologies</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="/static/js/style/css/menu.css">
+    <link rel="stylesheet" href="static/js/style/tariffs/tariffs.css">
+</head>
+<body>
+
+    <div class="navbar" style="z-index: 20;">
+        <a href="/" style="text-decoration: none; color: inherit; display: inline-block;">
+            <div class="nav-logo">VORTEX</div>
+        </a>
+
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="/#auth" class="nav-link">Вход</a>
+        </div>
+    </div>
+
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="/about" class="side-link">О нас</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+        </nav>
+    </div>
+
+    <div class="tariffs-container">
+
+        <div class="tariffs-header">
+            <div class="tariffs-title">ТАРИФНЫЕ ПЛАНЫ</div>
+            <p class="tariffs-subtitle">Выберите идеальную конфигурацию VORTEX CORE для масштабирования вашего бизнеса</p>
+
+            <p class="tariffs-promo">
+                При покупке любого тарифа <span class="promo-highlight">1 месяц в подарок</span>!
+                Также доступен бесплатный период использования системы на <span class="promo-highlight">10 дней</span>.
+                <br>
+                При покупке тарифа <span class="promo-highlight">интеграция и полная настройка системы — бесплатно</span>!
+                <span class="promo-alert">(в тариф BASIC настройка не входит)</span>
+                <br>
+                <span class="promo-note">*Дополнительные ИИ-модули в бесплатный период не входят.</span>
+            </p>
+        </div>
+
+        <div class="tariffs-grid">
+
+            <div class="tariff-card card-standard">
+                <div class="tariff-label">01 // BASIC</div>
+                <h3 class="tariff-name">Стандарт</h3>
+                <div class="tariff-price">49 990 <span>₸ / мес</span></div>
+
+                <ul class="tariff-features">
+                    <li><i class="feature-dot"></i> Интеграция Instagram и WhatsApp</li>
+                    <li><i class="feature-dot"></i> 10 активных менеджеров</li>
+                    <li><i class="feature-dot"></i> Базовый ИИ-ассистент</li>
+                    <li><i class="feature-dot"></i> Задачи</li>
+                    <li><i class="feature-dot"></i> Статистика</li>
+                    <li><i class="feature-dot"></i> Автоматизаций</li>
+                </ul>
+
+                <button class="tariff-btn open-auth-btn">Выбрать тариф</button>
+            </div>
+
+            <div class="tariff-card card-business">
+                <div class="tariff-label" style="color: #00E5FF;">02 // RECOMMENDED</div>
+                <h3 class="tariff-name">Бизнес</h3>
+                <div class="tariff-price">99 990 <span>₸ / мес</span></div>
+
+                <ul class="tariff-features">
+                    <li><i class="feature-dot"></i> Все функции Стандарта</li>
+                    <li><i class="feature-dot"></i> 50 активных менеджеров</li>
+                    <li><i class="feature-dot"></i> Полная омниканальность (TikTok, Instaи еще все соц сети)</li>
+                    <li><i class="feature-dot"></i> Продвинутый ИИ-Менеджер 24/7</li>
+                    <li><i class="feature-dot"></i> Персональный интегратор 24/7</li>
+                    <li><i class="feature-dot"></i> Складской учет версии 2.0</li>
+                    <li><i class="feature-dot"></i> Интеграция Календаря (Google Calendar, Calendar - Apple iCloud)</li>
+                    <li><i class="feature-dot"></i> Интеграция Google Диск </li>
+                    <li><i class="feature-dot"></i> Интеграция хостинга YouTube </li>
+                    <li><i class="feature-dot"></i> Интеграция касса, банк, финансы </li>
+                    <li><i class="feature-dot"></i> Интеграция IP - телефонии </li>
+                </ul>
+
+                <button class="tariff-btn btn-accent open-auth-btn">Запустить</button>
+            </div>
+
+            <div class="tariff-card card-pro">
+                <div class="tariff-label">03 // ADVANCED</div>
+                <h3 class="tariff-name">Про</h3>
+                <div class="tariff-price">199 990 <span>₸ / мес</span></div>
+
+                <ul class="tariff-features">
+                    <li><i class="feature-dot"></i> Все функции Бизнеса</li>
+                    <li><i class="feature-dot"></i> 250 активных менеджеров</li>
+                    <li><i class="feature-dot"></i> Выделенный ИИ-сервер аналитики</li>
+                    <li><i class="feature-dot"></i> GPS-трекинг и геймификация KPI</li>
+                    <li><i class="feature-dot"></i> Приоритетная поддержка 24/7</li>
+                    
+                </ul>
+
+                <button class="tariff-btn open-auth-btn">Активировать</button>
+            </div>
+
+            <div class="tariff-card card-ultima">
+                <div class="tariff-label" style="color: #ff3366;">04 // CUSTOM</div>
+                <h3 class="tariff-name">Ультима</h3>
+                <div class="tariff-price">Договорная</div>
+
+                <ul class="tariff-features">
+                    <li><i class="feature-dot"></i> Индивидуальное проектирование ядра</li>
+                    <li><i class="feature-dot"></i> Разработка проприетарных ML-моделей</li>
+                    <li><i class="feature-dot"></i> Максимальный уровень шифрования</li>
+                    <li><i class="feature-dot"></i> Личный IT-архитектор системы</li>
+                </ul>
+
+                <button class="tariff-btn btn-ultima open-auth-btn">Связаться</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modules-section">
+        <div class="tariffs-header" style="margin-top: 100px; margin-bottom: 40px;">
+            <div class="tariffs-title">ДОПОЛНИТЕЛЬНЫЕ ИИ-МОДУЛИ</div>
+            <p class="tariffs-subtitle">Подключаются к любому тарифному плану для максимальной автоматизации бизнес-процессов</p>
+        </div>
+
+        <div class="modules-list">
+
+            <div class="module-card mod-sales">
+                <div class="module-info">
+                    <div class="module-status">// INTEGRATION READY</div>
+                    <h4 class="module-name">Модуль: ИИ-Продажник</h4>
+                    <p class="module-desc">Самостоятельно звонит клиентам человеческим голосом, делает продажи, принимает платежи и полностью закрывает сделки в CRM.</p>
+                </div>
+                <div class="module-action">
+                    <div class="module-price">699 990 <span>₸ / мес</span></div>
+                    <button class="tariff-btn open-auth-btn btn-mod-sales">Подключить</button>
+                </div>
+            </div>
+
+            <div class="module-card mod-boss">
+                <div class="module-info">
+                    <div class="module-status">// TOTAL CONTROL SYSTEM</div>
+                    <h4 class="module-name">Модуль: ИИ-Руководитель</h4>
+                    <p class="module-desc">Контролирует работу сотрудников, ставит персональные задачи и следит за их выполнением. Анализирует диалоги с клиентами и ведение проектов.</p>
+                </div>
+                <div class="module-action">
+                    <div class="module-price">999 990 <span>₸ / мес</span></div>
+                    <button class="tariff-btn open-auth-btn btn-mod-boss">Подключить</button>
+                </div>
+            </div>
+
+            <div class="module-card mod-teacher">
+                <div class="module-info">
+                    <div class="module-status">// EDUCATION & TRAINING</div>
+                    <h4 class="module-name">Модуль: ИИ-Учитель</h4>
+                    <p class="module-desc">Обучает новых сотрудников и повышает квалификацию текущего штата в режиме реального времени через видеоконференции Vortex Phone.</p>
+                </div>
+                <div class="module-action">
+                    <div class="module-price">499 990 <span>₸ / мес</span></div>
+                    <button class="tariff-btn open-auth-btn btn-mod-teacher">Подключить</button>
+                </div>
+            </div>
+
+            <div class="module-card mod-assistant">
+                <div class="module-info">
+                    <div class="module-status">// PERSONAL WORKSPACE HELP</div>
+                    <h4 class="module-name">Модуль: Персональный ИИ-Ассистент</h4>
+                    <p class="module-desc">Индивидуальный цифровой помощник для каждого сотрудника. Избавляет от рутины: формирует договора, закрывающие документы, отчеты и сводки.</p>
+                </div>
+                <div class="module-action">
+                    <div class="module-price">599 990 <span>₸ / мес</span></div>
+                    <button class="tariff-btn open-auth-btn btn-mod-assistant">Запросить</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+ 
+
+   
+    <script src="/static/js/style/style.js"></script>
+    <script src="/static/js/style/menu.js"></script>
+    <script src="static/js/style/tariffs/tariffs.js"></script>
+</body>
+</html>

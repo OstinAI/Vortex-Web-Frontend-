@@ -1,0 +1,511 @@
+﻿:root {
+    --vortex-bg-dark: #020b12;
+    --vortex-bg-black: #050505;
+    --vortex-accent: #00E5FF;
+    --vortex-border: rgba(0, 229, 255, 0.15);
+    --text-main: #ffffff;
+    --text-muted: #888888;
+}
+
+html {
+    /* 🚀 Включаем мягкое поведение скролла по умолчанию */
+    scroll-behavior: smooth !important;
+}
+
+html, body {
+    background: linear-gradient(180deg, var(--vortex-bg-dark) 0%, var(--vortex-bg-black) 100%);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Браузер сам мягко управляет нативным скроллом */
+    overflow-y: auto !important;
+    min-height: 100vh;
+}
+
+    /* 🚀 ПОЛНОСТЬЮ СКРЫВАЕМ ПОЛОСУ СКРОЛЛА (как на странице О нас) */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+html, body {
+    scrollbar-width: none; /* Фикс для Firefox */
+    -ms-overflow-style: none; /* Фикс для IE */
+}
+
+/* Главный контейнер */
+.tariffs-container {
+    max-width: 1400px;
+    margin: 120px auto 60px auto;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+
+/* Заголовок страницы */
+.tariffs-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.tariffs-title {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--text-main);
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    display: inline-block;
+    border-left: 3px solid var(--vortex-accent);
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+.tariffs-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-top: 15px;
+    font-weight: 400;
+}
+
+/* Сетка тарифов (Строго по горизонтали) */
+.tariffs-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    width: 100%;
+}
+
+/* Общая стеклянная карточка тарифа */
+.tariff-card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 320px;
+    background: rgba(2, 11, 18, 0.3);
+    border: 1px solid var(--vortex-border);
+    border-radius: 12px;
+    padding: 35px 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Начальное состояние для анимации появления */
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+    /* Анимация плавного появления */
+    .tariff-card.reveal {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/* Метки над названиями */
+.tariff-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+/* Название тарифа */
+.tariff-name {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin: 0 0 20px 0;
+    color: var(--text-main);
+}
+
+/* Цена тарифа */
+.tariff-price {
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+    .tariff-price span {
+        font-size: 13px;
+        color: var(--text-muted);
+        letter-spacing: 0;
+    }
+
+/* Список того, что входит (КУДА ВПИСЫВАТЬ ПУНКТЫ) */
+.tariff-features {
+    list-style: none;
+    margin: 0 0 40px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-grow: 1; /* Подталкивает кнопку всегда вниз, чтобы карточки были одной высоты */
+}
+
+    .tariff-features li {
+        font-size: 13.5px;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.75);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+/* Точки перед пунктами */
+.feature-dot {
+    width: 5px;
+    height: 5px;
+    background-color: var(--vortex-accent);
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px var(--vortex-accent);
+}
+
+/* Кнопки тарифов */
+.tariff-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 12px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .tariff-btn:hover {
+        background: #ffffff;
+        color: #000000;
+        border-color: #ffffff;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+/* --- ИНДИВИДУАЛЬНАЯ СТИЛИЗАЦИЯ И НЕОН ДЛЯ КАЖДОЙ СТЕКЛЯННОЙ РАМКИ --- */
+
+/* 1. Стандарт */
+.card-standard:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+}
+
+/* 2. Бизнес (Акцентный тариф) */
+.card-business {
+    border-color: rgba(0, 229, 255, 0.3);
+    background: rgba(0, 229, 255, 0.03);
+}
+
+    .card-business:hover {
+        border-color: var(--vortex-accent);
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+    }
+
+.btn-accent {
+    border-color: var(--vortex-accent);
+    color: var(--vortex-accent);
+}
+
+    .btn-accent:hover {
+        background: var(--vortex-accent);
+        color: #000000;
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+
+/* 3. Про */
+.card-pro:hover {
+    border-color: #9d4edd;
+    box-shadow: 0 0 30px rgba(157, 78, 221, 0.15);
+}
+
+    .card-pro:hover .feature-dot {
+        background-color: #9d4edd;
+        box-shadow: 0 0 6px #9d4edd;
+    }
+
+/* 4. Ультима */
+.card-ultima:hover {
+    border-color: #ff3366;
+    box-shadow: 0 0 30px rgba(255, 51, 102, 0.15);
+}
+
+    .card-ultima:hover .feature-dot {
+        background-color: #ff3366;
+        box-shadow: 0 0 6px #ff3366;
+    }
+
+.btn-ultima {
+    border-color: #ff3366;
+    color: #ff3366;
+}
+
+    .btn-ultima:hover {
+        background: #ff3366;
+        color: #ffffff;
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+    }
+
+/* АДАПТИВНОСТЬ: На экранах поменьше перестраиваем в колонку */
+@media (max-width: 1200px) {
+    .tariffs-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .tariff-card {
+        max-width: 450px;
+        width: 100%;
+    }
+}
+
+
+/* 🚀 УБИРАЕМ БЕЛОЕ СВЕЧЕНИЕ С КНОПКИ ВХОД */
+.navbar .nav-links .nav-link {
+    text-shadow: none !important;
+    box-shadow: none !important;
+    border-color: rgba(255, 255, 255, 0.2) !important; /* Делаем рамку аккуратной и не яркой */
+    color: rgba(255, 255, 255, 0.8) !important; /* Слегка приглушаем белый цвет текста */
+    transition: all 0.3s ease;
+}
+
+    /* Эффект при наведении на Вход (сделаем аккуратное фирменное бирюзовое подсвечивание вместо белого взрыва) */
+    .navbar .nav-links .nav-link:hover {
+        color: var(--vortex-accent) !important;
+        border-color: var(--vortex-accent) !important;
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) !important;
+        text-shadow: none !important;
+    }
+
+/* --- СТИЛИ ДЛЯ ИИ-МОДУЛЕЙ --- */
+.modules-section {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.modules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+/* Базовая плашка модуля */
+.module-card {
+    background: rgba(2, 11, 18, 0.2);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: 10px;
+    padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Левая часть плашки */
+.module-info {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.module-status {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.module-name {
+    font-size: 19px;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.module-desc {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Правая часть плашки (Цена и Кнопка) */
+.module-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    min-width: 200px;
+}
+
+.module-price {
+    font-size: 24px;
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+    .module-price span {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+.module-action .tariff-btn {
+    padding: 10px 25px;
+    min-width: 160px;
+}
+
+/* --- ИНДИВИДУАЛЬНЫЕ НЕОНОВЫЕ СТИЛИ ПРИ НАВЕДЕНИИ --- */
+
+/* 1. Продажник (Бирюзовый неон) */
+.mod-sales {
+    border-left: 4px solid var(--vortex-accent);
+}
+
+    .mod-sales:hover {
+        border-color: var(--vortex-accent);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+        background: rgba(0, 229, 255, 0.02);
+    }
+
+.btn-mod-sales {
+    border-color: var(--vortex-accent);
+    color: var(--vortex-accent);
+}
+
+    .btn-mod-sales:hover {
+        background: var(--vortex-accent);
+        color: #000;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    }
+
+/* 2. Руководитель (Фиолетовый неон) */
+.mod-boss {
+    border-left: 4px solid #9d4edd;
+}
+
+    .mod-boss:hover {
+        border-color: #9d4edd;
+        box-shadow: 0 0 20px rgba(157, 78, 221, 0.15);
+        background: rgba(157, 78, 221, 0.02);
+    }
+
+.btn-mod-boss {
+    border-color: #9d4edd;
+    color: #9d4edd;
+}
+
+    .btn-mod-boss:hover {
+        background: #9d4edd;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+    }
+
+/* 3. Учитель (Золотой/Желтый неон) */
+.mod-teacher {
+    border-left: 4px solid #ffb703;
+}
+
+    .mod-teacher:hover {
+        border-color: #ffb703;
+        box-shadow: 0 0 20px rgba(255, 183, 3, 0.15);
+        background: rgba(255, 183, 3, 0.02);
+    }
+
+.btn-mod-teacher {
+    border-color: #ffb703;
+    color: #ffb703;
+}
+
+    .btn-mod-teacher:hover {
+        background: #ffb703;
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
+    }
+
+/* 4. Ассистент (Розовый/Малиновый неон) */
+.mod-assistant {
+    border-left: 4px solid #ff3366;
+}
+
+    .mod-assistant:hover {
+        border-color: #ff3366;
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.15);
+        background: rgba(255, 51, 102, 0.02);
+    }
+
+.btn-mod-assistant {
+    border-color: #ff3366;
+    color: #ff3366;
+}
+
+    .btn-mod-assistant:hover {
+        background: #ff3366;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+    }
+
+/* Адаптив под мобилки */
+@media (max-width: 768px) {
+    .module-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .module-info {
+        padding-right: 0;
+    }
+
+    .module-action {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+        .module-action .tariff-btn {
+            width: 100%;
+        }
+}
+
+/* --- СТИЛИ ДЛЯ ПРЕДЛОЖЕНИЯ И АКЦИИ --- */
+.tariffs-promo {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+}
+
+/* Яркая неоновая подсветка для "1 месяц" и "10 дней" */
+.promo-highlight {
+    color: var(--vortex-accent); /* Твой бирюзовый неон */
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+/* Сноска про доп. модули чуть поменьше и прозрачнее */
+.promo-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: inline-block;
+    margin-top: 5px;
+}

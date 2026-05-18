@@ -284,3 +284,39 @@ if (canvas) {
     resize();
     animate();
 }
+
+// Функция открытия формы авторизации (с сохранением оригинальных размеров)
+function checkAndOpenAuth() {
+    if (window.location.hash === "#auth") {
+        const authForm = document.getElementById("auth-form");
+
+        if (authForm) {
+            // 1. Очищаем инлайн-стили display, чтобы работал чистый CSS оригинал
+            authForm.style.display = "";
+
+            // 2. Добавляем класс active, который в твоем CSS отвечает за открытие
+            authForm.classList.add("active");
+
+            // 3. Жесткий фолбек: если класс active добавился, но окно всё ещё скрыто,
+            // проверяем через вычисленные стили браузера и аккуратно показываем
+            const currentDisplay = window.getComputedStyle(authForm).display;
+            if (currentDisplay === "none") {
+                authForm.style.display = "block"; // Возвращаем стандартный блочный вид, чтобы не сжимался
+            }
+
+            // 4. Плавный скролл и фокус
+            setTimeout(() => {
+                authForm.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                const companyInput = document.getElementById("company");
+                if (companyInput) companyInput.focus();
+            }, 100);
+        }
+    }
+}
+
+// Запуск при первой загрузке страницы index
+document.addEventListener("DOMContentLoaded", checkAndOpenAuth);
+
+// Запуск, если пользователь кликает по кнопке, уже находясь на главной странице
+window.addEventListener("hashchange", checkAndOpenAuth);
