@@ -229,3 +229,36 @@ html, body {
         position: static;
     }
 }
+
+/* 🚀 АДАПТИВ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (Экран 768px и меньше) */
+@media (max-width: 768px) {
+
+    /* Настраиваем главный контейнер страницы "О нас" */
+    .about-container,
+    .about-section,
+    body {
+        padding-left: 20px !important; /* Аккуратные отступы от левого края экрана */
+        padding-right: 20px !important; /* Аккуратные отступы от правого края экрана */
+    }
+
+        /* Выравниваем и форматируем сам текст */
+        .about-section p,
+        .about-content p,
+        p {
+            font-size: 15px !important; /* Оптимальный размер шрифта для телефона */
+            line-height: 1.6 !important; /* Комфортный межстрочный интервал */
+            text-align: left !important; /* Выравнивание по левому краю, чтобы не было рваных дыр */
+            max-width: 100% !important; /* Разрешаем тексту занимать всю доступную ширину */
+            margin-bottom: 20px !important; /* Красивый отступ между абзацами */
+            letter-spacing: 0.3px !important; /* Чуть уменьшаем межбуквенный интервал для мобилок */
+        }
+
+    /* Делаем главный заголовок "О СИСТЕМЕ VORTEX" чуть компактнее на мобилке */
+    .about-title,
+    h1, h2 {
+        font-size: 24px !important;
+        letter-spacing: 2px !important;
+        margin-top: 30px !important;
+        margin-bottom: 20px !important;
+    }
+}
