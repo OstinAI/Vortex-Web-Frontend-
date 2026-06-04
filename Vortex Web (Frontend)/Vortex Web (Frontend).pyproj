@@ -71,6 +71,7 @@
     <Content Include="static\images\instagram.png" />
     <Content Include="static\images\key.gif" />
     <Content Include="static\images\like.gif" />
+    <Content Include="static\images\like1.png" />
     <Content Include="static\images\linkedin.png" />
     <Content Include="static\images\logo.png" />
     <Content Include="static\images\mail_ru.png" />
@@ -112,6 +113,16 @@
     <Content Include="static\images\Yahoo.png" />
     <Content Include="static\images\youtube.png" />
     <Content Include="static\js\auth.js" />
+    <Content Include="static\js\calendar\assignees.js" />
+    <Content Include="static\js\calendar\calendar-layout.css" />
+    <Content Include="static\js\calendar\calendar.css" />
+    <Content Include="static\js\calendar\calendar.js" />
+    <Content Include="static\js\calendar\clients.js" />
+    <Content Include="static\js\calendar\colors.js" />
+    <Content Include="static\js\calendar\day-view.js" />
+    <Content Include="static\js\calendar\month-view.js" />
+    <Content Include="static\js\calendar\multi-day-view.js" />
+    <Content Include="static\js\calendar\year-view.js" />
     <Content Include="static\js\Card.js" />
     <Content Include="static\js\cart\CardHistoryExtension.js" />
     <Content Include="static\js\cart\CardUserExtension.js" />
@@ -133,6 +144,7 @@
     <Content Include="static\js\style\menu.js" />
     <Content Include="static\js\style\style.js" />
     <Content Include="static\js\style\tariffs\tariffs.css" />
+    <Content Include="templates\calendar.html" />
     <Content Include="templates\tariffs.html" />
     <Content Include="static\js\style\tariffs\tariffs.js" />
     <Content Include="static\js\tasks.js" />
@@ -160,6 +172,7 @@
     <Folder Include="static\images\" />
     <Folder Include="static\js\mailru\" />
     <Folder Include="static\js\cart\" />
+    <Folder Include="static\js\calendar\" />
     <Folder Include="static\js\style\css\" />
     <Folder Include="static\js\style\tariffs\" />
     <Folder Include="static\js\whatsapp\" />

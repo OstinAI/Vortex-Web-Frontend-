@@ -1529,7 +1529,9 @@ async function loadClientHistory() {
                     // НЕ добавляем onclick, если задача просрочена
                 } else {
                     element.style.cursor = 'pointer';
-                    element.setAttribute('onclick', `editTask(${item.id}, '${safeTitle}', '${safeBody}', '${isoDeadline}', '${assigneeId || ''}')`);
+                    // Очищаем safeBody от переносов строк
+                    const cleanBody = safeBody.replace(/[\n\r]+/g, ' ').trim();
+                    element.setAttribute('onclick', `editTask(${item.id}, '${safeTitle}', '${cleanBody}', '${isoDeadline}', '${assigneeId || ''}')`);
                 }
                 // -----------------------
 

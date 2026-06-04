@@ -1,0 +1,131 @@
+/* 1. Общий контейнер рабочей области */
+.vortex-cal-workspace {
+    display: flex;
+    height: calc(100vh - 50px); /* Высота минус хедер */
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* 2. Главный контейнер сетки (родитель для Month или Day view) */
+.vortex-cal-main-grid {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden; /* Важно: скроллится только дочерний элемент, не этот */
+    padding: 15px;
+    box-sizing: border-box;
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* 3. РЕЖИМ МЕСЯЦА (Сетка дней) */
+.vortex-days-mesh {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    flex: 1; /* Занимает всё доступное место */
+    overflow-y: auto; /* Включает скролл */
+    min-height: 0; /* КРИТИЧЕСКИ ВАЖНО: фикс скролла во flexbox */
+}
+
+/* 4. РЕЖИМ ДНЯ (Временная шкала) */
+.vortex-time-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr; /* Колонка времени | Контент */
+    flex: 1; /* Занимает всё доступное место */
+    overflow-y: auto; /* Включает скролл */
+    min-height: 0; /* КРИТИЧЕСКИ ВАЖНО: фикс скролла во flexbox */
+    /* Дополнительно для временной сетки */
+    background: #050505;
+    border: 1px solid var(--vortex-border);
+}
+
+    /* 5. Утилиты для скроллбара (скрываем везде) */
+    .vortex-days-mesh::-webkit-scrollbar,
+    .vortex-time-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+/* 6. Дополнительные стили для элементов внутри режима дня */
+.time-axis {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--vortex-border);
+}
+
+.time-label {
+    height: 60px; /* Высота одного часа */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.time-content {
+    display: grid;
+    grid-template-rows: repeat(24, 60px);
+    position: relative;
+}
+
+.time-slot {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+
+/* Контейнер для событий внутри временного слота */
+.events-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 2px;
+}
+
+/* Сама карточка задачи */
+.day-view-event {
+    background: rgba(30, 30, 30, 0.75);
+    backdrop-filter: blur(4px);
+    border-left: 5px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    overflow: hidden;
+    height: auto;
+    min-height: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+    /* Увеличение карточки при наведении для ВСЕХ задач */
+    .day-view-event:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        background-color: #0b0b0b;
+        z-index: 9999 !important;
+    }
+
+
+
+/* Гарантируем, что при наведении карточка не ломает сетку */
+.time-slot-cell {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
+/* Плавное возвращение */
+.day-view-event.task-overdue {
+    transition: all 0.2s ease !important;
+}
+
+/* Стили для заголовков в многодневных режимах */
+.vortex-time-grid .time-header-cell {
+    background: #0f0f0f;
+    border-bottom: 2px solid #333;
+}

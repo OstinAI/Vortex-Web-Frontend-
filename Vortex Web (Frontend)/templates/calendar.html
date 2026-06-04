@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex OS — Календарь управления</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/js/calendar/calendar.css">
+    <link rel="stylesheet" href="/static/js/calendar/calendar-layout.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+</head>
+<body class="vortex-calendar-runtime">
+
+    <header class="vortex-top-bar">
+        <div class="vortex-info-grid">
+
+            <div class="vortex-controls-group">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div class="vortex-status-node" onclick="window.location.href='/dashboard'" style="cursor: pointer; width: 32px; min-width: 32px; justify-content: center; padding: 0;">
+                        <span style="color: var(--vortex-accent); font-weight: 700;"><i class="fa-solid fa-arrow-left"></i></span>
+                    </div>
+                    <div class="vortex-status-node" style="gap: 8px;">
+                        <span style="color: var(--vortex-accent);"><i class="fa-solid fa-chart-pie"></i></span>
+                        <span style="font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Vortex Календарь</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vortex-controls-group" style="justify-content: center;">
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <div id="btnPrevMonth" class="vortex-status-node" style="cursor: pointer; width: 32px; min-width: 32px; justify-content: center; padding: 0;">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </div>
+                    <div class="vortex-status-node" style="min-width: 160px; justify-content: center;">
+                        <span id="currentMonthYear" style="font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff;">Май 2026</span>
+                    </div>
+                    <div id="btnNextMonth" class="vortex-status-node" style="cursor: pointer; width: 32px; min-width: 32px; justify-content: center; padding: 0;">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vortex-controls-group" style="justify-content: flex-end;">
+                <div id="googleSyncContainer" class="sync-wrapper">
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="vortex-cal-workspace">
+
+        <aside class="vortex-cal-sidebar">
+
+            <div class="sidebar-section">
+                <label class="section-label"><i class="fa-solid fa-eye"></i> Режим отображения</label>
+                <select id="selectViewMode" class="vortex-dropdown">
+                    <option value="day">День</option>
+                    <option value="3days">3 Дня</option>
+                    <option value="week">Неделя</option>
+                    <option value="month" selected>Месяц</option>
+                    <option value="year">Год</option>
+                </select>
+            </div>
+
+            <div class="sidebar-section control-buttons">
+                <button id="btnCreateTask" class="btn-action-vortex btn-task-theme">
+                    <i class="fa-solid fa-plus"></i> Добавить задачу
+                </button>
+                <button id="btnCreateNote" class="btn-action-vortex btn-note-theme" style="display: none;">
+                    <i class="fa-solid fa-pen-to-square"></i> Создать заметку
+                </button>
+            </div>
+
+            <div id="managementFilterSection" class="sidebar-section hidden-acl">
+                <label class="section-label"><i class="fa-solid fa-users-gear"></i> Область видимости</label>
+                <select id="selectUserScope" class="vortex-dropdown">
+                    <option value="my">Мои задачи</option>
+                    <option value="all">Все задачи компании</option>
+                </select>
+
+                <label class="section-label style-sub-label"><i class="fa-solid fa-user"></i> Выбор сотрудника</label>
+                <select id="selectEmployee" class="vortex-dropdown" disabled>
+                    <option value="">Загрузка сотрудников...</option>
+                </select>
+            </div>
+
+
+
+        </aside>
+
+        <main class="vortex-cal-main-grid">
+            <div class="weekdays-banner">
+                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div class="weekend">Сб</div><div class="weekend">Вс</div>
+            </div>
+            <div id="calendarDaysGrid" class="vortex-days-mesh"></div>
+        </main>
+
+    </div>
+
+    <div id="vortexEventModal" class="vortex-core-modal">
+        <div class="modal-surface">
+            <header class="modal-top">
+                <h3 id="modalTitle">Новое событие</h3>
+                <button id="btnCloseModal" class="btn-modal-close">&times;</button>
+            </header>
+
+
+
+            <div class="modal-core-form">
+                <input type="hidden" id="targetEventType" value="task">
+                <input type="hidden" id="editingEventId">
+                <input type="hidden" id="editingEventClientId">
+
+                <div class="vortex-form-group">
+                    <label>Название</label>
+                    <input type="text" id="eventSummary" placeholder="Введите суть события..." autocomplete="off">
+                </div>
+
+                <div class="vortex-form-group">
+                    <label>Временные рамки задачи</label>
+
+                    <div class="vortex-timeline-row">
+
+                        <div class="timeline-field start-field">
+                            <input type="text" id="eventTargetDateTime" placeholder="Выберите дату и время начала..." autocomplete="off">
+                        </div>
+
+                        <div class="timeline-trigger">
+                            <label class="vortex-checkbox-label" title="Указать дату окончания">
+                                <input type="checkbox" id="enableEndDateCheckbox">
+                                <i class="fa-solid fa-arrow-right-long sync-arrow"></i>
+                            </label>
+                        </div>
+
+                        <div id="endDateRowBlock" class="timeline-field end-field" style="display: none;">
+                            <input type="text" id="eventEndDateTime" placeholder="Выберите дату и время окончания..." autocomplete="off">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="vortex-form-group id-status-box">
+                    <label>Статус выполнения</label>
+                    <select id="eventStatus" class="vortex-dropdown">
+                        <option value="open">⚪ Новая (Ждет)</option>
+                        <option value="in_progress">🟡 В работе</option>
+                        <option value="urgent">🟠 Срочно</option>
+                        <option value="waiting">⚫ В ожидании</option>
+                        <option value="attention">🟣 Требует внимания</option>
+                        <option value="overdue">🔴 Просрочена</option>
+                        <option value="done">🟢 Завершена</option>
+                    </select>
+                </div>
+
+                <div id="createdByWrapper" class="vortex-form-group" style="margin-top: -8px;">
+                    <label style="margin-bottom: 3px;"><i class="fa-solid fa-user-pen"></i> Создал задачу</label>
+                    <div class="vortex-info-field" style="background: #050505; border: 1px solid rgba(0, 229, 255, 0.15); border-radius: 6px; padding: 10px 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-user-circle" style="color: var(--vortex-accent); font-size: 18px;"></i>
+                        <span id="createdByName" style="color: #fff; font-size: 0.9rem;">—</span>
+                    </div>
+                </div>
+
+                <div class="vortex-form-group">
+                    <label>Ответственные сотрудники</label>
+                    <div id="eventAssignees" class="vortex-dropdown-container">
+                        <button type="button" id="assigneesTrigger" class="vortex-dropdown-trigger">
+                            <span id="selectedCount">Выберите сотрудников...</span>
+                            <i class="fa-solid fa-chevron-down sync-arrow"></i>
+                        </button>
+                        <div id="assigneesMenu" class="dropdown-menu">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vortex-form-group">
+                    <label><i class="fa-solid fa-building"></i> Связать с клиентом (опционально)</label>
+                    <div id="eventClientContainer" class="vortex-dropdown-container">
+                        <button type="button" id="clientTrigger" class="vortex-dropdown-trigger" style="background: #050505 !important;">
+                            <span id="selectedClientName">Без клиента</span>
+                            <i class="fa-solid fa-chevron-down sync-arrow"></i>
+                        </button>
+                        <div id="clientMenu" class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedClientId" value="">
+                </div>
+
+                <div class="vortex-form-group" style="position: relative;">
+                    <label>Цветовая метка задачи</label>
+
+                    <div id="taskColorPickerContainer" style="display: flex; align-items: center; gap: 8px; margin-top: 6px;"></div>
+
+                    <input type="color" id="vortexCustomColorInput"
+                           style="position: absolute; bottom: -30px; left: 0; opacity: 0; pointer-events: none; z-index: -1;">
+                </div>
+
+                <div class="vortex-form-group">
+                    <label>Описание / Примечания</label>
+                    <textarea id="eventDescription" rows="3" placeholder="Детали, ссылки или комментарии..."></textarea>
+                </div>
+
+                <div class="vortex-form-group id-duration-box">
+                    <label>Длительность (минут)</label>
+                    <input type="number" id="eventDuration" value="30">
+                </div>
+            </div>
+
+            <footer class="modal-bottom">
+
+                <button id="btnSaveEvent" class="btn-vortex-success">Сохронить</button>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/static/js/config.js"></script>
+    <script src="/static/js/calendar/colors.js"></script>
+    <script src="/static/js/calendar/calendar.js"></script>
+    <script src="/static/js/calendar/day-view.js"></script>
+    <script src="/static/js/calendar/assignees.js"></script>
+    <script src="/static/js/calendar/clients.js"></script>
+    <script src="/static/js/calendar/multi-day-view.js"></script>
+    <script src="/static/js/calendar/month-view.js"></script>
+    <script src="/static/js/calendar/year-view.js"></script>
+
+</body>
+</html>

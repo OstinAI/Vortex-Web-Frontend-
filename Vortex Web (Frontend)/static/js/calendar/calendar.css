@@ -1,0 +1,1016 @@
+﻿:root {
+    --vortex-bg-dark: #020b12;
+    --vortex-bg-black: #050505;
+    --vortex-accent: #00E5FF;
+    --vortex-border: rgba(0, 229, 255, 0.12);
+    --vortex-card-bg: rgba(2, 11, 18, 0.6);
+    --text-main: #ffffff;
+    --text-muted: #708599;
+    /* Цвета типов событий */
+    --color-task: #00BFFF;
+    --color-note: #FFFF00;
+    --color-google: #4285f4;
+}
+
+html, body {
+    background: linear-gradient(180deg, var(--vortex-bg-dark) 0%, var(--vortex-bg-black) 100%);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ЧАСТЬ 1: ВЕРХНЯЯ ШАПКА */
+/* --- СТИЛИ ШАПКИ ИЗ VORTEX CORE CRM --- */
+.vortex-top-bar {
+    height: 50px;
+    border-bottom: 1px solid var(--vortex-border);
+    background: var(--vortex-bg-dark);
+    position: relative;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.vortex-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.vortex-controls-group {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Статусные ячейки (кнопки и контейнеры) */
+.vortex-status-node {
+    height: 32px;
+    border: 1px solid var(--vortex-border);
+    background: var(--vortex-glass);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+    /* Эффект наведения на интерактивные ноды (кнопки) */
+    .vortex-status-node[onclick],
+    #btnPrevMonth:hover,
+    #btnNextMonth:hover {
+        border-color: var(--vortex-accent);
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        color: #fff;
+    }
+
+/* Ховер для Google кнопки */
+#btnGoogleConnect:hover {
+    border-color: #ff3366 !important;
+    box-shadow: 0 0 10px rgba(255, 51, 102, 0.2) !important;
+    color: #fff !important;
+}
+
+/* Корректировка высоты рабочей области календаря под новую шапку */
+.vortex-cal-workspace {
+    display: flex;
+    height: calc(100vh - 50px); /* 50px вместо 65px */
+    width: 100vw;
+}
+
+
+
+/* ЧАСТЬ 2: ЛЕВАЯ ПАНЕЛЬ */
+.vortex-cal-sidebar {
+    width: 280px;
+    background: rgba(3, 10, 16, 0.5);
+    border-right: 1px solid var(--vortex-border);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.style-sub-label {
+    margin-top: 10px;
+}
+
+.vortex-dropdown {
+    background: #00050a;
+    border: 1px solid var(--vortex-border);
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .vortex-dropdown:focus, .vortex-dropdown:hover {
+        border-color: var(--vortex-accent);
+    }
+
+    .vortex-dropdown:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+.control-buttons {
+    gap: 12px;
+}
+
+.btn-action-vortex {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+/* --- АНИМАЦИИ ПУЛЬСАЦИИ --- */
+@keyframes neonPulseBlue {
+    0%, 100% {
+        box-shadow: 0 0 3px #00FFFF, 0 0 2px #00FFFF;
+    }
+
+    50% {
+        box-shadow: 0 0 8px #00FFFF, 0 0 5px #00FFFF;
+    }
+}
+
+@keyframes neonPulseYellow {
+    0%, 100% {
+        box-shadow: 0 0 3px #FFD700, 0 0 2px #FFD700;
+    }
+
+    50% {
+        box-shadow: 0 0 8px #FFD700, 0 0 5px #FFD700;
+    }
+}
+
+/* --- КНОПКА ЗАДАЧИ (СВЕТЛО-СИНЯЯ) --- */
+.btn-task-theme {
+    background: rgba(0, 255, 255, 0.05); /* Легкий голубой фон */
+    color: #00FFFF; /* Неоновый цвет текста */
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    animation: neonPulseBlue 2.5s infinite ease-in-out; /* Плавная пульсация */
+    transition: all 0.3s ease;
+}
+
+    .btn-task-theme:hover {
+        background: #00FFFF; /* Полная заливка при наведении */
+        color: #000; /* Темный текст для контраста */
+        box-shadow: 0 0 20px #00FFFF; /* Яркое свечение */
+        animation: none; /* Останавливаем пульсацию при наведении */
+    }
+
+/* --- КНОПКА ЗАМЕТКИ (МЯГКИЙ ЖЕЛТЫЙ) --- */
+.btn-note-theme {
+    background: rgba(255, 215, 0, 0.05); /* Мягкий золотисто-желтый фон */
+    color: #FFD700; /* Неоновый золотой цвет текста */
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    animation: neonPulseYellow 2.5s infinite ease-in-out;
+    transition: all 0.3s ease;
+}
+
+    .btn-note-theme:hover {
+        background: #FFD700; /* Полная заливка при наведении */
+        color: #000;
+        box-shadow: 0 0 20px #FFD700; /* Яркое свечение */
+        animation: none;
+    }
+
+.legend-box {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    gap: 10px;
+}
+
+.color-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.color-task {
+    background: var(--color-task);
+    box-shadow: 0 0 6px var(--color-task);
+}
+
+.color-note {
+    background: var(--color-note);
+    box-shadow: 0 0 6px var(--color-note);
+}
+
+.color-google {
+    background: var(--color-google);
+    box-shadow: 0 0 6px var(--color-google);
+}
+
+/* ЧАСТЬ 3: ПРАВАЯ ПАНЕЛЬ (КАЛЕНДАРЬ) */
+
+
+.weekdays-banner {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.weekend {
+    color: #ff4d4d;
+}
+
+
+
+.mesh-day-cell {
+    background: var(--vortex-card-bg);
+    border: 1px solid var(--vortex-border);
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .mesh-day-cell:hover {
+        border-color: var(--vortex-accent);
+        background: rgba(0, 229, 255, 0.02);
+    }
+
+.day-num-lbl {
+    font-size: 0.85rem;
+    font-weight: 700;
+    align-self: flex-end;
+    color: rgba(255,255,255,0.7);
+}
+
+.cell-today {
+    border-color: var(--vortex-accent);
+    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.15);
+}
+
+    .cell-today .day-num-lbl {
+        color: var(--vortex-accent);
+        text-shadow: 0 0 6px var(--vortex-accent);
+    }
+
+.cell-alien-month {
+    opacity: 0.25;
+}
+
+/* Ленты событий внутри ячеек */
+.cell-events-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    flex: 1;
+}
+    /* Скрытие полосы прокрутки внутри ячеек */
+    .cell-events-container::-webkit-scrollbar {
+        width: 0;
+    }
+
+.vortex-rendered-event {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    border-left: 3px solid transparent;
+}
+
+    .vortex-rendered-event.task-type {
+        background: rgba(255, 159, 67, 0.15);
+        color: #ffb366;
+        border-left-color: var(--color-task);
+    }
+
+    .vortex-rendered-event.note-type {
+        background: rgba(0, 234, 151, 0.15);
+        color: #66ffcc;
+        border-left-color: var(--color-note);
+    }
+
+/* МОДАЛЬНОЕ ОКНО */
+.vortex-core-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-surface {
+    /* Добавляем переход для плавности */
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+    /* Убедитесь, что здесь нет !important */
+    background-color: #01080f;
+    border: 1px solid var(--vortex-accent);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
+    width: 460px;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--vortex-accent);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    transition: border-bottom-color 0.2s ease;
+    /* Убираем animation и box-shadow */
+}
+
+    .modal-top h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+    }
+
+.btn-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.vortex-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+    .vortex-form-group label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .vortex-form-group input, .vortex-form-group textarea {
+        background: #000;
+        border: 1px solid var(--vortex-border);
+        padding: 10px;
+        color: #fff;
+        border-radius: 50px;
+        border-radius: 4px;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+        .vortex-form-group input:focus, .vortex-form-group textarea:focus {
+            border-color: var(--vortex-accent);
+        }
+
+.datetime-row {
+    display: flex;
+    gap: 10px;
+}
+
+    .datetime-row input {
+        flex: 1;
+    }
+
+.modal-bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-vortex-success {
+    background: transparent;
+    border: 1px solid var(--vortex-accent);
+    color: var(--vortex-accent);
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .btn-vortex-success:hover {
+        background: var(--vortex-accent);
+        color: #000;
+    }
+
+.btn-vortex-danger {
+    background: transparent;
+    border: 1px solid #ff3366;
+    color: #ff3366;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+    .btn-vortex-danger:hover {
+        background: #ff3366;
+        color: #fff;
+    }
+
+/* ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ */
+.hidden-acl {
+    display: none !important;
+}
+
+.hidden-element {
+    display: none !important;
+}
+
+/* Исправление сетки месяца */
+
+
+.mesh-day-cell {
+    /* ... ваши стили ... */
+    overflow: hidden; /* Скрывает лишнее, чтобы не растягивать ячейку */
+    display: flex;
+    flex-direction: column;
+}
+
+.cell-events-container {
+    flex: 1;
+    overflow-y: auto; /* Скролл только внутри ячейки */
+    min-height: 0;
+}
+
+/* Контейнер всего календаря в режиме времени */
+.vortex-time-grid {
+    display: grid;
+    grid-template-columns: 60px repeat(auto-fit, minmax(100px, 1fr));
+    overflow-y: auto; /* Включает скролл */
+    height: 70vh; /* Ограничиваем высоту, чтобы появился скролл */
+    border: 1px solid #222;
+    background: #050505;
+}
+
+/* Липкий заголовок (Пн, Вт...) - остается вверху при скролле */
+.time-header-cell {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #0f0f0f;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    color: #fff;
+}
+
+/* Ячейка времени (слева) */
+.time-label-cell {
+    height: 60px;
+    border-bottom: 1px solid #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Сетчатые ячейки */
+.time-slot-cell {
+    height: 60px;
+    border-bottom: 1px solid #222;
+    border-left: 1px solid #222;
+}
+
+.time-axis {
+    border-right: 1px solid var(--vortex-border);
+    padding: 10px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* Контейнер для режима времени */
+.vortex-time-grid-container {
+    display: grid;
+    grid-template-columns: 60px repeat(auto-fit, minmax(100px, 1fr));
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Ячейка времени */
+.time-label {
+    height: 60px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 12px;
+}
+
+/* Ячейка события в сетке */
+.time-slot {
+    height: 60px;
+    border-bottom: 1px solid #333;
+    border-left: 1px solid #333;
+}
+
+/* Скрываем баннер в зависимости от режима */
+.mode-day .weekdays-banner,
+.mode-3day .weekdays-banner,
+.mode-week .weekdays-banner {
+    display: none !important;
+}
+
+/* Скрываем скроллбар для контейнера времени */
+.vortex-time-grid {
+    scrollbar-width: none; /* Для Firefox */
+}
+
+.vortex-time-grid::-webkit-scrollbar {
+    display: none; /* Для Chrome, Safari, Edge */
+    width: 0;
+    height: 0;
+}
+
+/* Основной контейнер сетки */
+.vortex-time-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    /* Эти 3 строки - ключ к скроллу */
+    flex: 1; /* Занимает всё доступное место */
+    overflow-y: auto; /* Включает скролл, если контент больше высоты */
+    height: 100%; /* Ограничивает высоту контейнера */
+    /* Скрытие полосы прокрутки */
+    scrollbar-width: none;
+}
+
+    /* Скрытие полосы прокрутки для Chrome/Safari/Edge */
+    .vortex-time-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+/* 1. Родительский контейнер (правая панель) */
+.vortex-cal-main-grid {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Растягивается на всю доступную ширину/высоту */
+    height: 100%; /* Ограничивает область контента */
+    overflow: hidden; /* Важно, чтобы ничего не вылезало наружу */
+}
+
+/* 2. Сама сетка дней (то, что должно прокручиваться) */
+.vortex-days-mesh {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    flex: 1; /* Занимает всё оставшееся место под заголовком */
+    overflow-y: auto; /* ВКЛЮЧАЕМ СКРОЛЛ */
+    min-height: 0; /* !!! КРИТИЧЕСКИ ВАЖНО !!! Это фиксит скролл во flexbox */
+}
+
+    /* 3. Скрытие полосы прокрутки (если нужно) */
+    .vortex-days-mesh::-webkit-scrollbar {
+        display: none;
+    }
+
+/* Кнопка в состоянии "Синхронизировано" */
+.btn-synced {
+    background-color: #28a745 !important; /* Зеленый цвет */
+    color: white !important;
+}
+
+/* Маленький текст для отмены */
+.sync-cancel-link {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 5px;
+    text-align: center;
+}
+
+    .sync-cancel-link:hover {
+        color: #d9534f; /* Красный при наведении */
+    }
+
+/* Базовый стиль кнопки (сделайте так, чтобы она могла содержать две строки) */
+#btnGoogleConnect {
+    transition: background-color 0.3s, color 0.3s;
+    /* Убедитесь, что у кнопки установлен flex, чтобы центрировать текст */
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Состояние: Синхронизировано */
+.btn-synced {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+/* Текст "Отменить" внутри кнопки */
+.cancel-text {
+    font-size: 10px;
+    text-decoration: underline;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+    .cancel-text:hover {
+        color: #ffcccc;
+    }
+
+/* Контейнер для кнопки */
+.sync-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    height: 40px;
+    align-items: center;
+}
+
+/* Состояние: Кнопка "Синхронизировано" (Узкая полоска) */
+.sync-btn-connected {
+    width: 3px; /* Ровно 3 пикселя */
+    height: 32px;
+    background-color: #00FFFF; /* Синий цвет */
+    /* Добавляем box-shadow для неона */
+    box-shadow: 0 0 8px #00FFFF;
+    /* Убираем padding, чтобы не было лишней ширины */
+    padding: 0;
+    /* Плавная анимация: добавляем padding, чтобы он тоже плавно появлялся */
+    transition: width 0.4s ease, padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden; /* Скрывает содержимое, пока кнопка узкая */
+    white-space: nowrap;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+    /* Состояние при наведении */
+    .sync-btn-connected:hover {
+        width: 200px; /* Расширяется */
+        padding: 0 10px; /* Возвращаем отступы для текста */
+        background-color: #28a745; /* Зеленый при наведении */
+        box-shadow: 0 0 15px #28a745; /* Зеленое свечение */
+    }
+
+/* Контент внутри кнопки */
+.btn-content {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    width: 180px; /* Фиксированная ширина для контента */
+    overflow: hidden;
+}
+
+.sync-btn-connected:hover .btn-content {
+    opacity: 1;
+}
+
+.sync-btn-connected a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 10px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Отключаем выделение текста при быстром клике на элементы выбора времени */
+.flatpickr-time input,
+.flatpickr-time .arrowUp,
+.flatpickr-time .arrowDown,
+.flatpickr-time .flatpickr-time-separator {
+    user-select: none;
+}
+
+/* Главный контейнер-строка для дат */
+.vortex-timeline-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+    /* Элементы полей (начало и конец) */
+    .vortex-timeline-row .timeline-field {
+        flex: 1; /* Равномерно делят пространство */
+        transition: all 0.25s ease-in-out;
+    }
+
+    /* Стилизация самих инпутов flatpickr */
+    .vortex-timeline-row input[type="text"] {
+        width: 100%;
+        background: #111;
+        color: #fff;
+        border: 1px solid #222;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+        .vortex-timeline-row input[type="text"]:focus {
+            border-color: var(--vortex-accent, #00ffcc);
+        }
+
+/* Контейнер для кастомного чекбокса-стрелки */
+.timeline-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vortex-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: #161616;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #222;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+    /* Меняем цвет рамки при наведении на стрелку */
+    .vortex-checkbox-label:hover {
+        border-color: #333;
+    }
+
+    /* Наш чекбокс */
+    .vortex-checkbox-label input[type="checkbox"] {
+        cursor: pointer;
+        accent-color: var(--vortex-accent, #00ffcc);
+        width: 16px;
+        height: 16px;
+        margin: 0;
+    }
+
+    /* Иконка стрелочки рядом с чекбоксом */
+    .vortex-checkbox-label .sync-arrow {
+        color: #555;
+        font-size: 13px;
+        transition: color 0.2s ease;
+    }
+
+    /* Подсвечиваем стрелку, если чекбокс активен */
+    .vortex-checkbox-label input[type="checkbox"]:checked + .sync-arrow {
+        color: var(--vortex-accent, #00ffcc);
+    }
+
+/* ==========================================================
+   КАНАЛЫ СТИЛЕЙ ДЛЯ КАСТОМНОГО ДРОПДАУНА СОТРУДНИКОВ (VORTEX OS)
+   ========================================================== */
+
+.vortex-dropdown-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px; /* Задаем отступ снизу до следующего поля формы */
+}
+
+/* Главная кнопка-плашка выбора сотрудников */
+.vortex-dropdown-trigger {
+    background: #050505 !important; /* Цвет var(--vortex-bg-black) */
+    border: 1px solid rgba(0, 229, 255, 0.15) !important; /* Тонкая неоновая граница */
+    padding: 12px 15px;
+    border-radius: 6px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    cursor: pointer;
+    min-height: 45px;
+    box-sizing: border-box;
+    text-align: left;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .vortex-dropdown-trigger:hover {
+        border-color: var(--vortex-accent, #00e5ff) !important;
+        box-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+    }
+
+/* Выпадающее меню со скроллом */
+.dropdown-menu {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    top: calc(100% + 4px); /* Небольшой зазор под кнопкой */
+    left: 0;
+    width: 100%;
+    background: #0d151d; /* Темный фон под цвет панелей CRM */
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 6px;
+    max-height: 220px; /* Ограничиваем высоту, чтобы не ломать модалку */
+    overflow-y: auto; /* Включаем вертикальный скролл */
+    z-index: 99999 !important; /* Максимальный приоритет, чтобы всплывать ПОВЕРХ других полей */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
+    box-sizing: border-box;
+}
+
+    /* Класс активации меню (добавляется через JS) */
+    .dropdown-menu.show {
+        display: block !important;
+    }
+
+/* Элемент списка (строка сотрудника) */
+.dropdown-item {
+    padding: 11px 15px;
+    color: #cbd5e1; /* Мягкий читаемый цвет текста */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    user-select: none; /* Запрещаем случайное выделение текста при кликах */
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+    /* Эффект наведения на сотрудника */
+    .dropdown-item:hover {
+        background: rgba(0, 229, 255, 0.08); /* Легкая неоновая подсветка фона */
+        color: #ffffff;
+    }
+
+    /* Стили для выбранного сотрудника (активное состояние) */
+    .dropdown-item.selected {
+        background: rgba(0, 229, 255, 0.15) !important;
+        color: var(--vortex-accent, #00e5ff) !important;
+        font-weight: 600;
+    }
+
+/* Стилизация полосы прокрутки внутри выпадающего списка */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.3);
+    border-radius: 3px;
+}
+
+    .dropdown-menu::-webkit-scrollbar-thumb:hover {
+        background: var(--vortex-accent, #00e5ff);
+    }
+
+
+
+
+
+/* ========================================================== 
+   ЦЕНТРАЛИЗОВАННЫЙ СТИЛЬ РАДУЖНОГО ПИКЕРА КАРТОЧЕК VORTEX OS 
+   ========================================================== */
+
+/* Улучшенный стиль для кружков в темной теме */
+.vortex-color-circle {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Добавляем легкое свечение для каждого цвета */
+    filter: brightness(1) !important;
+}
+
+    .vortex-color-circle:hover {
+        transform: scale(1.2) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        box-shadow: 0 0 12px currentColor !important;
+    }
+
+    .vortex-color-circle.active {
+        border-color: #ffffff !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 0 15px currentColor !important;
+        outline: 2px solid #0f172a; /* Обводка под цвет фона для объема */
+    }
+
+    /* 8-й кастомный круг */
+    .vortex-color-circle.custom-palette-btn {
+        background: #0f172a !important; /* Глубокий темный фон */
+        border: 2px solid #334155 !important;
+        color: #64748b !important;
+    }
+
+        .vortex-color-circle.custom-palette-btn.active {
+            border-color: #ffffff !important;
+            color: #ffffff !important;
+        }
+
+/* В вашем файле стилей */
+#modalTitle {
+    transition: color 0.3s ease; /* Плавный переход цвета */
+}
+
+
+/* Скрытие скролла для списка клиентов */
+.clients-list {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE и Edge */
+}
+
+    .clients-list::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+/* Красный цвет для просроченных задач */
+.day-view-event.task-overdue {
+    border-left-color: #ff4d4d !important;
+    background: rgba(255, 77, 77, 0.15) !important;
+    opacity: 0.9;
+}
+
+    .day-view-event.task-overdue:hover {
+        background: rgba(255, 77, 77, 0.25) !important;
+        transform: translateY(-4px) scale(1.02) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+        z-index: 9999 !important;
+    }
+
+/* Выравнивание поля "Создал задачу" */
+#createdByWrapper {
+    margin-top: -8px !important;
+}
+
+    #createdByWrapper label {
+        margin-bottom: 3px !important;
+    }

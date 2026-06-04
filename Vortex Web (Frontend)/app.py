@@ -3,6 +3,11 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
+@app.route('/calendar')
+def calendar_page():
+    return render_template('calendar.html')
+
 # 🚀 ДОБАВЬ ЭТОТ КЛАССИЧЕСКИЙ РОУТ ДЛЯ СТРАНИЦЫ ТАРИФОВ
 @app.route('/tariffs')
 def tariffs_page():
