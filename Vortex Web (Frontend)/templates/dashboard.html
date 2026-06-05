@@ -38,7 +38,8 @@
 
     <footer class="vortex-bottom-bar">
         <div class="vortex-tools-container">
-            <div class="vortex-trigger" onclick="vortexToggleTools()">
+            <!-- Кнопка "Инструменты" как круглая ячейка -->
+            <div class="vortex-trigger-cell" onclick="vortexToggleTools()">
                 <img src="{{ url_for('static', filename='images/tools.gif') }}">
             </div>
 
@@ -68,16 +69,14 @@
         </div>
 
         <div class="vortex-exit-zone">
-            <div class="vortex-exit-btn" onclick="vortexLogout()">
+            <!-- Кнопка "Выход" как круглая ячейка -->
+            <div class="vortex-exit-cell" onclick="vortexLogout()">
                 <img src="{{ url_for('static', filename='images/import.gif') }}">
             </div>
         </div>
 
         <div id="vortex-side-tasks" class="vortex-side-panel">
         </div>
-
-
-
     </footer>
 
     <div id="vortex-hint" class="vortex-ui-hint"></div>
