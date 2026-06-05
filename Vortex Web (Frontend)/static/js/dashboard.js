@@ -465,6 +465,50 @@ async function updateClientsCount() {
     }
 }
 
+// Функция для замены GIF на статику
+function makeGifStaticOnHover() {
+    const gifElements = document.querySelectorAll('.vortex-trigger-cell img, .vortex-exit-cell img, .vortex-tool-cell img');
+
+    gifElements.forEach(img => {
+        const originalSrc = img.src;
+        if (!originalSrc.toLowerCase().includes('.gif')) return;
+
+        // Создаем временное изображение для захвата первого кадра
+        const tempImg = new Image();
+        tempImg.src = originalSrc;
+
+        tempImg.onload = () => {
+            // Создаем canvas для первого кадра
+            const canvas = document.createElement('canvas');
+            canvas.width = tempImg.naturalWidth;
+            canvas.height = tempImg.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(tempImg, 0, 0);
+
+            // Сохраняем статичное изображение
+            const staticSrc = canvas.toDataURL();
+
+            // Устанавливаем статичное изображение по умолчанию
+            img.src = staticSrc;
+
+            // При наведении - GIF
+            img.parentElement.addEventListener('mouseenter', () => {
+                img.src = originalSrc + '?t=' + Date.now();
+            });
+
+            // При уходе - статика
+            img.parentElement.addEventListener('mouseleave', () => {
+                img.src = staticSrc;
+            });
+        };
+    });
+}
+
+// Вызов после загрузки страницы
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(makeGifStaticOnHover, 500);
+});
+
 // ========== ЗАПУСК ПРИ ЗАГРУЗКЕ ==========
 document.addEventListener('DOMContentLoaded', () => {
     vortexClock();
