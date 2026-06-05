@@ -304,6 +304,19 @@ function openProfile() { window.location.href = '/profile'; }
 async function updateSideTasks() {
     try {
         const token = localStorage.getItem('vortex_token');
+
+        // Получаем ID текущего пользователя из токена
+        let currentUserId = null;
+        try {
+            if (token) {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                currentUserId = payload.user_id || payload.id;
+                console.log("Текущий пользователь ID:", currentUserId);
+            }
+        } catch (e) {
+            console.error("Ошибка парсинга токена:", e);
+        }
+
         const res = await fetch(`${API_BASE_URL}/api/tasks/?my=1&limit=100`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -317,25 +330,39 @@ async function updateSideTasks() {
         const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
         const endOfToday = startOfToday + 24 * 60 * 60 * 1000;
 
-        // Фильтруем ВСЕ задачи на сегодня
+        // Фильтруем задачи: 
+        // 1. Только на сегодня
+        // 2. Только задачи текущего пользователя (проверяем assignees)
         const tasks = (data.tasks || []).filter(t => {
             let taskTime = parseInt(t.start_ts_ms || t.end_ts_ms || 0);
             if (taskTime > 0 && taskTime < 10000000000) taskTime *= 1000;
             const isNotDone = t.status !== 'done';
             const isExactlyToday = taskTime >= startOfToday && taskTime < endOfToday;
-            return isNotDone && isExactlyToday;
+
+            // Проверяем, назначена ли задача на текущего пользователя
+            let isAssignedToMe = false;
+            if (currentUserId && t.assignees && Array.isArray(t.assignees)) {
+                isAssignedToMe = t.assignees.some(assigneeId => parseInt(assigneeId) === parseInt(currentUserId));
+            }
+
+            // Если нет assignees, проверяем created_by
+            if (!isAssignedToMe && currentUserId && t.created_by) {
+                isAssignedToMe = parseInt(t.created_by) === parseInt(currentUserId);
+            }
+
+            return isNotDone && isExactlyToday && isAssignedToMe;
         });
 
         // Сортируем по времени
         tasks.sort((a, b) => (a.start_ts_ms || 0) - (b.start_ts_ms || 0));
 
-        let html = '<div class="side-panel-header">ЗАДАЧИ НА СЕГОДНЯ</div>';
+        let html = '<div class="side-panel-header">МОИ ЗАДАЧИ НА СЕГОДНЯ</div>';
         html += '<div class="side-tasks-list">';
 
         if (tasks.length === 0) {
             html += '<div class="mini-task-card" style="border:none; opacity:0.5; font-size:10px; text-align:center;">На сегодня задач нет</div>';
         } else {
-            // Рендерим ВСЕ задачи (без slice!)
+            // Рендерим ВСЕ задачи текущего пользователя
             html += tasks.map(t => {
                 const typeLabel = t.client_id > 0 ? 'КЛИЕНТ' : 'ЛИЧНАЯ';
 
@@ -403,6 +430,18 @@ async function updateSideTasks() {
 
         html += '</div>';
         container.innerHTML = html;
+
+        // Динамическая подстройка высоты под 8 задач
+        setTimeout(() => {
+            const cards = container.querySelectorAll('.mini-task-card');
+            if (cards.length > 0) {
+                const cardHeight = cards[0].offsetHeight;
+                const headerHeight = container.querySelector('.side-panel-header')?.offsetHeight || 40;
+                const targetVisible = Math.min(8, cards.length);
+                const newMaxHeight = headerHeight + (cardHeight * targetVisible) + (8 * targetVisible);
+                container.style.maxHeight = newMaxHeight + 'px';
+            }
+        }, 50);
 
     } catch (err) {
         console.error("Ошибка обновления боковой панели:", err);
