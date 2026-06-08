@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Карта</title>
     <link rel="stylesheet" href="../static/css/Card.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
 </head>
 <body class="vortex-runtime">
 
@@ -207,9 +209,7 @@
                          style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid #00E5FF; border-radius: 4px; background: rgba(0, 229, 255, 0.05);">
                         <img src="../static/images/filter.gif" style="width: 20px; height: 20px; pointer-events: none;">
                     </div>
-
-                    <div id="vortex-filter-menu"
-                         style="display: none; position: absolute; right: 0; top: 38px; background: #0a0a0a; border: 1px solid #00E5FF; border-radius: 6px; width: 150px; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); overflow: hidden;">
+                    <div id="vortex-filter-menu" style="display: none; position: absolute; right: 0; top: 38px; background: #0a0a0a; border: 1px solid #00E5FF; border-radius: 6px; width: 150px; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.9); overflow: hidden;">
                         <div class="filter-opt" onclick="setVortexFilter('all', event)">ВСЕ</div>
                         <div class="filter-opt" onclick="setVortexFilter('task', event)">ЗАДАЧИ</div>
                         <div class="filter-opt" onclick="setVortexFilter('note', event)">ЗАМЕТКИ</div>
@@ -220,9 +220,117 @@
                 </div>
             </div>
 
+            <!-- БЛОК ДЛЯ ЗАДАЧ (ПЕРВЫЙ, СВЕРХУ) -->
+            <!-- Блок для создания/редактирования задачи (прямо в панели) -->
+            <div class="vortex-task-editor" id="task-editor" style="display: none;">
+                <div class="sector-title" style="margin-bottom: 0;">
+                    <span id="task-editor-title">НОВАЯ ЗАДАЧА</span>
+                </div>
+                <div class="task-editor-body">
+                    <input type="hidden" id="edit-task-id" value="">
+
+                    <!-- Название задачи -->
+                    <label class="field-label">НАЗВАНИЕ</label>
+                    <input type="text" id="task-editor-title-input" class="field-input" placeholder="Что нужно сделать?">
+
+                    <!-- Описание -->
+                    <label class="field-label">ОПИСАНИЕ</label>
+                    <textarea id="task-editor-text-input" class="elegant-textarea" style="height: 80px !important; resize: vertical;" placeholder="Детали задачи..."></textarea>
+
+                    <!-- ВРЕМЕННЫЕ РАМКИ -->
+                    <label class="field-label">ВРЕМЕННЫЕ РАМКИ</label>
+                    <div class="task-timeline-row">
+                        <div class="timeline-field start-field">
+                            <input type="text" id="task-editor-start-datetime" class="field-input datetime-input" placeholder="Выберите дату и время начала...">
+                        </div>
+                        <div class="timeline-trigger">
+                            <label class="task-checkbox-label" title="Указать дату окончания">
+                                <input type="checkbox" id="task-enable-end-date">
+                                <i class="fa-solid fa-arrow-right-long sync-arrow"></i>
+                            </label>
+                        </div>
+                        <div id="task-end-date-row" class="timeline-field end-field" style="display: none;">
+                            <input type="text" id="task-editor-end-datetime" class="field-input datetime-input" placeholder="Выберите дату и время окончания...">
+                        </div>
+                    </div>
+
+                    <!-- Статус выполнения -->
+                    <label class="field-label">СТАТУС ВЫПОЛНЕНИЯ</label>
+                    <select id="task-editor-status" class="field-input" style="margin-bottom: 15px;">
+                        <option value="open">⚪ Новая (Ждет)</option>
+                        <option value="in_progress">🟡 В работе</option>
+                        <option value="urgent">🟠 Срочно</option>
+                        <option value="waiting">⚫ В ожидании</option>
+                        <option value="attention">🟣 Требует внимания</option>
+                        <option value="done">🟢 Завершена</option>
+                    </select>
+
+                    <!-- Создал задачу - скрываем при создании новой -->
+                    <div id="task-creator-wrapper" style="display: none;">
+                        <label class="field-label">СОЗДАЛ ЗАДАЧУ</label>
+                        <div class="task-creator-info">
+                            <span id="task-creator-name" style="color: var(--vortex-accent);">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Исполнитель -->
+                    <label class="field-label">ИСПОЛНИТЕЛЬ</label>
+                    <select id="task-editor-assignee" class="field-input" style="margin-bottom: 15px;">
+                        <option value="">Без исполнителя</option>
+                    </select>
+
+                    <!-- Цветовая метка -->
+                    <label class="field-label">ЦВЕТОВАЯ МЕТКА</label>
+                    <div id="task-color-picker-container" style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;"></div>
+
+                    <!-- Длительность -->
+                    <label class="field-label">ДЛИТЕЛЬНОСТЬ (МИНУТ)</label>
+                    <input type="number" id="task-editor-duration" class="field-input" value="30" style="margin-bottom: 15px;">
+
+                    <div class="task-editor-buttons">
+                        <button class="vortex-task-save-btn" onclick="saveTaskFromEditor()">СОХРАНИТЬ</button>
+                        <button id="delete-task-editor-btn" class="vortex-task-delete-btn" style="display: none;" onclick="deleteTaskFromEditor()">УДАЛИТЬ</button>
+                        <button class="vortex-task-cancel-btn" onclick="closeTaskEditor()">ОТМЕНА</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК ДЛЯ ЗАМЕТОК -->
+            <div class="vortex-note-editor" id="note-editor" style="display: none;">
+                <div class="sector-title" style="margin-bottom: 0;">
+                    <span id="note-editor-title">НОВАЯ ЗАМЕТКА</span>
+                </div>
+                <div class="note-editor-body">
+                    <input type="hidden" id="edit-note-id" value="">
+                    <input type="text" id="note-editor-title-input" class="field-input" placeholder="Заголовок заметки...">
+                    <textarea id="note-editor-text-input" class="elegant-textarea" style="height: 100px !important; resize: vertical;" placeholder="Текст заметки..."></textarea>
+                    <div class="note-editor-buttons">
+                        <button class="vortex-note-save-btn" onclick="saveNoteFromEditor()">СОХРАНИТЬ</button>
+                        <button id="delete-note-editor-btn" class="vortex-note-delete-btn" style="display: none;" onclick="deleteNoteFromEditor()">УДАЛИТЬ</button>
+                        <button class="vortex-note-cancel-btn" onclick="closeNoteEditor()">ОТМЕНА</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК ДЛЯ КОММЕНТАРИЕВ -->
+            <div class="vortex-comment-creator" id="comment-creator" style="display: none;">
+                <div class="sector-title" style="margin-bottom: 0;">
+                    <span>НОВЫЙ КОММЕНТАРИЙ</span>
+                </div>
+                <div class="comment-creator-body">
+                    <textarea id="comment-creator-text" class="elegant-textarea" style="height: 100px !important; resize: vertical;" placeholder="Введите текст комментария..."></textarea>
+                    <div class="comment-creator-buttons">
+                        <button class="vortex-comment-save-btn" onclick="saveCommentFromCreator()">СОХРАНИТЬ</button>
+                        <button class="vortex-comment-cancel-btn" onclick="closeCommentCreator()">ОТМЕНА</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="pinned-notes-container" style="position: relative; z-index: 1;"></div>
             <div id="right-panel-display" class="fields-scroll-area" style="position: relative; z-index: 1;"></div>
         </div>
+
+
 
     </div>
 
@@ -249,44 +357,9 @@
         </div>
     </div>
 
-    <div id="comment-modal" class="comment-modal-overlay" style="display: none;">
-        <div class="elegant-modal-size">
-            <div class="modal-body-fixed">
-                <div class="elegant-modal-header">НОВЫЙ КОММЕНТАРИЙ</div>
 
-                <textarea id="comment-text-input" class="elegant-textarea" placeholder="Введите текст комментария..."></textarea>
 
-                <div class="elegant-buttons-row">
-                    <button class="elegant-action-btn" onclick="saveComment()">СОХРАНИТЬ</button>
-                    <button class="elegant-cancel-btn" onclick="closeCommentModal()">ОТМЕНА</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="note-modal" class="comment-modal-overlay" style="display: none;">
-        <div class="elegant-modal-size" style="box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(191, 64, 191, 0.15) !important;">
-            <div class="modal-body-fixed">
-                <div class="elegant-modal-header" id="note-modal-header" style="color: #BF40BF;">НОВАЯ ЗАМЕТКА</div>
-
-                <input type="hidden" id="edit-note-id" value="">
-
-                <input type="text" id="note-title-input" class="elegant-textarea"
-                       style="height: 45px !important; margin-bottom: 12px; font-weight: bold;"
-                       placeholder="Заголовок заметки...">
-
-                <textarea id="note-text-input" class="elegant-textarea" placeholder="Текст заметки..."></textarea>
-
-                <div class="elegant-buttons-row">
-                    <button class="elegant-action-btn" style="border-color: #BF40BF; color: #BF40BF; background: rgba(191, 64, 191, 0.1);" onclick="saveNote()">СОХРАНИТЬ</button>
-
-                    <button id="delete-note-btn" class="elegant-cancel-btn" style="color: #ff4d4d; border-color: #ff4d4d; display: none;" onclick="deleteNote()">УДАЛИТЬ</button>
-
-                    <button class="elegant-cancel-btn" onclick="closeNoteModal()">ОТМЕНА</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="task-modal" class="comment-modal-overlay" style="display: none;">
         <div class="elegant-modal-size" style="box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0, 229, 255, 0.2) !important;">
@@ -326,6 +399,11 @@
     <script src="../static/js/mailru/CardMail.js"></script>
     <script src="../static/js/cart/CardHistoryExtension.js"></script>
     <script src="../static/js/cart/CardUserExtension.js"></script>
+    <script src="../static/js/cart/CardNotesExtension.js"></script>
+    <script src="../static/js/cart/CardCommentsExtension.js"></script>
+    <script src="../static/js/cart/CardTasksExtension.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 
 </body>
 </html>

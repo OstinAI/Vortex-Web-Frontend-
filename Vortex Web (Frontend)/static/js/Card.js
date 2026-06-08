@@ -59,6 +59,17 @@ async function initPurchasesSection() {
     }
 }
 
+// Функция для экранирования HTML спецсимволов
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // Автоматическое создание поля в базе, если его нет
 async function getOrCreateHistoryField() {
     const token = localStorage.getItem('vortex_token');
@@ -1349,7 +1360,7 @@ window.onclick = function (event) {
 function openChat() { console.log("Чат"); }
 function openMail() { console.log("Почта"); }
 function openTasks() { console.log("Задачи"); }
-function openNotes() { console.log("Заметка"); }
+
 
 
 // Глобальная функция для открытия модального окна комментария
@@ -1480,25 +1491,35 @@ async function loadClientHistory() {
 
             // 1. ЗАКРЕПЛЕННЫЕ ЗАМЕТКИ
             if (item.type === 'note') {
-                const [title, ...descParts] = decodedText.split(' | ');
-                const body = descParts.join(' | ');
-                const safeTitle = title.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                const safeBody = body.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                const parts = decodedText.split(' | ');
+                const title = parts[0] || '';
+                const body = parts.slice(1).join(' | ') || '';
+
+                // Экранируем для onclick (убираем переносы строк и экранируем кавычки)
+                const cleanTitle = title.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 200);
+                const cleanBody = body.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 500);
+
+                // Для отображения
+                const displayTitle = title.replace(/\n/g, '<br>');
+                const displayBody = body.replace(/\n/g, '<br>');
 
                 element.className = 'history-item is-pinned-note';
                 element.style.cursor = 'pointer';
-                element.setAttribute('onclick', `editNote(${item.id}, '${safeTitle}', '${safeBody}')`);
+                element.onclick = function () {
+                    editNote(item.id, title, body);
+                };
 
                 element.innerHTML = `
-                    <div class="history-meta">
-                        <span class="history-date">${dateStr}</span>
-                        <span class="note-badge">ЗАМЕТКА</span>
-                    </div>
-                    <span class="note-caption">📍 ${title}</span>
-                    <div class="note-body">${body}</div>
-                `;
+        <div class="history-meta">
+            <span class="history-date">${dateStr}</span>
+            <span class="note-badge">ЗАМЕТКА</span>
+        </div>
+        <span class="note-caption">📍 ${displayTitle}</span>
+        <div class="note-body">${displayBody}</div>
+    `;
                 pinnedArea.appendChild(element);
             }
+
             // 2. ЗАДАЧИ
             else if (item.type === 'task') {
                 const isDone = item.status === 'done';
@@ -1506,99 +1527,102 @@ async function loadClientHistory() {
 
                 const title = item.title || "Без названия";
                 const body = item.description || "";
-                const deadlineStr = item.start_ts_ms ? new Date(item.start_ts_ms).toLocaleString('ru-RU') : "Срок не задан";
+
+                // ПАРСИМ ЦВЕТ ИЗ ОПИСАНИЯ
+                let taskColor = item.color || '#FF9800';
+                let cleanBody = body;
+
+                // Ищем тег цвета в описании
+                const colorRegex = /\[color:\s*(#[0-9A-Fa-f]{6})\]/i;
+                const colorMatch = body.match(colorRegex);
+                if (colorMatch) {
+                    taskColor = colorMatch[1];
+                    cleanBody = body.replace(colorRegex, '').trim();
+                }
+
+                // Если задача просрочена - красный цвет
+                if (isOverdue) {
+                    taskColor = '#ff4d4d';
+                }
+                // Если задача выполнена - зеленый
+                if (isDone) {
+                    taskColor = '#28a745';
+                }
+
+                const deadlineMs = item.start_ts_ms || 0;
+                const deadlineStr = deadlineMs ? new Date(deadlineMs).toLocaleString('ru-RU') : "Срок не задан";
 
                 const assigneeId = (item.assignees && item.assignees.length > 0) ? item.assignees[0] : null;
                 const assigneeName = assigneeId ? employeesCache[assigneeId] : null;
                 const responsibleHtml = assigneeName ? `<span style="margin-left: 10px;">👤 ${assigneeName}</span>` : '';
 
-                let taskAccentColor = "#FF9800";
-                if (isDone) taskAccentColor = "#28a745";
-                if (isOverdue) taskAccentColor = "#ff4d4d";
-
-                const safeTitle = title.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                const safeBody = body.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                const isoDeadline = item.start_ts_ms ? new Date(item.start_ts_ms).toISOString().slice(0, 16) : '';
+                const safeTitle = title.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safeBody = cleanBody.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
                 element.className = `history-item is-task-item ${isDone ? 'task-completed' : ''} ${isOverdue ? 'task-overdue' : ''}`;
 
-                // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
                 if (isOverdue) {
-                    element.style.cursor = 'not-allowed'; // Курсор "запрещено"
-                    element.style.opacity = '0.8';        // Немного приглушим цвет
-                    // НЕ добавляем onclick, если задача просрочена
+                    element.style.cursor = 'not-allowed';
+                    element.style.opacity = '0.8';
                 } else {
                     element.style.cursor = 'pointer';
-                    // Очищаем safeBody от переносов строк
-                    const cleanBody = safeBody.replace(/[\n\r]+/g, ' ').trim();
-                    element.setAttribute('onclick', `editTask(${item.id}, '${safeTitle}', '${cleanBody}', '${isoDeadline}', '${assigneeId || ''}')`);
+                    element.onclick = function () {
+                        editTask(item.id, title, cleanBody, deadlineMs, 0, assigneeId || '', item.status, taskColor, item.duration, item.created_by_name);
+                    };
                 }
-                // -----------------------
 
-                element.style.borderLeft = `3px solid ${taskAccentColor}`;
-
-                if (assigneeName) {
-                    element.setAttribute('data-author', assigneeName.toUpperCase());
-                }
+                element.style.borderLeft = `3px solid ${taskColor}`;
 
                 element.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div style="flex: 1;">
-                            <div class="history-meta" style="margin-bottom: 5px;">
-                                <span class="history-date">${dateStr}</span>
-                                <span class="system-badge" style="
-                                    background: ${isDone ? 'rgba(40, 167, 69, 0.1)' : 'rgba(255, 152, 0, 0.1)'}; 
-                                    border-color: ${taskAccentColor}; 
-                                    color: ${taskAccentColor} !important; 
-                                    font-weight: bold;">
-                                    ${isDone ? 'ВЫПОЛНЕНО ✓' : (isOverdue ? 'ПРОСРОЧЕНО ⚠' : 'ЗАДАЧА')}
-                                </span>
-                            </div>
-                            <div style="color: ${taskAccentColor}; font-weight: 800; font-size: 13px; text-decoration: ${isDone ? 'line-through' : 'none'};">
-                                📌 ${title}
-                            </div>
-                            <div style="color: ${isDone ? '#666' : '#eee'}; font-size: 12px; margin-top: 2px;">${body}</div>
-                            <div style="margin-top: 8px; font-size: 11px; color: ${taskAccentColor}; opacity: 0.8;">
-                                📅 Срок: ${deadlineStr} ${responsibleHtml}
-                            </div>
-                        </div>
-                        ${(!isDone && !isOverdue) ? `
-                            <button class="mini-btn" 
-                                    style="background: #28a745; color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: none; margin-left: 15px; cursor: pointer;" 
-                                    onclick="event.stopPropagation(); completeTask(${item.id})">
-                                ✓
-                            </button>
-                        ` : ''}
-                    </div>
-                `;
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="flex: 1;">
+                <div class="history-meta" style="margin-bottom: 5px;">
+                    <span class="history-date">${dateStr}</span>
+                    <span class="system-badge" style="background: ${isDone ? 'rgba(40, 167, 69, 0.1)' : 'rgba(255, 152, 0, 0.1)'}; border-color: ${taskColor}; color: ${taskColor} !important; font-weight: bold;">
+                        ${isDone ? 'ВЫПОЛНЕНО ✓' : (isOverdue ? 'ПРОСРОЧЕНО ⚠' : 'ЗАДАЧА')}
+                    </span>
+                </div>
+                <div style="color: ${taskColor}; font-weight: 800; font-size: 13px; text-decoration: ${isDone ? 'line-through' : 'none'};">
+                    📌 ${title}
+                </div>
+                <div style="color: ${isDone ? '#666' : '#eee'}; font-size: 12px; margin-top: 2px;">${safeBody}</div>
+                <div style="margin-top: 8px; font-size: 11px; color: ${taskColor}; opacity: 0.8;">
+                    📅 Срок: ${deadlineStr} ${responsibleHtml}
+                    ${item.duration ? ` ⏱ Длительность: ${item.duration} мин` : ''}
+                    ${item.created_by_name ? ` 👤 Создал: ${item.created_by_name}` : ''}
+                </div>
+            </div>
+            ${(!isDone && !isOverdue) ? `
+                <button class="mini-btn" 
+                        style="background: #28a745; color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: none; margin-left: 15px; cursor: pointer;" 
+                        onclick="event.stopPropagation(); completeTaskFromEditor(${item.id})">
+                    ✓
+                </button>
+            ` : ''}
+        </div>
+    `;
                 mainLog.appendChild(element);
             }
-            // 3. КОММЕНТАРИИ, СИСТЕМА И ОПЛАТЫ
-            else {
+
+            // 3. КОММЕНТАРИИ
+            else if (item.type === 'comment') {
                 element.className = 'history-item';
-                const isComment = item.type === 'comment';
-                const isPayment = decodedText.includes('[ОПЛАТА]') || decodedText.includes('Добавлена оплата');
+                element.style.cursor = 'pointer';
 
-                let badgeHtml = '';
-                let textStyle = '';
+                // Очищаем текст от переносов для onclick
+                const cleanText = decodedText.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 500);
 
-                if (isPayment) {
-                    badgeHtml = `<span class="system-badge" style="background: rgba(40, 167, 69, 0.1); border-color: #28a745; color: #28a745; font-weight: bold;">ОПЛАТА</span>`;
-                    textStyle = 'color: #28a745; font-weight: 500;';
-                    element.style.borderLeft = '3px solid #28a745';
-                } else if (isComment) {
-                    badgeHtml = `<span class="comment-badge" style="background: rgba(255, 235, 59, 0.1); border-color: #fdd835; color: #fdd835; font-weight: bold;">КОММЕНТАРИЙ</span>`;
-                } else {
-                    badgeHtml = `<span class="system-badge">СИСТЕМА</span>`;
-                }
+                element.onclick = function () {
+                    editComment(item.id, decodedText);
+                };
 
                 element.innerHTML = `
-                    <div class="history-meta">
-                        <span class="history-date">${dateStr}</span>
-                        ${badgeHtml}
-                    </div>
-                    <div class="history-text" style="${textStyle}">${decodedText}</div>
-                `;
+        <div class="history-meta">
+            <span class="history-date">${dateStr}</span>
+            <span class="comment-badge">КОММЕНТАРИЙ</span>
+        </div>
+        <div class="history-text">${decodedText.replace(/\n/g, '<br>')}</div>
+    `;
                 mainLog.appendChild(element);
             }
         });
@@ -1656,175 +1680,17 @@ function fixEncoding(text) {
     return result;
 }
 
-/**
- * Открывает модальное окно для создания закрепленной заметки
- */
-function openNotes() {
-    const modal = document.getElementById('note-modal');
-    const modalHeader = document.getElementById('note-modal-header');
-    const deleteBtn = document.getElementById('delete-note-btn');
-    const editIdInput = document.getElementById('edit-note-id');
 
-    if (modal) {
-        // 1. Устанавливаем заголовок "Новая заметка"
-        if (modalHeader) modalHeader.innerText = "НОВАЯ ЗАМЕТКА";
 
-        // 2. Очищаем скрытый ID (чтобы система поняла, что это создание, а не редактирование)
-        if (editIdInput) editIdInput.value = '';
 
-        // 3. Очищаем поля ввода
-        document.getElementById('note-title-input').value = '';
-        document.getElementById('note-text-input').value = '';
-
-        // 4. Прячем кнопку удаления (при создании новой она не нужна)
-        if (deleteBtn) deleteBtn.style.display = 'none';
-
-        // 5. Показываем модальное окно
-        modal.style.display = 'flex';
-
-        // 6. Ставим фокус на заголовок
-        setTimeout(() => {
-            document.getElementById('note-title-input').focus();
-        }, 100);
-    }
-}
-
-/**
- * Закрывает модальное окно заметки
- */
-function closeNoteModal() {
-    const modal = document.getElementById('note-modal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-}
-
-/**
- * Сохраняет заметку с типом "note"
- */
-async function saveNote() {
-    const noteId = document.getElementById('edit-note-id').value;
-    const clientId = new URLSearchParams(window.location.search).get('id');
-    const title = document.getElementById('note-title-input').value.trim();
-    const text = document.getElementById('note-text-input').value.trim();
-
-    if (!title || !text) return alert("Заполните заголовок и описание!");
-
-    // Если noteId есть — это обновление (маршрут /id), если нет — создание (маршрут /)
-    const url = noteId ? `${API_BASE_URL}/api/notes/${noteId}` : `${API_BASE_URL}/api/notes/`;
-
-    // ВАЖНО: Твой бэкенд ожидает POST для обоих случаев!
-    const method = 'POST';
-
-    try {
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('vortex_token')}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                client_id: parseInt(clientId),
-                description: `${title} | ${text}`,
-                type: "note"
-            })
-        });
-
-        if (response.ok) {
-            closeNoteModal();
-            loadClientHistory();
-        } else {
-            const err = await response.json();
-            alert("Ошибка: " + (err.message || "Не удалось сохранить"));
-        }
-    } catch (e) {
-        console.error("Ошибка запроса:", e);
-    }
-}
-
-function editNote(id, title, body) {
-    const modal = document.getElementById('note-modal');
-    document.getElementById('note-modal-header').innerText = "РЕДАКТИРОВАНИЕ ЗАМЕТКИ";
-    document.getElementById('edit-note-id').value = id;
-    document.getElementById('note-title-input').value = title;
-    document.getElementById('note-text-input').value = body;
-
-    // Показываем кнопку удаления
-    document.getElementById('delete-note-btn').style.display = 'block';
-
-    modal.style.display = 'flex';
-}
-
-async function deleteNote() {
-    const noteId = document.getElementById('edit-note-id').value;
-    if (!noteId) return;
-
-    if (!confirm("Вы уверены, что хотите удалить эту заметку?")) return;
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
-        });
-
-        if (response.ok) {
-            closeNoteModal();
-            loadClientHistory();
-        } else {
-            alert("Ошибка при удалении");
-        }
-    } catch (e) { console.error(e); }
-}
 
 // 0. Кэш сотрудников (добавь в самое начало Card.js)
 let employeesCache = {};
 
-/**
- * Открывает модальное окно для создания НОВОЙ задачи
- */
+// Функция openTasks перенесена в CardTasksExtension.js
 async function openTasks() {
-    const modal = document.getElementById('task-modal');
-    if (!modal) return;
-
-    // 1. Очистка ID и полей
-    const idInput = document.getElementById('edit-task-id');
-    if (idInput) idInput.value = '';
-
-    document.getElementById('task-title-input').value = '';
-    document.getElementById('task-text-input').value = '';
-
-    // Работа с календарем
-    const deadlineInput = document.getElementById('task-deadline');
-    if (deadlineInput) {
-        deadlineInput.value = '';
-        deadlineInput.onkeydown = function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                this.blur();
-            }
-        };
-        deadlineInput.onclick = function () {
-            if (this.value) {
-                this.blur();
-            }
-        };
-    }
-
-    // 2. Сброс заголовка
-    const header = modal.querySelector('.elegant-modal-header');
-    if (header) {
-        header.innerText = "ПОСТАНОВКА ЗАДАЧИ";
-        header.style.color = "#00E5FF";
-    }
-
-    const select = document.getElementById('task-assignee-select');
-    if (select) select.value = '';
-
-    // 3. Сначала загружаем сотрудников, чтобы они были в кэше для отображения имен
-    await loadUsersToTaskSelect();
-
-    // 4. Показываем модальное окно
-    modal.style.display = 'flex';
+    // Игнорируем, используем расширение
+    console.log("openTasks из Card.js игнорируется");
 }
 
 /**

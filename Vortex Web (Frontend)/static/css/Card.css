@@ -1677,3 +1677,446 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     pointer-events: none; /* Отключаем клики внутри, пока блок скрыт */
     transition: filter 0.1s ease; /* Быстрое исчезновение/появление */
 }
+
+
+/* Блок редактирования заметки прямо в панели */
+.vortex-note-editor {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(191, 64, 191, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.note-editor-body {
+    padding: 15px;
+}
+
+    .note-editor-body .field-input {
+        margin-bottom: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .note-editor-body .elegant-textarea {
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.note-editor-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+    .note-editor-buttons button {
+        padding: 6px 15px;
+        font-size: 11px;
+    }
+
+/* Кнопки для редактора заметок в стиле Vortex */
+.vortex-note-save-btn {
+    background: linear-gradient(135deg, #00E5FF 0%, #0099cc 100%);
+    border: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+    .vortex-note-save-btn:hover {
+        background: linear-gradient(135deg, #00ffff 0%, #00b3e6 100%);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+        transform: scale(1.02);
+    }
+
+.vortex-note-delete-btn {
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .vortex-note-delete-btn:hover {
+        background: #ff4d4d;
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+        transform: scale(1.02);
+    }
+
+.vortex-note-cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #888;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .vortex-note-cancel-btn:hover {
+        border-color: #fff;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+
+/* Блок для комментариев */
+.vortex-comment-editor {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.3s ease;
+}
+
+.comment-editor-body {
+    padding: 15px;
+}
+
+    .comment-editor-body .elegant-textarea {
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.comment-editor-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Блок для комментариев */
+.vortex-comment-editor {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.3s ease;
+}
+
+.comment-editor-body {
+    padding: 15px;
+}
+
+    .comment-editor-body .elegant-textarea {
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.comment-editor-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Блок для создания комментария (появляется сверху) */
+.vortex-comment-creator {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.3s ease;
+}
+
+.comment-creator-body {
+    padding: 15px;
+}
+
+    .comment-creator-body .elegant-textarea {
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.comment-creator-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Кнопки для комментариев */
+.vortex-comment-save-btn {
+    background: linear-gradient(135deg, #FFD700 0%, #cc9900 100%);
+    border: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+    .vortex-comment-save-btn:hover {
+        background: linear-gradient(135deg, #ffe44d 0%, #e6b800 100%);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        transform: scale(1.02);
+    }
+
+.vortex-comment-cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #888;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .vortex-comment-cancel-btn:hover {
+        border-color: #FFD700;
+        color: #FFD700;
+        background: rgba(255, 215, 0, 0.1);
+    }
+
+
+/* Блок для задач */
+.vortex-task-editor {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideDown 0.3s ease;
+}
+
+.task-editor-body {
+    padding: 15px;
+}
+
+    .task-editor-body .field-input {
+        margin-bottom: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .task-editor-body .elegant-textarea {
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.task-editor-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Кнопки для задач */
+.vortex-task-save-btn {
+    background: linear-gradient(135deg, #00E5FF 0%, #0099cc 100%);
+    border: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+    .vortex-task-save-btn:hover {
+        background: linear-gradient(135deg, #00ffff 0%, #00b3e6 100%);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+        transform: scale(1.02);
+    }
+
+.vortex-task-delete-btn {
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .vortex-task-delete-btn:hover {
+        background: #ff4d4d;
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+        transform: scale(1.02);
+    }
+
+.vortex-task-cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #888;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .vortex-task-cancel-btn:hover {
+        border-color: #00E5FF;
+        color: #00E5FF;
+        background: rgba(0, 229, 255, 0.1);
+    }
+
+/* Цветовые кружки для задач */
+.task-color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+    .task-color-circle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px currentColor;
+    }
+
+/* Временные рамки - компактные */
+.task-timeline-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+    .task-timeline-row .timeline-field {
+        flex: 1;
+    }
+
+    .task-timeline-row .datetime-input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--vortex-border);
+        color: #fff;
+        padding: 8px 10px;
+        border-radius: 4px;
+        outline: none;
+        font-size: 13px;
+        cursor: pointer;
+        height: 32px;
+        box-sizing: border-box;
+    }
+
+        .task-timeline-row .datetime-input:focus {
+            border-color: var(--vortex-accent);
+        }
+
+        .task-timeline-row .datetime-input:hover {
+            border-color: var(--vortex-accent);
+        }
+
+/* ПРИНУДИТЕЛЬНОЕ ВЫРАВНИВАНИЕ ЧЕКБОКСА */
+.task-timeline-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.timeline-trigger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.task-checkbox-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+}
+
+    .task-checkbox-label input[type="checkbox"] {
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+    }
+
+    .task-checkbox-label .sync-arrow {
+        display: none;
+    }
+
+/* Контейнер триггера */
+.timeline-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+}
+
+/* Информация о создателе */
+.task-creator-info {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--vortex-border);
+}

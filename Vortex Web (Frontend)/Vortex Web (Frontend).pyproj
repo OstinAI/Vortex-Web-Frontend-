@@ -124,7 +124,10 @@
     <Content Include="static\js\calendar\multi-day-view.js" />
     <Content Include="static\js\calendar\year-view.js" />
     <Content Include="static\js\Card.js" />
+    <Content Include="static\js\cart\CardCommentsExtension.js" />
     <Content Include="static\js\cart\CardHistoryExtension.js" />
+    <Content Include="static\js\cart\CardNotesExtension.js" />
+    <Content Include="static\js\cart\CardTasksExtension.js" />
     <Content Include="static\js\cart\CardUserExtension.js" />
     <Content Include="static\js\config.js" />
     <Content Include="static\js\contact.js" />
