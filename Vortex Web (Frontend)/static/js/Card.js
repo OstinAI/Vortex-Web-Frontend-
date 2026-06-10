@@ -528,6 +528,53 @@ function initResizers() {
     }
 }
 
+// Сохранение высоты секций для планшета
+function initSectorSizes() {
+    const saved = JSON.parse(localStorage.getItem('vortex_crm_sector_sizes') || '{}');
+    const topSector = document.getElementById('sector-top');
+    const middleSector = document.getElementById('sector-middle');
+    const bottomSector = document.getElementById('sector-bottom');
+
+    if (saved.top && topSector) {
+        topSector.style.height = saved.top;
+        topSector.style.flex = 'none';
+    }
+    if (saved.middle && middleSector) {
+        middleSector.style.height = saved.middle;
+        middleSector.style.flex = 'none';
+    }
+
+    // Если нет сохраненных размеров, устанавливаем пропорции
+    if (!saved.top && !saved.middle && window.innerWidth <= 1024) {
+        // На планшете: информационная часть меньше, оплаты и задачи больше
+        if (topSector) topSector.style.flex = '1';
+        if (middleSector) middleSector.style.flex = '2';
+        if (bottomSector) bottomSector.style.flex = '1';
+    }
+}
+
+// Вызвать после загрузки страницы
+document.addEventListener('DOMContentLoaded', () => {
+    // ... существующий код
+    initSectorSizes();
+});
+
+// Следить за изменением ориентации экрана
+window.addEventListener('resize', () => {
+    setTimeout(() => {
+        const topSector = document.getElementById('sector-top');
+        const middleSector = document.getElementById('sector-middle');
+
+        // Если на планшете и нет сохраненных размеров - сбрасываем на пропорции
+        if (window.innerWidth <= 1024) {
+            if (!topSector.style.height && !middleSector.style.height) {
+                topSector.style.flex = '1';
+                middleSector.style.flex = '2';
+            }
+        }
+    }, 100);
+});
+
 function saveSizes() {
     const sizes = { top: document.getElementById('sector-top').style.height, middle: document.getElementById('sector-middle').style.height };
     localStorage.setItem('vortex_crm_sector_sizes', JSON.stringify(sizes));
