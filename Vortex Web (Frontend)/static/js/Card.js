@@ -462,18 +462,70 @@ function showSuccessStatus() {
 
 function initResizers() {
     const resizers = document.querySelectorAll('.sector-resizer');
+
     resizers.forEach(resizer => {
-        resizer.addEventListener('mousedown', (e) => {
-            const targetEl = document.getElementById(resizer.getAttribute('data-target'));
-            const startY = e.pageY; const startH = targetEl.getBoundingClientRect().height;
-            const onMove = (me) => {
-                const h = startH + (me.pageY - startY);
-                if (h > 50) { targetEl.style.height = h + 'px'; targetEl.style.flex = 'none'; }
-            };
-            const onUp = () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); saveSizes(); };
-            document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
-        });
+        // Поддержка мыши
+        resizer.addEventListener('mousedown', startVerticalResize);
+        // Поддержка touch
+        resizer.addEventListener('touchstart', startVerticalResizeTouch);
     });
+
+    function startVerticalResize(e) {
+        e.preventDefault();
+        const targetEl = document.getElementById(resizer.getAttribute('data-target'));
+        const startY = e.pageY;
+        const startH = targetEl.getBoundingClientRect().height;
+
+        resizer.classList.add('is-dragging');
+
+        function onMove(me) {
+            const h = startH + (me.pageY - startY);
+            if (h > 50) {
+                targetEl.style.height = h + 'px';
+                targetEl.style.flex = 'none';
+            }
+        }
+
+        function onUp() {
+            resizer.classList.remove('is-dragging');
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            saveSizes();
+        }
+
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    }
+
+    function startVerticalResizeTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const targetEl = document.getElementById(resizer.getAttribute('data-target'));
+        const startY = touch.clientY;
+        const startH = targetEl.getBoundingClientRect().height;
+
+        resizer.classList.add('is-dragging');
+
+        function onTouchMove(moveEvent) {
+            moveEvent.preventDefault();
+            const touchMove = moveEvent.touches[0];
+            const h = startH + (touchMove.clientY - startY);
+            if (h > 50) {
+                targetEl.style.height = h + 'px';
+                targetEl.style.flex = 'none';
+            }
+        }
+
+        function onTouchEnd() {
+            resizer.classList.remove('is-dragging');
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+            saveSizes();
+        }
+
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd);
+    }
 }
 
 function saveSizes() {
@@ -861,50 +913,89 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Функция для изменения ширины зон
+// Функция для изменения ширины зон (с поддержкой touch)
 function initHorizontalResizers() {
     const resizers = document.querySelectorAll('.vortex-resizer-h');
 
     resizers.forEach(resizer => {
-        resizer.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            const targetId = resizer.getAttribute('data-target');
-            const targetEl = document.getElementById(targetId);
-            const startX = e.pageX;
-            const startWidth = targetEl.getBoundingClientRect().width;
-
-            resizer.classList.add('is-dragging');
-
-            const onMouseMove = (moveEvent) => {
-                const deltaX = moveEvent.pageX - startX;
-                const newWidth = startWidth + deltaX;
-
-                // Изменили лимит со 150 до 80, чтобы панель физически можно было сжать сильнее
-                if (newWidth > 80) {
-                    targetEl.style.width = newWidth + 'px';
-                    targetEl.style.flex = 'none'; // Фиксируем ширину
-
-                    // --- ХИТРЫЙ БЛЮР ДЛЯ ЛЕВОЙ ПАНЕЛИ ---
-                    if (targetId === 'zone-left') {
-                        if (newWidth <= 180) {
-                            targetEl.classList.add('column-blurred');
-                        } else {
-                            targetEl.classList.remove('column-blurred');
-                        }
-                    }
-                }
-            };
-
-            const onMouseUp = () => {
-                resizer.classList.remove('is-dragging');
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-                saveWidths(); // Сохраняем состояние
-            };
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        });
+        // Поддержка мыши
+        resizer.addEventListener('mousedown', startResize);
+        // Поддержка touch (планшеты, телефоны)
+        resizer.addEventListener('touchstart', startResizeTouch);
     });
+
+    function startResize(e) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('data-target');
+        const targetEl = document.getElementById(targetId);
+        const startX = e.pageX;
+        const startWidth = targetEl.getBoundingClientRect().width;
+
+        e.target.classList.add('is-dragging');
+
+        function onMouseMove(moveEvent) {
+            const deltaX = moveEvent.pageX - startX;
+            const newWidth = startWidth + deltaX;
+            updateWidth(targetId, targetEl, newWidth);
+        }
+
+        function onMouseUp() {
+            e.target.classList.remove('is-dragging');
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+            saveWidths();
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    }
+
+    function startResizeTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const targetId = e.target.getAttribute('data-target');
+        const targetEl = document.getElementById(targetId);
+        const startX = touch.clientX;
+        const startWidth = targetEl.getBoundingClientRect().width;
+
+        e.target.classList.add('is-dragging');
+
+        function onTouchMove(moveEvent) {
+            moveEvent.preventDefault();
+            const touchMove = moveEvent.touches[0];
+            const deltaX = touchMove.clientX - startX;
+            const newWidth = startWidth + deltaX;
+            updateWidth(targetId, targetEl, newWidth);
+        }
+
+        function onTouchEnd() {
+            e.target.classList.remove('is-dragging');
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+            saveWidths();
+        }
+
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd);
+    }
+
+    function updateWidth(targetId, targetEl, newWidth) {
+        const minWidth = 120;
+        const maxWidth = window.innerWidth - 200;
+
+        if (newWidth > minWidth && newWidth < maxWidth) {
+            targetEl.style.width = newWidth + 'px';
+            targetEl.style.flex = 'none';
+
+            if (targetId === 'zone-left') {
+                if (newWidth <= 180) {
+                    targetEl.classList.add('column-blurred');
+                } else {
+                    targetEl.classList.remove('column-blurred');
+                }
+            }
+        }
+    }
 }
 
 // Функции сохранения и загрузки ширины в localStorage
@@ -1604,24 +1695,31 @@ async function loadClientHistory() {
                 mainLog.appendChild(element);
             }
 
-            // 3. КОММЕНТАРИИ
-            else if (item.type === 'comment') {
+            // 3. КОММЕНТАРИИ, СИСТЕМА И ОПЛАТЫ
+            else {
                 element.className = 'history-item';
-                element.style.cursor = 'pointer';
+                const isComment = item.type === 'comment';
+                const isPayment = decodedText.includes('[ОПЛАТА]') || decodedText.includes('Добавлена оплата');
 
-                // Очищаем текст от переносов для onclick
-                const cleanText = decodedText.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 500);
+                let badgeHtml = '';
+                let textStyle = '';
 
-                element.onclick = function () {
-                    editComment(item.id, decodedText);
-                };
+                if (isPayment) {
+                    badgeHtml = `<span class="system-badge" style="background: rgba(40, 167, 69, 0.1); border-color: #28a745; color: #28a745; font-weight: bold;">ОПЛАТА</span>`;
+                    textStyle = 'color: #28a745; font-weight: 500;';
+                    element.style.borderLeft = '3px solid #28a745';
+                } else if (isComment) {
+                    badgeHtml = `<span class="comment-badge" style="background: rgba(255, 235, 59, 0.1); border-color: #fdd835; color: #fdd835; font-weight: bold;">КОММЕНТАРИЙ</span>`;
+                } else {
+                    badgeHtml = `<span class="system-badge">СИСТЕМА</span>`;
+                }
 
                 element.innerHTML = `
         <div class="history-meta">
             <span class="history-date">${dateStr}</span>
-            <span class="comment-badge">КОММЕНТАРИЙ</span>
+            ${badgeHtml}
         </div>
-        <div class="history-text">${decodedText.replace(/\n/g, '<br>')}</div>
+        <div class="history-text" style="${textStyle}">${decodedText}</div>
     `;
                 mainLog.appendChild(element);
             }

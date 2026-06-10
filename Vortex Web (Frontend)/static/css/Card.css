@@ -2120,3 +2120,31 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     margin-bottom: 15px;
     border: 1px solid var(--vortex-border);
 }
+
+/* Улучшение для планшетов */
+@media (max-width: 1024px) {
+    .vortex-resizer-h, .sector-resizer {
+        background: rgba(0, 229, 255, 0.3);
+        width: 6px;
+    }
+
+        .vortex-resizer-h:hover, .sector-resizer:hover {
+            background: var(--vortex-accent);
+        }
+
+    .vortex-zone {
+        min-width: 100px;
+    }
+}
+
+/* Для touch-устройств - увеличиваем зону касания */
+@media (pointer: coarse) {
+    .vortex-resizer-h, .sector-resizer {
+        width: 8px;
+        background: rgba(0, 229, 255, 0.2);
+    }
+
+        .vortex-resizer-h:active, .sector-resizer:active {
+            background: var(--vortex-accent);
+        }
+}
