@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const enableEndDateCheckbox = document.getElementById("enableEndDateCheckbox");
     const endDateRowBlock = document.getElementById("endDateRowBlock");
 
+
     // Ссылка на новое объединенное поле окончания
     const eventEndDateTime = document.getElementById("eventEndDateTime");
 
@@ -1605,5 +1606,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetNode = document.getElementById('calendarDaysGrid');
         if (targetNode) observer.observe(targetNode, { childList: true, subtree: true });
     });
+
+    const backBtn = document.getElementById("backToDashboardBtn");
+    if (backBtn) {
+        backBtn.addEventListener("click", function () {
+            // Проверяем, есть ли предыдущая страница в истории
+            if (window.history.length > 1 && document.referrer) {
+                window.history.back(); // Возврат на предыдущую страницу
+            } else {
+                window.location.href = '/dashboard'; // Иначе на дашборд
+            }
+        });
+    }
 
 });

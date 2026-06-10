@@ -79,6 +79,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 100);
     });
 
+    // Делаем индикатор даты/времени кликабельным
+    const dateTimeNode = document.querySelector('.vortex-status-node');
+    if (dateTimeNode) {
+        dateTimeNode.style.cursor = 'pointer';
+        dateTimeNode.style.transition = 'all 0.2s ease';
+
+        // Эффект при наведении
+        dateTimeNode.addEventListener('mouseenter', () => {
+            dateTimeNode.style.borderColor = 'var(--vortex-accent)';
+            dateTimeNode.style.boxShadow = '0 0 10px rgba(0, 229, 255, 0.3)';
+        });
+
+        dateTimeNode.addEventListener('mouseleave', () => {
+            dateTimeNode.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            dateTimeNode.style.boxShadow = 'none';
+        });
+
+        // Клик по индикатору
+        dateTimeNode.addEventListener('click', navigateToCalendar);
+    }
+
 });
 
 // --- НОВЫЕ ФУНКЦИИ ДЛЯ АВТО-ПОЛЯ И ИСТОРИИ ---
@@ -2678,3 +2699,28 @@ async function saveFieldsNewOrder(container) {
     }
 }
 
+// Функция для перехода в календарь с передачей текущей даты
+function navigateToCalendar() {
+    // Получаем текущую дату из индикатора
+    const dateEl = document.getElementById('txt-date');
+    const currentDate = dateEl ? dateEl.innerText : '';
+
+    // Получаем текущее время
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const day = now.getDate();
+
+    // Формируем URL для календаря с параметрами
+    // Можно передать дату для открытия конкретного дня
+    const calendarUrl = `/calendar?year=${year}&month=${month + 1}&day=${day}`;
+
+    // Переходим на страницу календаря
+    window.location.href = calendarUrl;
+}
+
+// Функция для перехода в календарь с выбранной задачей (опционально)
+function navigateToCalendarWithTask(taskId, taskTitle) {
+    const calendarUrl = `/calendar?task_id=${taskId}&task_title=${encodeURIComponent(taskTitle)}`;
+    window.location.href = calendarUrl;
+}

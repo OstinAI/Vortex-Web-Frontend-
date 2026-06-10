@@ -69,7 +69,8 @@ html, body {
     /* Эффект наведения на интерактивные ноды (кнопки) */
     .vortex-status-node[onclick],
     #btnPrevMonth:hover,
-    #btnNextMonth:hover {
+    #btnNextMonth:hover,
+    #backToDashboardBtn:hover { /* <-- добавить эту строку */
         border-color: var(--vortex-accent);
         box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
         color: #fff;
