@@ -2149,77 +2149,49 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
         }
 }
 
-/* Исправление скролла для центральной панели на планшетах */
+/* Центральная панель - общий скролл для всех секций */
 .vortex-zone.zone-center {
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
-}
-
-.center-sector {
-    display: flex;
-    flex-direction: column;
-    min-height: 0; /* Важно для правильной работы overflow */
-    flex: 1;
-}
-
-/* Секция ИНФОРМАЦИЯ О КЛИЕНТЕ */
-#sector-top {
-    flex: 2;
-    min-height: 0;
-}
-
-/* Секция ТОВАРЫ И ОПЛАТА */
-#sector-middle {
-    flex: 2;
-    min-height: 0;
-}
-
-/* Секция ОТВЕТСТВЕННЫЕ ЛИЦА */
-#sector-bottom {
-    flex: 1;
-    min-height: 0;
-}
-
-/* Области прокрутки внутри каждой секции */
-.fields-scroll-area {
-    flex: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Включаем скролл для всей панели */
     overflow-x: hidden;
-    padding: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--vortex-accent) transparent;
 }
 
     /* Стилизация скроллбара для Chrome/Safari */
-    .fields-scroll-area::-webkit-scrollbar {
+    .vortex-zone.zone-center::-webkit-scrollbar {
         width: 4px;
     }
 
-    .fields-scroll-area::-webkit-scrollbar-track {
+    .vortex-zone.zone-center::-webkit-scrollbar-track {
         background: transparent;
     }
 
-    .fields-scroll-area::-webkit-scrollbar-thumb {
+    .vortex-zone.zone-center::-webkit-scrollbar-thumb {
         background: var(--vortex-accent);
         border-radius: 10px;
-        opacity: 0.5;
     }
 
-/* Для планшетов - увеличиваем зону скролла */
-@media (max-width: 1024px) {
-    .fields-scroll-area {
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
-    }
-
-        .fields-scroll-area::-webkit-scrollbar {
-            width: 3px;
-        }
+/* Секции внутри - без отдельного скролла */
+.center-sector {
+    width: 100%;
+    border-bottom: 1px solid var(--vortex-border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0; /* Чтобы секции не сжимались */
 }
 
-/* Для правой панели (история) */
+/* Области внутри секций - без скролла, вся высота автоматическая */
+.fields-scroll-area {
+    overflow-y: visible !important; /* Убираем скролл внутри секций */
+    overflow-x: visible;
+    padding: 15px;
+    flex: 0 0 auto;
+}
+
+/* Для правой панели оставляем отдельный скролл */
 .zone-right {
     display: flex;
     flex-direction: column;
@@ -2231,4 +2203,21 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+}
+
+/* Для левой панели оставляем отдельный скролл (графики) */
+.zone-left {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Для планшетов - увеличиваем зону касания */
+@media (max-width: 1024px) {
+    .vortex-zone.zone-center {
+        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    }
+
+        .vortex-zone.zone-center::-webkit-scrollbar {
+            width: 3px;
+        }
 }
