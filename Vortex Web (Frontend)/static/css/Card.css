@@ -2236,3 +2236,101 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
             background: var(--vortex-accent);
         }
 }
+
+/* ========== ПЛАНШЕТ: ПОЛНОЕ ОТОБРАЖЕНИЕ РЕДАКТОРА ЗАДАЧ ========== */
+@media (max-width: 1024px) {
+    /* Редактор задач на планшете - на всю ширину */
+    .vortex-task-editor {
+        margin: 5px !important;
+        max-width: 100% !important;
+        border-radius: 12px !important;
+    }
+
+        /* Все поля в редакторе на всю ширину */
+        .vortex-task-editor .task-editor-body {
+            padding: 15px !important;
+        }
+
+        /* Инпуты и текстэриа на всю ширину */
+        .vortex-task-editor .field-input,
+        .vortex-task-editor .elegant-textarea {
+            width: 100% !important;
+            font-size: 14px !important;
+            padding: 10px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Горизонтальные ряды - в колонку на планшете */
+        .vortex-task-editor .task-timeline-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+        /* Поля даты и времени на всю ширину */
+        .vortex-task-editor .timeline-field {
+            width: 100% !important;
+        }
+
+        .vortex-task-editor .datetime-input {
+            width: 100% !important;
+            height: 44px !important;
+            font-size: 14px !important;
+        }
+
+        /* Чекбокс для даты окончания - по центру */
+        .vortex-task-editor .timeline-trigger {
+            display: flex !important;
+            justify-content: center !important;
+            padding: 5px 0 !important;
+        }
+
+        .vortex-task-editor .task-checkbox-label {
+            width: 44px !important;
+            height: 44px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+            .vortex-task-editor .task-checkbox-label input {
+                width: 24px !important;
+                height: 24px !important;
+            }
+
+        /* Контейнер цветов - перенос строк */
+        .vortex-task-editor #task-color-picker-container {
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+        }
+
+        /* Кружки цветов - больше для пальцев */
+        .vortex-task-editor .task-color-circle {
+            width: 40px !important;
+            height: 40px !important;
+        }
+
+        /* Кнопки в редакторе - на всю ширину */
+        .vortex-task-editor .task-editor-buttons {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+            .vortex-task-editor .task-editor-buttons button {
+                width: 100% !important;
+                padding: 12px !important;
+                font-size: 14px !important;
+            }
+
+        /* Дропдаун исполнителя - больше для пальцев */
+        .vortex-task-editor #task-editor-assignee {
+            height: 44px !important;
+            font-size: 14px !important;
+        }
+
+        /* Лейблы - крупнее */
+        .vortex-task-editor .field-label {
+            font-size: 12px !important;
+            margin-bottom: 8px !important;
+        }
+}

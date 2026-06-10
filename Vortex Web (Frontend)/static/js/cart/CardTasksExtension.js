@@ -121,61 +121,77 @@
         }
     }
 
-    // Открытие формы для НОВОЙ задачи
+    // Открытие/закрытие формы для НОВОЙ задачи (toggle)
     window.openTasks = function () {
         console.log("openTasks вызван");
         const editor = document.getElementById('task-editor');
 
-        if (editor) {
-            document.getElementById('task-editor-title-input').value = '';
-            document.getElementById('task-editor-text-input').value = '';
-            document.getElementById('task-editor-start-datetime').value = '';
-            document.getElementById('task-editor-end-datetime').value = '';
-            document.getElementById('task-editor-duration').value = '30';
-            document.getElementById('task-editor-status').value = 'open';
-            document.getElementById('edit-task-id').value = '';
-            document.getElementById('task-editor-title').innerText = 'НОВАЯ ЗАДАЧА';
-            document.getElementById('delete-task-editor-btn').style.display = 'none';
-
-            // Скрываем весь блок "Создал задачу"
-            const creatorWrapper = document.getElementById('task-creator-wrapper');
-            if (creatorWrapper) {
-                creatorWrapper.style.display = 'none';
-            }
-
-            // Скрываем блок окончания и сбрасываем чекбокс
-            const enableCheckbox = document.getElementById('task-enable-end-date');
-            const endRow = document.getElementById('task-end-date-row');
-            const checkboxLabel = document.querySelector('.task-checkbox-label');
-
-            if (enableCheckbox) enableCheckbox.checked = false;
-            if (endRow) endRow.style.display = 'none';
-            if (checkboxLabel) checkboxLabel.classList.remove('active');
-
-            // Сброс цвета по статусу
-            const defaultStatus = 'open';
-            selectedTaskColor = getColorByStatus(defaultStatus);
-            initTaskColorPicker();
-
-            // Инициализируем слушатель статуса
-            const statusSelect = document.getElementById('task-editor-status');
-            if (statusSelect) {
-                statusSelect.value = defaultStatus;
-                statusSelect.setAttribute('data-prev-status', defaultStatus);
-            }
-            initStatusListener();
-
-            // Загружаем список сотрудников и автоматически выбираем текущего пользователя
-            loadTaskAssigneesWithCurrentUser();
-
-            editor.style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('task-editor-title-input').focus();
-            }, 100);
-        } else {
+        if (!editor) {
             console.error("task-editor not found!");
+            return;
         }
+
+        // Проверяем, открыт ли редактор
+        const isVisible = editor.style.display === 'block';
+
+        if (isVisible) {
+            // ЗАКРЫВАЕМ редактор при повторном нажатии
+            editor.style.display = 'none';
+            console.log("Редактор задач закрыт");
+            return;
+        }
+
+        // ОТКРЫВАЕМ редактор для новой задачи
+        editor.style.display = 'block';
+
+        // Очищаем все поля
+        document.getElementById('task-editor-title-input').value = '';
+        document.getElementById('task-editor-text-input').value = '';
+        document.getElementById('task-editor-start-datetime').value = '';
+        document.getElementById('task-editor-end-datetime').value = '';
+        document.getElementById('task-editor-duration').value = '30';
+        document.getElementById('task-editor-status').value = 'open';
+        document.getElementById('edit-task-id').value = '';
+        document.getElementById('task-editor-title').innerText = 'НОВАЯ ЗАДАЧА';
+        document.getElementById('delete-task-editor-btn').style.display = 'none';
+
+        // Скрываем блок "Создал задачу"
+        const creatorWrapper = document.getElementById('task-creator-wrapper');
+        if (creatorWrapper) {
+            creatorWrapper.style.display = 'none';
+        }
+
+        // Скрываем блок окончания и сбрасываем чекбокс
+        const enableCheckbox = document.getElementById('task-enable-end-date');
+        const endRow = document.getElementById('task-end-date-row');
+        const checkboxLabel = document.querySelector('.task-checkbox-label');
+
+        if (enableCheckbox) enableCheckbox.checked = false;
+        if (endRow) endRow.style.display = 'none';
+        if (checkboxLabel) checkboxLabel.classList.remove('active');
+
+        // Сброс цвета по статусу
+        const defaultStatus = 'open';
+        selectedTaskColor = getColorByStatus(defaultStatus);
+        initTaskColorPicker();
+
+        // Инициализируем слушатель статуса
+        const statusSelect = document.getElementById('task-editor-status');
+        if (statusSelect) {
+            statusSelect.value = defaultStatus;
+            statusSelect.setAttribute('data-prev-status', defaultStatus);
+        }
+        initStatusListener();
+
+        // Загружаем список сотрудников и автоматически выбираем текущего пользователя
+        loadTaskAssigneesWithCurrentUser();
+
+        // Устанавливаем фокус на поле названия
+        setTimeout(() => {
+            document.getElementById('task-editor-title-input').focus();
+        }, 100);
+
+        console.log("Редактор задач открыт");
     };
 
     // Новая функция: загрузка сотрудников с автоматическим выбором текущего пользователя
@@ -549,6 +565,25 @@
     // Инициализация после загрузки DOM
     document.addEventListener('DOMContentLoaded', () => {
         initDateTimePickers();
+    });
+
+    // Добавьте в конец CardTasksExtension.js
+    // Закрытие редактора при клике вне его области (только на планшете)
+    document.addEventListener('click', function (event) {
+        // Проверяем, что мы на планшете
+        if (window.innerWidth > 1024) return;
+
+        const editor = document.getElementById('task-editor');
+        const taskButton = event.target.closest('.mini-tool-btn');
+        const isTaskButton = taskButton && taskButton.innerText.includes('ЗАДАЧИ');
+
+        // Если кликнули не по редактору и не по кнопке "ЗАДАЧИ"
+        if (editor && editor.style.display === 'block') {
+            if (!editor.contains(event.target) && !isTaskButton) {
+                editor.style.display = 'none';
+                console.log("Редактор закрыт кликом вне");
+            }
+        }
     });
 
 })();
