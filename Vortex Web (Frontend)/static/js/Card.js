@@ -48,6 +48,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     }
+
+    // Инициализация размеров с учетом планшета/компа
+    if (window.innerWidth > 1024) {
+        initResizers();
+        loadSavedSizes();
+    } else {
+        // На планшете: удаляем стили высоты, чтобы работал скролл
+        const sectors = document.querySelectorAll('.center-sector');
+        sectors.forEach(sector => {
+            sector.style.height = '';
+            sector.style.flex = '';
+        });
+    }
+
+    // Следим за изменением ориентации/размера экрана
+    window.addEventListener('resize', () => {
+        setTimeout(() => {
+            if (window.innerWidth <= 1024) {
+                // Переход на планшетный режим
+                const sectors = document.querySelectorAll('.center-sector');
+                sectors.forEach(sector => {
+                    sector.style.height = '';
+                    sector.style.flex = '';
+                });
+            } else {
+                // Переход на компьютерный режим
+                loadSavedSizes();
+            }
+        }, 100);
+    });
+
 });
 
 // --- НОВЫЕ ФУНКЦИИ ДЛЯ АВТО-ПОЛЯ И ИСТОРИИ ---
@@ -465,66 +496,81 @@ function initResizers() {
 
     resizers.forEach(resizer => {
         // Поддержка мыши
-        resizer.addEventListener('mousedown', startVerticalResize);
-        // Поддержка touch
-        resizer.addEventListener('touchstart', startVerticalResizeTouch);
+        resizer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            const targetEl = document.getElementById(resizer.getAttribute('data-target'));
+            if (!targetEl) return;
+
+            const startY = e.pageY;
+            const startH = targetEl.getBoundingClientRect().height;
+
+            const onMove = (me) => {
+                const h = startH + (me.pageY - startY);
+                if (h > 50) {
+                    targetEl.style.height = h + 'px';
+                    targetEl.style.flex = 'none';
+                }
+            };
+
+            const onUp = () => {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onUp);
+                saveSizes();
+            };
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+        });
+
+        // Поддержка touch для планшетов
+        resizer.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const targetEl = document.getElementById(resizer.getAttribute('data-target'));
+            if (!targetEl) return;
+
+            const touch = e.touches[0];
+            const startY = touch.clientY;
+            const startH = targetEl.getBoundingClientRect().height;
+
+            const onTouchMove = (moveEvent) => {
+                moveEvent.preventDefault();
+                const touchMove = moveEvent.touches[0];
+                const h = startH + (touchMove.clientY - startY);
+                if (h > 50) {
+                    targetEl.style.height = h + 'px';
+                    targetEl.style.flex = 'none';
+                }
+            };
+
+            const onTouchEnd = () => {
+                document.removeEventListener('touchmove', onTouchMove);
+                document.removeEventListener('touchend', onTouchEnd);
+                saveSizes();
+            };
+
+            document.addEventListener('touchmove', onTouchMove, { passive: false });
+            document.addEventListener('touchend', onTouchEnd);
+        });
     });
+}
 
-    function startVerticalResize(e) {
-        e.preventDefault();
-        const targetEl = document.getElementById(resizer.getAttribute('data-target'));
-        const startY = e.pageY;
-        const startH = targetEl.getBoundingClientRect().height;
+function saveSizes() {
+    const sizes = {
+        top: document.getElementById('sector-top').style.height,
+        middle: document.getElementById('sector-middle').style.height
+    };
+    localStorage.setItem('vortex_crm_sector_sizes', JSON.stringify(sizes));
+}
 
-        resizer.classList.add('is-dragging');
-
-        function onMove(me) {
-            const h = startH + (me.pageY - startY);
-            if (h > 50) {
-                targetEl.style.height = h + 'px';
-                targetEl.style.flex = 'none';
-            }
-        }
-
-        function onUp() {
-            resizer.classList.remove('is-dragging');
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onUp);
-            saveSizes();
-        }
-
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
+function loadSavedSizes() {
+    const saved = JSON.parse(localStorage.getItem('vortex_crm_sector_sizes') || '{}');
+    if (saved.top) {
+        document.getElementById('sector-top').style.height = saved.top;
+        document.getElementById('sector-top').style.flex = 'none';
     }
-
-    function startVerticalResizeTouch(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const targetEl = document.getElementById(resizer.getAttribute('data-target'));
-        const startY = touch.clientY;
-        const startH = targetEl.getBoundingClientRect().height;
-
-        resizer.classList.add('is-dragging');
-
-        function onTouchMove(moveEvent) {
-            moveEvent.preventDefault();
-            const touchMove = moveEvent.touches[0];
-            const h = startH + (touchMove.clientY - startY);
-            if (h > 50) {
-                targetEl.style.height = h + 'px';
-                targetEl.style.flex = 'none';
-            }
-        }
-
-        function onTouchEnd() {
-            resizer.classList.remove('is-dragging');
-            document.removeEventListener('touchmove', onTouchMove);
-            document.removeEventListener('touchend', onTouchEnd);
-            saveSizes();
-        }
-
-        document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', onTouchEnd);
+    if (saved.middle) {
+        document.getElementById('sector-middle').style.height = saved.middle;
+        document.getElementById('sector-middle').style.flex = 'none';
     }
 }
 
