@@ -330,6 +330,11 @@ async function saveChanges() {
     const valuesToSave = [];
     const changesLog = []; // Массив для хранения строк изменений
 
+    // --- ПОЛУЧАЕМ ИМЯ СОТРУДНИКА ---
+    const userName = localStorage.getItem('vortex_user_name') ||
+        localStorage.getItem('role') ||
+        "Сотрудник";
+
     inputs.forEach(input => {
         const fieldId = input.getAttribute('data-field-id');
         const fieldType = input.getAttribute('data-field-type');
@@ -361,6 +366,7 @@ async function saveChanges() {
                 displayNew = newVal ? "ДА" : "НЕТ";
             }
 
+            // --- БЕЗ ИМЕНИ В КАЖДОЙ СТРОКЕ ---
             changesLog.push(`${fieldTitle}: ${displayOld} → ${displayNew}`);
 
             // Обновляем "старое" значение на новое на случай повторного сохранения без перезагрузки
@@ -389,7 +395,8 @@ async function saveChanges() {
         if (response.ok) {
             // Если были реальные изменения, отправляем системную заметку
             if (changesLog.length > 0) {
-                const logDescription = `Обновлены данные:\n${changesLog.join('\n')}`;
+                // --- ИМЯ ТОЛЬКО В НАЧАЛЕ, БЕЗ ВРЕМЕНИ ---
+                const logDescription = `${userName} изменил(а):\n${changesLog.join('\n')}`;
 
                 await fetch(`${API_BASE_URL}/api/notes/`, {
                     method: 'POST',
@@ -1026,7 +1033,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedWidths();
 });
 
-// Функция для изменения ширины зон
+
 // Функция для изменения ширины зон (с поддержкой touch)
 function initHorizontalResizers() {
     const resizers = document.querySelectorAll('.vortex-resizer-h');
@@ -1698,13 +1705,26 @@ async function loadClientHistory() {
             if (item.type === 'note') {
                 const parts = decodedText.split(' | ');
                 const title = parts[0] || '';
-                const body = parts.slice(1).join(' | ') || '';
 
-                // Экранируем для onclick (убираем переносы строк и экранируем кавычки)
-                const cleanTitle = title.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 200);
-                const cleanBody = body.replace(/['"]/g, '').replace(/\n/g, ' ').replace(/\r/g, ' ').substring(0, 500);
+                // --- РАЗДЕЛЯЕМ ТЕЛО ЗАМЕТКИ И АВТОРА ---
+                let body = '';
+                let author = '';
 
-                // Для отображения
+                // Ищем последний элемент, который начинается с "["
+                for (let i = parts.length - 1; i >= 0; i--) {
+                    if (parts[i].trim().startsWith('[') && parts[i].trim().endsWith(']')) {
+                        author = parts[i].trim().replace('[', '').replace(']', '');
+                        body = parts.slice(1, i).join(' | ') || '';
+                        break;
+                    }
+                }
+
+                // Если автор не найден в формате [Имя], берем всё как тело
+                if (!author) {
+                    body = parts.slice(1).join(' | ') || '';
+                    author = '';
+                }
+
                 const displayTitle = title.replace(/\n/g, '<br>');
                 const displayBody = body.replace(/\n/g, '<br>');
 
@@ -1714,7 +1734,8 @@ async function loadClientHistory() {
                     editNote(item.id, title, body);
                 };
 
-                element.innerHTML = `
+                // Формируем HTML с автором внизу
+                let innerHtml = `
         <div class="history-meta">
             <span class="history-date">${dateStr}</span>
             <span class="note-badge">ЗАМЕТКА</span>
@@ -1722,6 +1743,13 @@ async function loadClientHistory() {
         <span class="note-caption">📍 ${displayTitle}</span>
         <div class="note-body">${displayBody}</div>
     `;
+
+                // Добавляем автора, если он есть
+                if (author) {
+                    innerHtml += `<div class="history-author" style="color: #666; font-size: 10px; margin-top: 8px;">${author}</div>`;
+                }
+
+                element.innerHTML = innerHtml;
                 pinnedArea.appendChild(element);
             }
 
@@ -1824,16 +1852,44 @@ async function loadClientHistory() {
                     element.style.borderLeft = '3px solid #28a745';
                 } else if (isComment) {
                     badgeHtml = `<span class="comment-badge" style="background: rgba(255, 235, 59, 0.1); border-color: #fdd835; color: #fdd835; font-weight: bold;">КОММЕНТАРИЙ</span>`;
+
+                    // Разделяем текст и имя для комментариев
+                    const lastSeparatorIndex = decodedText.lastIndexOf(' | [');
+                    if (lastSeparatorIndex !== -1) {
+                        const commentText = decodedText.substring(0, lastSeparatorIndex);
+                        const authorPart = decodedText.substring(lastSeparatorIndex + 3);
+                        const authorName = authorPart.replace('[', '').replace(']', '');
+
+                        element.innerHTML = `
+                <div class="history-meta">
+                    <span class="history-date">${dateStr}</span>
+                    ${badgeHtml}
+                </div>
+                <div class="history-text" style="${textStyle}">${commentText}</div>
+                <div class="history-author" style="color: #666; font-size: 10px; margin-top: 4px;">${authorName}</div>
+            `;
+                    } else {
+                        element.innerHTML = `
+                <div class="history-meta">
+                    <span class="history-date">${dateStr}</span>
+                    ${badgeHtml}
+                </div>
+                <div class="history-text" style="${textStyle}">${decodedText}</div>
+            `;
+                    }
+                    mainLog.appendChild(element);
+                    return;
                 } else {
                     badgeHtml = `<span class="system-badge">СИСТЕМА</span>`;
                 }
 
+                // Для системных сообщений используем innerHTML (чоб работали <br>)
                 element.innerHTML = `
         <div class="history-meta">
             <span class="history-date">${dateStr}</span>
             ${badgeHtml}
         </div>
-        <div class="history-text" style="${textStyle}">${decodedText}</div>
+        <div class="history-text" style="${textStyle}; white-space: pre-wrap;">${decodedText}</div>
     `;
                 mainLog.appendChild(element);
             }

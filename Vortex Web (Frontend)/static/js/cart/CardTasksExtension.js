@@ -20,6 +20,33 @@
     let flatpickrStart = null;
     let flatpickrEnd = null;
 
+    // Получение имени пользователя
+    function getTaskUserName() {
+        return localStorage.getItem('vortex_user_name') ||
+            localStorage.getItem('role') ||
+            "Сотрудник";
+    }
+
+    // Вспомогательная функция для создания системной записи
+    async function addTaskSystemLog(clientId, description) {
+        try {
+            await fetch(`${API_BASE_URL}/api/notes/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('vortex_token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    client_id: parseInt(clientId),
+                    description: description,
+                    type: "system"
+                })
+            });
+        } catch (e) {
+            console.error("Ошибка создания системного лога:", e);
+        }
+    }
+
     // Инициализация цветового пикера
     function initTaskColorPicker() {
         const container = document.getElementById('task-color-picker-container');
@@ -260,7 +287,10 @@
         if (editor) {
             document.getElementById('task-editor-title-input').value = title || '';
             document.getElementById('task-editor-text-input').value = description || '';
+
+            // ===== ИСПРАВЛЕНО: загружаем длительность =====
             document.getElementById('task-editor-duration').value = duration || 30;
+
             document.getElementById('task-editor-status').value = status || 'open';
 
             // Устанавливаем дату начала
@@ -372,7 +402,7 @@
         }
     }
 
-    // Сохранение задачи
+    // Сохранение задачи (новая или редактирование)
     window.saveTaskFromEditor = async function () {
         const taskId = document.getElementById('edit-task-id').value;
         const clientId = new URLSearchParams(window.location.search).get('id');
@@ -412,11 +442,30 @@
             return;
         }
 
+        const userName = getTaskUserName();
+        const isEditing = !!taskId;
+
+        // Если редактируем, загружаем старые данные для сравнения
+        let oldData = null;
+        if (isEditing) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/tasks/${taskId}`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+                });
+                const data = await response.json();
+                if (data.ok && data.task) {
+                    oldData = data.task;
+                }
+            } catch (e) {
+                console.error("Ошибка загрузки старой задачи:", e);
+            }
+        }
+
         // Очищаем описание от старых цветовых тегов
         let cleanDescription = description || '';
         cleanDescription = cleanDescription.replace(/\[color:\s*#[0-9A-Fa-f]{6}\]/gi, '').trim();
 
-        // Формируем описание с новым цветом ТОЛЬКО ЕСЛИ ВЫБРАН НЕ ДЕФОЛТНЫЙ ЦВЕТ
+        // Формируем описание с новым цветом
         let descriptionWithColor = cleanDescription;
         if (selectedTaskColor && selectedTaskColor !== '#00E5FF') {
             descriptionWithColor = cleanDescription ? `${cleanDescription} [color:${selectedTaskColor}]` : `[color:${selectedTaskColor}]`;
@@ -445,20 +494,110 @@
             });
 
             if (response.ok) {
-                if (taskId) {
-                    const userName = localStorage.getItem('vortex_user_name') || "Сотрудник";
-                    await fetch(`${API_BASE_URL}/api/notes/`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('vortex_token')}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            client_id: parseInt(clientId),
-                            description: `Задача "${title}" была изменена: ${userName}`,
-                            type: "system"
-                        })
-                    });
+                // --- СОЗДАЕМ ДЕТАЛЬНУЮ СИСТЕМНУЮ ЗАПИСЬ ---
+                if (isEditing && oldData) {
+                    const changes = [];
+
+                    // Сравниваем заголовок
+                    if (oldData.title !== title) {
+                        changes.push(`Заголовок: "${oldData.title}" → "${title}"`);
+                    }
+
+                    // Сравниваем описание (очищаем от цветовых тегов)
+                    const oldCleanDesc = (oldData.description || '').replace(/\[color:\s*#[0-9A-Fa-f]{6}\]/gi, '').trim();
+                    if (oldCleanDesc !== cleanDescription) {
+                        const oldShort = oldCleanDesc.length > 50 ? oldCleanDesc.substring(0, 50) + '...' : oldCleanDesc;
+                        const newShort = cleanDescription.length > 50 ? cleanDescription.substring(0, 50) + '...' : cleanDescription;
+                        changes.push(`Описание: "${oldShort}" → "${newShort}"`);
+                    }
+
+                    // Сравниваем дату начала
+                    if (oldData.start_ts_ms !== startTsMs) {
+                        const oldDate = oldData.start_ts_ms ? new Date(oldData.start_ts_ms).toLocaleString('ru-RU') : 'не указана';
+                        const newDate = startTsMs ? new Date(startTsMs).toLocaleString('ru-RU') : 'не указана';
+                        changes.push(`Дата начала: ${oldDate} → ${newDate}`);
+                    }
+
+                    // Сравниваем дату окончания
+                    if (oldData.end_ts_ms !== endTsMs) {
+                        const oldEnd = oldData.end_ts_ms ? new Date(oldData.end_ts_ms).toLocaleString('ru-RU') : 'не указана';
+                        const newEnd = endTsMs ? new Date(endTsMs).toLocaleString('ru-RU') : 'не указана';
+                        changes.push(`Дата окончания: ${oldEnd} → ${newEnd}`);
+                    }
+
+                    // Сравниваем статус
+                    if (oldData.status !== status) {
+                        const statusMap = { 'open': 'Открыта', 'in_progress': 'В работе', 'done': 'Выполнена', 'urgent': 'Срочно', 'waiting': 'Ожидание', 'attention': 'Внимание' };
+                        const oldStatus = statusMap[oldData.status] || oldData.status;
+                        const newStatus = statusMap[status] || status;
+                        changes.push(`Статус: ${oldStatus} → ${newStatus}`);
+                    }
+
+                    // Сравниваем длительность
+                    if (oldData.duration !== duration) {
+                        changes.push(`Длительность: ${oldData.duration || 0} мин → ${duration} мин`);
+                    }
+
+                    // Сравниваем исполнителя
+                    const oldAssignee = oldData.assignees && oldData.assignees.length > 0 ? oldData.assignees[0] : null;
+                    if (oldAssignee != assigneeId) {
+                        // Получаем имена сотрудников
+                        let oldName = 'не назначен';
+                        let newName = 'не назначен';
+
+                        if (oldAssignee) {
+                            const empRes = await fetch(`${API_BASE_URL}/api/employees/list`, {
+                                headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+                            });
+                            const empData = await empRes.json();
+                            if (empData.employees) {
+                                const oldEmp = empData.employees.find(e => e.id == oldAssignee);
+                                const newEmp = empData.employees.find(e => e.id == assigneeId);
+                                oldName = oldEmp ? (oldEmp.full_name || oldEmp.username) : 'сотрудник';
+                                newName = newEmp ? (newEmp.full_name || newEmp.username) : 'сотрудник';
+                            }
+                        } else if (assigneeId) {
+                            const empRes = await fetch(`${API_BASE_URL}/api/employees/list`, {
+                                headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+                            });
+                            const empData = await empRes.json();
+                            if (empData.employees) {
+                                const newEmp = empData.employees.find(e => e.id == assigneeId);
+                                newName = newEmp ? (newEmp.full_name || newEmp.username) : 'сотрудник';
+                            }
+                        }
+
+                        changes.push(`Исполнитель: ${oldName} → ${newName}`);
+                    }
+
+                    // Сравниваем цвет
+                    if (oldData.color !== selectedTaskColor) {
+                        changes.push(`Цвет задачи изменён`);
+                    }
+
+                    // Отправляем системный лог с изменениями
+                    if (changes.length > 0) {
+                        await addTaskSystemLog(clientId, `${userName} изменил(а) задачу:<br>${changes.join('<br>')}`);
+                    } else {
+                        await addTaskSystemLog(clientId, `${userName} отредактировал(а) задачу "${title}" (без изменений)`);
+                    }
+
+                } else if (!isEditing) {
+                    // Новая задача
+                    const assigneeName = await getAssigneeName(assigneeId);
+                    const startDate = new Date(startTsMs).toLocaleString('ru-RU');
+                    let logMsg = `${userName} создал(а) новую задачу: "${title}"\n📅 Начало: ${startDate}`;
+                    if (endTsMs) {
+                        const endDate = new Date(endTsMs).toLocaleString('ru-RU');
+                        logMsg += `\n📅 Окончание: ${endDate}`;
+                    }
+                    if (assigneeName) {
+                        logMsg += `\n👤 Исполнитель: ${assigneeName}`;
+                    }
+                    if (duration !== 30) {
+                        logMsg += `\n⏱ Длительность: ${duration} мин`;
+                    }
+                    await addTaskSystemLog(clientId, logMsg);
                 }
 
                 window.closeTaskEditor();
@@ -474,6 +613,24 @@
             alert("Ошибка сети");
         }
     };
+
+    // Вспомогательная функция для получения имени исполнителя
+    async function getAssigneeName(assigneeId) {
+        if (!assigneeId) return null;
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/employees/list`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+            });
+            const data = await response.json();
+            if (data.employees) {
+                const emp = data.employees.find(e => e.id == assigneeId);
+                return emp ? (emp.full_name || emp.username) : null;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        return null;
+    }
 
     // Выполнение задачи
     window.completeTaskFromEditor = async function (taskId) {
@@ -502,7 +659,22 @@
     // Удаление задачи
     window.deleteTaskFromEditor = async function () {
         const taskId = document.getElementById('edit-task-id').value;
+        const clientId = new URLSearchParams(window.location.search).get('id');
         if (!taskId) return;
+
+        // Загружаем название задачи перед удалением
+        let taskTitle = "Без названия";
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/tasks/${taskId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+            });
+            const data = await response.json();
+            if (data.ok && data.task) {
+                taskTitle = data.task.title || "Без названия";
+            }
+        } catch (e) {
+            console.error("Ошибка загрузки названия задачи:", e);
+        }
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/tasks/${taskId}`, {
@@ -511,6 +683,9 @@
             });
 
             if (response.ok) {
+                const userName = getTaskUserName();
+                await addTaskSystemLog(clientId, `${userName} удалил(а) задачу: "${taskTitle}"`);
+
                 window.closeTaskEditor();
                 if (typeof window.loadClientHistory === 'function') {
                     window.loadClientHistory();

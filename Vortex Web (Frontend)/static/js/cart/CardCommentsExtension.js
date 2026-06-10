@@ -52,6 +52,11 @@
             return;
         }
 
+        // --- ПОЛУЧАЕМ ИМЯ СОТРУДНИКА ---
+        const userName = localStorage.getItem('vortex_user_name') ||
+            localStorage.getItem('role') ||
+            "Сотрудник";
+
         try {
             const response = await fetch(`${API_BASE_URL}/api/notes/`, {
                 method: 'POST',
@@ -61,7 +66,8 @@
                 },
                 body: JSON.stringify({
                     client_id: parseInt(clientId),
-                    description: text,
+                    // Сохраняем в формате: ТЕКСТ | [ИМЯ]
+                    description: `${text} | [${userName}]`,
                     type: "comment"
                 })
             });
