@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     setInterval(updateCardTaskIndicator, 30000);
     setInterval(updateCardPaymentIndicator, 30000);
 
+    // ========= ПРОВЕРКА ИНТЕГРАЦИИ MAIL.RU =========
+    await checkMailIntegrationAndShowButton();
+
     // --- НОВОЕ: Обработка Enter для быстрой оплаты ---
     const amountInput = document.getElementById('manual-payment-amount');
     const commentInput = document.getElementById('manual-payment-comment');
@@ -2774,3 +2777,32 @@ function navigateToCalendarWithTask(taskId, taskTitle) {
     const calendarUrl = `/calendar?task_id=${taskId}&task_title=${encodeURIComponent(taskTitle)}`;
     window.location.href = calendarUrl;
 }
+
+// Проверяет наличие интеграции Mail.ru и показывает/скрывает кнопку
+async function checkMailIntegrationAndShowButton() {
+    const mailButton = document.querySelector('.mini-tool-btn[onclick="openMail()"]');
+    if (!mailButton) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/mail/list`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` }
+        });
+        const data = await response.json();
+
+        // Проверяем, есть ли интеграция mailru
+        const hasMailIntegration = data.items && data.items.some(item => item.provider === 'mailru');
+
+        if (hasMailIntegration) {
+            mailButton.style.display = 'inline-flex'; // Показываем кнопку
+        } else {
+            mailButton.style.display = 'none'; // Скрываем кнопку
+        }
+    } catch (error) {
+        console.error("Ошибка проверки интеграции почты:", error);
+        // В случае ошибки скрываем кнопку (на всякий случай)
+        mailButton.style.display = 'none';
+    }
+}
+
+// Добавьте в конец файла Card.js
+window.refreshMailButtonVisibility = checkMailIntegrationAndShowButton;

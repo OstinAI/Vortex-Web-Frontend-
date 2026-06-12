@@ -131,6 +131,12 @@ async function removeMailIntegration() {
         if (data.status === "ok") {
             // После успешного удаления на сервере, возвращаем форму ввода
             renderMailLoginForm();
+
+            // Обновляем видимость кнопки в карточке клиента
+            if (typeof window.refreshMailButtonVisibility === 'function') {
+                window.refreshMailButtonVisibility();
+            }
+
         } else {
             alert("ОШИБКА: " + (data.message || "НЕИЗВЕСТНАЯ ОШИБКА"));
             btn.disabled = false;
