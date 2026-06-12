@@ -1574,7 +1574,6 @@ function openMail() { console.log("Почта"); }
 function openTasks() { console.log("Задачи"); }
 
 
-
 // Глобальная функция для открытия модального окна комментария
 function openComments() {
     const modal = document.getElementById('comment-modal');
@@ -1948,10 +1947,6 @@ function fixEncoding(text) {
     return result;
 }
 
-
-
-
-
 // 0. Кэш сотрудников (добавь в самое начало Card.js)
 let employeesCache = {};
 
@@ -2149,7 +2144,6 @@ async function completeTask(id) {
         if (response.ok) loadClientHistory();
     } catch (e) { console.error(e); }
 }
-
 
 /**
  * Добавляем логику быстрого закрытия календаря

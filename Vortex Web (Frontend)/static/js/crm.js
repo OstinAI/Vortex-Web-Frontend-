@@ -1,6 +1,11 @@
 ﻿let currentPipelineId = 0;
 let allPipelines = [];
 let sortableInstance = null;
+// ========= ПЕРЕМЕННЫЕ ДЛЯ ПОИСКА =========
+let searchAbortController = null;
+const searchInput = document.getElementById('global-search-input');
+const clearBtn = document.getElementById('clear-search-btn');
+const resultsDropdown = document.getElementById('search-results-dropdown');
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Общие системные функции
@@ -17,6 +22,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. Загрузка CRM доски
     await initPipelinesUI();
+
+    // ========= ИНИЦИАЛИЗАЦИЯ ПОИСКА =========
+    initGlobalSearch();
+
 });
 
 function updateClock() {
@@ -26,6 +35,19 @@ function updateClock() {
     const now = new Date();
     timeEl.innerText = now.toLocaleTimeString('ru-RU', { hour12: false });
     dateEl.innerText = now.toLocaleDateString('ru-RU', { weekday: 'short', day: '2-digit', month: '2-digit' }).toLowerCase();
+
+    // ========= ДОБАВЬТЕ ЭТОТ БЛОК =========
+    // Делаем индикатор времени кликабельным для открытия календаря
+    if (timeEl && !timeEl.hasAttribute('data-calendar-attached')) {
+        const parentNode = timeEl.closest('.vortex-status-node');
+        if (parentNode) {
+            parentNode.style.cursor = 'pointer';
+            parentNode.onclick = () => {
+                window.location.href = '/calendar';
+            };
+            parentNode.setAttribute('data-calendar-attached', 'true');
+        }
+    }
 }
 
 async function initPipelinesUI() {
@@ -760,15 +782,31 @@ async function loadStageCards(pipelineId, stageId) {
                     // КЛИК: Переход на отдельную страницу клиента
                     cardEl.onclick = () => openClientPage(card.id);
 
+                    // Преобразуем канал в читаемый вид
+                    let channelDisplay = card.channel || 'manual';
+                    if (channelDisplay === 'manual') {
+                        channelDisplay = 'офлайн';
+                    } else if (channelDisplay === 'whatsapp') {
+                        channelDisplay = 'WHATSAPP';
+                    } else if (channelDisplay === 'telegram') {
+                        channelDisplay = 'TELEGRAM';
+                    } else if (channelDisplay === 'instagram') {
+                        channelDisplay = 'INSTAGRAM';
+                    } else if (channelDisplay === 'email') {
+                        channelDisplay = 'EMAIL';
+                    } else {
+                        channelDisplay = channelDisplay.toUpperCase();
+                    }
+
                     cardEl.innerHTML = `
-                        <span class="deal-card-name">${card.title.toUpperCase()}</span>
-                        <div class="deal-card-info">
-                            <span class="deal-card-owner" style="font-size: 10px; opacity: 0.6;">
-                                ${card.owner_name || 'НЕ НАЗНАЧЕН'}
-                            </span>
-                            <span class="deal-card-channel" style="margin-left: auto;">${card.channel || 'manual'}</span>
-                        </div>
-                    `;
+    <span class="deal-card-name">${card.title.toUpperCase()}</span>
+    <div class="deal-card-info">
+        <span class="deal-card-owner" style="font-size: 10px; opacity: 0.6;">
+            ${card.owner_name || 'НЕ НАЗНАЧЕН'}
+        </span>
+        <span class="deal-card-channel" style="margin-left: auto;">${channelDisplay}</span>
+    </div>
+`;
                     stageBody.appendChild(cardEl);
                 });
             } else {
@@ -875,4 +913,134 @@ async function updateManagerTotalSales() {
     } catch (e) {
         sumEl.innerText = "0 ₸";
     }
+}
+
+// ==================== ГЛОБАЛЬНЫЙ ПОИСК КЛИЕНТОВ ====================
+function initGlobalSearch() {
+    if (!searchInput) return;
+
+    const handleSearch = async () => {
+        const query = searchInput.value.trim();
+
+        if (query.length < 2) {
+            resultsDropdown.style.display = 'none';
+            if (clearBtn) clearBtn.style.display = 'none';
+            return;
+        }
+
+        if (clearBtn) clearBtn.style.display = 'flex';
+        resultsDropdown.style.display = 'block';
+        resultsDropdown.innerHTML = '<div class="no-results-placeholder">ПОИСК...</div>';
+
+        if (searchAbortController) {
+            searchAbortController.abort();
+        }
+        searchAbortController = new AbortController();
+
+        try {
+            // 1. Получаем все сделки из текущей воронки
+            const stagesRes = await fetch(`${API_BASE_URL}/api/crm/pipelines/${currentPipelineId}/stages`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` },
+                signal: searchAbortController.signal
+            });
+            const stagesData = await stagesRes.json();
+            const stages = stagesData.stages || [];
+
+            let allCards = [];
+            for (const stage of stages) {
+                const cardsRes = await fetch(`${API_BASE_URL}/api/crm/board/stage_cards?pipeline_id=${currentPipelineId}&stage_id=${stage.id}&limit=100`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` },
+                    signal: searchAbortController.signal
+                });
+                const cardsData = await cardsRes.json();
+                if (cardsData.ok && cardsData.cards) {
+                    allCards.push(...cardsData.cards.map(card => ({ ...card, stageName: stage.name, stageId: stage.id })));
+                }
+            }
+
+            // 2. Для каждой сделки получаем кастомные поля
+            const cardsWithFields = await Promise.all(allCards.map(async (card) => {
+                let customFields = [];
+                try {
+                    const fieldsRes = await fetch(`${API_BASE_URL}/api/crm/clients/${card.id}/fields`, {
+                        headers: { 'Authorization': `Bearer ${localStorage.getItem('vortex_token')}` },
+                        signal: searchAbortController.signal
+                    });
+                    const fieldsData = await fieldsRes.json();
+                    customFields = fieldsData.fields || [];
+                } catch (e) { /* ignore */ }
+                return { ...card, customFields };
+            }));
+
+            // 3. Фильтрация по названию и кастомным полям
+            const lowerQuery = query.toLowerCase();
+            const filtered = cardsWithFields.filter(card => {
+                if (card.title.toLowerCase().includes(lowerQuery)) return true;
+                return card.customFields.some(field =>
+                    field.value && field.value.toString().toLowerCase().includes(lowerQuery)
+                );
+            });
+
+            // 4. Отрисовка результатов
+            if (filtered.length === 0) {
+                resultsDropdown.innerHTML = '<div class="no-results-placeholder">НИЧЕГО НЕ НАЙДЕНО</div>';
+                return;
+            }
+
+            resultsDropdown.innerHTML = '';
+            filtered.forEach(card => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.innerHTML = `
+                    <div>
+                        <div class="result-deal-name">${escapeHtml(card.title.toUpperCase())}</div>
+                        <div class="result-deal-meta">${card.owner_name || 'НЕТ ОТВЕТСТВЕННОГО'}</div>
+                    </div>
+                    <div class="result-deal-stage">${card.stageName.toUpperCase()}</div>
+                `;
+                item.onclick = () => openClientPage(card.id);
+                resultsDropdown.appendChild(item);
+            });
+        } catch (err) {
+            if (err.name === 'AbortError') return;
+            console.error("Ошибка поиска:", err);
+            resultsDropdown.innerHTML = '<div class="no-results-placeholder">ОШИБКА ПОИСКА</div>';
+        }
+    };
+
+    const debouncedSearch = debounce(handleSearch, 400);
+    searchInput.addEventListener('input', debouncedSearch);
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            resultsDropdown.style.display = 'none';
+            searchInput.focus();
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (!searchInput?.contains(e.target) && !resultsDropdown?.contains(e.target)) {
+            resultsDropdown.style.display = 'none';
+        }
+    });
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function (m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), delay);
+    };
 }

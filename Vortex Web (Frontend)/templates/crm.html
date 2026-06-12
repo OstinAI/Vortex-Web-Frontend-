@@ -34,7 +34,21 @@
                     <div class="vortex-status-node action-node" onclick="openCreateDealModal()">
                         <span>+ СДЕЛКА</span>
                     </div>
+
+                    <!-- БЛОК ГЛОБАЛЬНОГО ПОИСКА -->
+                    <div class="vortex-search-wrapper">
+                        <div class="vortex-search-group">
+                            <span class="vortex-search-icon">🔍</span>
+                            <input type="text" id="global-search-input" class="vortex-search-input"
+                                   placeholder="ПОИСК ПО ИМЕНИ / ПОЛЯМ..." autocomplete="off">
+                            <button id="clear-search-btn" class="vortex-clear-search" style="display: none;">✕</button>
+                        </div>
+                        <div id="search-results-dropdown" class="vortex-search-results" style="display: none;"></div>
+                    </div>
+
                 </div>
+
+
 
                 <div class="vortex-view-selector" style="display: flex; gap: 20px; margin-top: 10px;">
                     <button onclick="switchView('kanban')" class="view-btn active" id="btn-kanban">КАНБАН</button>
