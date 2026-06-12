@@ -1218,3 +1218,12 @@
         font-size: 11px;
     }
 }
+
+.result-match-badge {
+    background: rgba(0, 229, 255, 0.15);
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-size: 8px;
+    margin-left: 8px;
+    color: var(--vortex-accent);
+}

@@ -972,13 +972,79 @@ function initGlobalSearch() {
                 return { ...card, customFields };
             }));
 
-            // 3. Фильтрация по названию и кастомным полям
+            // 3. Функция нормализации телефонного номера
+            function normalizePhoneNumber(value) {
+                if (!value) return '';
+                // Удаляем все нецифровые символы
+                let digits = value.toString().replace(/\D/g, '');
+                // Удаляем ведущий 8 или 7 (для казахстанских/российских номеров)
+                if (digits.startsWith('8') && digits.length === 11) {
+                    digits = digits.substring(1);
+                } else if (digits.startsWith('7') && digits.length === 11) {
+                    digits = digits.substring(1);
+                } else if (digits.startsWith('7') && digits.length === 10) {
+                    digits = digits;
+                }
+                // Также возвращаем последние 4-7 цифр для поиска по части номера
+                return {
+                    full: digits,
+                    last4: digits.slice(-4),
+                    last7: digits.slice(-7),
+                    withoutCode: digits.replace(/^(\d{3})/, '') // убираем первые 3 цифры кода
+                };
+            }
+
+            // Нормализуем поисковый запрос
             const lowerQuery = query.toLowerCase();
+            const isPhoneSearch = /[\d\+\(\)\-\s]{5,}/.test(query);
+            let normalizedQueryDigits = '';
+            let searchLast4 = '';
+            let searchLast7 = '';
+
+            if (isPhoneSearch) {
+                const cleanDigits = query.toString().replace(/\D/g, '');
+                normalizedQueryDigits = cleanDigits;
+                searchLast4 = cleanDigits.slice(-4);
+                searchLast7 = cleanDigits.slice(-7);
+            }
+
             const filtered = cardsWithFields.filter(card => {
+                // Поиск по названию
                 if (card.title.toLowerCase().includes(lowerQuery)) return true;
-                return card.customFields.some(field =>
-                    field.value && field.value.toString().toLowerCase().includes(lowerQuery)
-                );
+
+                // Поиск по кастомным полям
+                return card.customFields.some(field => {
+                    const fieldValue = field.value ? field.value.toString() : '';
+                    if (!fieldValue) return false;
+
+                    const fieldLower = fieldValue.toLowerCase();
+
+                    // Обычный текстовый поиск
+                    if (fieldLower.includes(lowerQuery)) return true;
+
+                    // Если ищем номер телефона
+                    if (isPhoneSearch) {
+                        const cleanFieldDigits = fieldValue.replace(/\D/g, '');
+                        if (!cleanFieldDigits) return false;
+
+                        // Полное совпадение цифр
+                        if (cleanFieldDigits === normalizedQueryDigits) return true;
+
+                        // Совпадение по последним 4 цифрам
+                        if (cleanFieldDigits.slice(-4) === searchLast4 && searchLast4.length >= 4) return true;
+
+                        // Совпадение по последним 7 цифрам
+                        if (cleanFieldDigits.slice(-7) === searchLast7 && searchLast7.length >= 7) return true;
+
+                        // Если в поле есть наш номер как часть (например: "тел: 7002444932")
+                        if (cleanFieldDigits.includes(normalizedQueryDigits) && normalizedQueryDigits.length >= 5) return true;
+
+                        // Если запрос является частью номера
+                        if (normalizedQueryDigits.includes(cleanFieldDigits) && cleanFieldDigits.length >= 4) return true;
+                    }
+
+                    return false;
+                });
             });
 
             // 4. Отрисовка результатов
@@ -991,13 +1057,31 @@ function initGlobalSearch() {
             filtered.forEach(card => {
                 const item = document.createElement('div');
                 item.className = 'search-result-item';
+
+                // Проверяем, был ли найден клиент по телефону
+                let hasPhoneMatch = false;
+                if (isPhoneSearch) {
+                    hasPhoneMatch = card.customFields.some(field => {
+                        const fieldValue = field.value ? field.value.toString() : '';
+                        if (!fieldValue) return false;
+                        const cleanFieldDigits = fieldValue.replace(/\D/g, '');
+                        if (!cleanFieldDigits) return false;
+                        return cleanFieldDigits === normalizedQueryDigits ||
+                            cleanFieldDigits.slice(-4) === searchLast4 ||
+                            cleanFieldDigits.includes(normalizedQueryDigits);
+                    });
+                }
+
                 item.innerHTML = `
-                    <div>
-                        <div class="result-deal-name">${escapeHtml(card.title.toUpperCase())}</div>
-                        <div class="result-deal-meta">${card.owner_name || 'НЕТ ОТВЕТСТВЕННОГО'}</div>
-                    </div>
-                    <div class="result-deal-stage">${card.stageName.toUpperCase()}</div>
-                `;
+        <div>
+            <div class="result-deal-name">${escapeHtml(card.title.toUpperCase())}</div>
+            <div class="result-deal-meta">
+                ${card.owner_name ? escapeHtml(card.owner_name) : 'НЕТ ОТВЕТСТВЕННОГО'}
+                ${hasPhoneMatch ? '<span class="result-match-badge">📞 ТЕЛЕФОН</span>' : ''}
+            </div>
+        </div>
+        <div class="result-deal-stage">${card.stageName.toUpperCase()}</div>
+    `;
                 item.onclick = () => openClientPage(card.id);
                 resultsDropdown.appendChild(item);
             });
