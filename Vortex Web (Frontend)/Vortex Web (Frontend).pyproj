@@ -149,6 +149,7 @@
     <Content Include="static\js\style\menu.js" />
     <Content Include="static\js\style\style.js" />
     <Content Include="static\js\style\tariffs\tariffs.css" />
+    <Content Include="static\js\telegram\CardTelegram.js" />
     <Content Include="static\js\telegram\telegram.js" />
     <Content Include="static\js\telegram\telegram_integration.js" />
     <Content Include="templates\calendar.html" />
