@@ -480,6 +480,7 @@
     -ms-overflow-style: none;
 }
 
+
 /* Скрываем скроллбар для списка чатов */
 .telegram-chats-list::-webkit-scrollbar {
     width: 0;
