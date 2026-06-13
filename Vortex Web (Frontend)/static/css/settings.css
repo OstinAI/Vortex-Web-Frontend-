@@ -180,3 +180,101 @@ body, html {
         letter-spacing: 2px;
         text-transform: uppercase;
     }
+
+/* Telegram Switch (большой ползунок) */
+.telegram-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+    .telegram-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.telegram-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+    border-radius: 34px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+    .telegram-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 2px;
+        background-color: #666;
+        transition: 0.3s;
+        border-radius: 50%;
+    }
+
+input:checked + .telegram-slider {
+    background-color: rgba(0, 229, 255, 0.3);
+    border-color: #00E5FF;
+}
+
+    input:checked + .telegram-slider:before {
+        background-color: #00E5FF;
+        transform: translateX(24px);
+        box-shadow: 0 0 8px #00E5FF;
+    }
+
+/* Маленький ползунок для приветствия */
+.telegram-switch-small {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+}
+
+    .telegram-switch-small input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.telegram-slider-small {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+    border-radius: 34px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+    .telegram-slider-small:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        left: 2px;
+        bottom: 2px;
+        background-color: #666;
+        transition: 0.3s;
+        border-radius: 50%;
+    }
+
+input:checked + .telegram-slider-small {
+    background-color: rgba(0, 229, 255, 0.3);
+}
+
+    input:checked + .telegram-slider-small:before {
+        background-color: #00E5FF;
+        transform: translateX(18px);
+    }

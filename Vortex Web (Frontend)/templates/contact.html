@@ -5,6 +5,7 @@
     <title>Vortex Contact | СВЯЗЬ</title>
     <link rel="stylesheet" href="static/css/stats.css">
     <link rel="stylesheet" href="static/css/contact.css">
+    <link rel="stylesheet" href="static/css/telegram.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -20,8 +21,13 @@
                     <div class="tab-indicator"></div>
                 </button>
 
-                <button class="vortex-tab-button" id="tab-mail" onclick="switchContactTab('mail')">
-                    <span class="tab-text">ПОЧТА</span>
+                <button class="vortex-tab-button" id="tab-telegram" onclick="switchContactTab('telegram')" style="display: none;">
+                    <span class="tab-text">TELEGRAM</span>
+                    <div class="tab-indicator"></div>
+                </button>
+
+                <button class="vortex-tab-button" id="tab-mail" onclick="switchContactTab('mail')" style="display: none;">
+                    <span class="tab-text">@MAIL.RU</span>
                     <div class="tab-indicator"></div>
                 </button>
             </div>
@@ -30,6 +36,7 @@
 
     <main class="vortex-layout-grid">
 
+        <!-- WHATSAPP СЕКЦИЯ -->
         <div id="section-whatsapp" class="contact-container active">
             <div class="vortex-side-panel" id="wa-contacts">
                 <div class="panel-header">КОНТАКТЫ</div>
@@ -48,6 +55,35 @@
             </div>
         </div>
 
+        <!-- TELEGRAM СЕКЦИЯ -->
+        <div id="section-telegram" class="contact-container">
+            <div class="telegram-side-panel">
+                <div class="telegram-chats-header">
+                    ЧАТЫ TELEGRAM
+                </div>
+                <div class="telegram-chats-list" id="telegram-chats-list">
+                    <!-- Список чатов загружается через JS -->
+                </div>
+            </div>
+            <div class="telegram-chat-main" id="telegram-chat-area" style="display: none;">
+                <div class="telegram-chat-header" id="telegram-chat-header">
+                    <!-- Заголовок чата -->
+                </div>
+                <div class="telegram-messages-area" id="telegram-messages-container">
+                    <!-- Сообщения -->
+                </div>
+                <div class="telegram-input-area">
+                    <button class="telegram-attach-btn" id="telegram-attach-btn" onclick="document.getElementById('telegram-file-input').click()">
+                        📎
+                    </button>
+                    <input type="text" id="telegram-message-input" placeholder="Введите сообщение..." onkeypress="if(event.key==='Enter') sendTelegramMessage()">
+                    <button class="telegram-send-btn" onclick="sendTelegramMessage()">ОТПРАВИТЬ</button>
+                    <input type="file" id="telegram-file-input" style="display:none" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.*,text/plain">
+                </div>
+            </div>
+        </div>
+
+        <!-- ПОЧТА СЕКЦИЯ -->
         <div id="section-mail" class="contact-container">
             <div class="mail-folders-panel">
                 <div class="panel-header">ПАПКИ</div>
@@ -85,6 +121,7 @@
     <script src="static/js/config.js"></script>
     <script src="static/js/mailru/mailru.js"></script>
     <script src="static/js/contact.js"></script>
+    <script src="static/js/telegram/telegram.js"></script>
     <script src="static/js/mailru/massagenewmail.js"></script>
     <script src="static/js/whatsapp/WhatsAppManager.js"></script>
 </body>

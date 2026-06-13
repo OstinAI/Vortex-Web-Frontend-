@@ -40,6 +40,7 @@
     <Content Include="static\css\stats.css" />
     <Content Include="static\css\style.css" />
     <Content Include="static\css\tasks.css" />
+    <Content Include="static\css\telegram.css" />
     <Content Include="static\css\warehouse.css" />
     <Content Include="static\images\123.gif" />
     <Content Include="static\images\24-hour-service.gif" />
@@ -89,6 +90,7 @@
     <Content Include="static\images\promotion.gif" />
     <Content Include="static\images\reddit.png" />
     <Content Include="static\images\resume.gif" />
+    <Content Include="static\images\simon73.jpg" />
     <Content Include="static\images\snapchat.png" />
     <Content Include="static\images\social-media.png" />
     <Content Include="static\images\social1.png" />
@@ -147,6 +149,8 @@
     <Content Include="static\js\style\menu.js" />
     <Content Include="static\js\style\style.js" />
     <Content Include="static\js\style\tariffs\tariffs.css" />
+    <Content Include="static\js\telegram\telegram.js" />
+    <Content Include="static\js\telegram\telegram_integration.js" />
     <Content Include="templates\calendar.html" />
     <Content Include="templates\tariffs.html" />
     <Content Include="static\js\style\tariffs\tariffs.js" />
@@ -176,6 +180,7 @@
     <Folder Include="static\js\mailru\" />
     <Folder Include="static\js\cart\" />
     <Folder Include="static\js\calendar\" />
+    <Folder Include="static\js\telegram\" />
     <Folder Include="static\js\style\css\" />
     <Folder Include="static\js\style\tariffs\" />
     <Folder Include="static\js\whatsapp\" />

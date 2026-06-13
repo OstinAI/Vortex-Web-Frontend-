@@ -1,0 +1,536 @@
+/* static/css/telegram.css */
+/* Стили для Telegram интеграции */
+
+/* Секция Telegram */
+#section-telegram {
+    display: none;
+    width: 100%;
+    height: calc(100vh - 70px);
+    flex-direction: row;
+}
+
+    #section-telegram.active {
+        display: flex;
+    }
+
+/* Панель со списком чатов */
+.telegram-side-panel {
+    width: 320px;
+    border-right: 1px solid var(--vortex-border);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.telegram-chats-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--vortex-border);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--vortex-accent);
+}
+
+.telegram-chats-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Элемент чата в списке */
+.telegram-chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+    .telegram-chat-item:hover {
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+    .telegram-chat-item.active {
+        background: rgba(0, 229, 255, 0.1);
+        border-left: 3px solid var(--vortex-accent);
+    }
+
+.telegram-chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 229, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: var(--vortex-accent);
+}
+
+.telegram-chat-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.telegram-chat-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.telegram-chat-last-msg {
+    font-size: 11px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 4px;
+}
+
+.telegram-chat-meta {
+    text-align: right;
+    margin-left: 8px;
+}
+
+.telegram-chat-time {
+    font-size: 10px;
+    color: #666;
+}
+
+.telegram-unread-badge {
+    background: var(--vortex-accent);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* Основная область чата */
+.telegram-chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.telegram-chat-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--vortex-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.telegram-chat-header-info {
+    flex: 1;
+}
+
+.telegram-chat-header-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.telegram-chat-header-status {
+    font-size: 11px;
+    color: var(--vortex-accent);
+    margin-top: 4px;
+}
+
+.telegram-refresh-btn {
+    background: transparent;
+    border: 1px solid var(--vortex-border);
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--vortex-accent);
+    transition: all 0.2s;
+}
+
+    .telegram-refresh-btn:hover {
+        background: rgba(0, 229, 255, 0.1);
+        border-color: var(--vortex-accent);
+    }
+
+/* Область сообщений */
+.telegram-messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Сообщение */
+.telegram-message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 4px;
+    position: relative;
+}
+
+    .telegram-message.msg-in {
+        align-self: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 2px solid var(--vortex-accent);
+    }
+
+    .telegram-message.msg-out {
+        align-self: flex-end;
+        background: rgba(0, 229, 255, 0.1);
+        border-right: 2px solid var(--vortex-accent);
+    }
+
+.telegram-message-text {
+    font-size: 13px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.telegram-message-time {
+    font-size: 9px;
+    color: #666;
+    margin-top: 5px;
+    text-align: right;
+}
+
+/* Область ввода */
+.telegram-input-area {
+    padding: 15px;
+    background: var(--vortex-bg-dark);
+    border-top: 1px solid var(--vortex-border);
+    display: flex;
+    gap: 10px;
+}
+
+    .telegram-input-area input {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--vortex-border);
+        border-radius: 4px;
+        padding: 12px;
+        color: #fff;
+        font-size: 13px;
+        outline: none;
+    }
+
+        .telegram-input-area input:focus {
+            border-color: var(--vortex-accent);
+        }
+
+.telegram-send-btn {
+    background: var(--vortex-accent);
+    border: none;
+    border-radius: 4px;
+    padding: 0 20px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .telegram-send-btn:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
+    }
+
+/* Placeholder */
+.vortex-placeholder {
+    color: #555;
+    text-align: center;
+    padding: 40px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   МЕДИА-КАРТОЧКИ ДЛЯ ФОТО И ВИДЕО
+   ============================================ */
+.telegram-media-card {
+    display: inline-block;
+    max-width: 280px;
+    background: transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 8px;
+}
+
+    .telegram-media-card:hover {
+        transform: translateY(-2px);
+    }
+
+.telegram-media-preview {
+    position: relative;
+    width: 280px;
+    height: 200px;
+    overflow: hidden;
+    background: #1a1a2e;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+    .telegram-media-preview img,
+    .telegram-media-preview video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.telegram-media-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 8px;
+}
+
+.telegram-media-card:hover .telegram-media-overlay {
+    opacity: 1;
+}
+
+/* Аудио-карточка */
+.telegram-audio-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    max-width: 280px;
+}
+
+.telegram-audio-icon {
+    font-size: 24px;
+}
+
+.telegram-audio-info {
+    flex: 1;
+}
+
+.telegram-audio-name {
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 4px;
+    word-break: break-all;
+}
+
+/* Документ-карточка */
+.telegram-doc-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    max-width: 280px;
+}
+
+    .telegram-doc-card:hover {
+        background: rgba(0, 229, 255, 0.1);
+    }
+
+.telegram-doc-icon {
+    font-size: 24px;
+}
+
+.telegram-doc-info {
+    flex: 1;
+}
+
+.telegram-doc-name {
+    font-size: 12px;
+    color: #fff;
+    word-break: break-all;
+}
+
+.telegram-doc-size {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.telegram-doc-download {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+/* Модальное окно для просмотра медиа */
+.telegram-media-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+    .telegram-media-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.telegram-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.telegram-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    padding: 5px 10px;
+    z-index: 10;
+}
+
+    .telegram-modal-close:hover {
+        color: var(--vortex-accent);
+    }
+
+.telegram-modal-image {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.telegram-modal-video {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 8px;
+}
+
+.telegram-modal-caption {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+
+/* Индикатор загрузки старых сообщений */
+.telegram-loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    color: var(--vortex-accent);
+    font-size: 11px;
+    text-align: center;
+}
+
+.telegram-loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 229, 255, 0.3);
+    border-top-color: var(--vortex-accent);
+    border-radius: 50%;
+    animation: telegram-spin 0.8s linear infinite;
+}
+
+@keyframes telegram-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Скрываем скроллбар для области сообщений */
+.telegram-messages-area::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.telegram-messages-area {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Скрываем скроллбар для списка чатов */
+.telegram-chats-list::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.telegram-chats-list {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.telegram-attach-btn {
+    background: transparent;
+    border: 1px solid var(--vortex-border);
+    border-radius: 4px;
+    padding: 0 12px;
+    cursor: pointer;
+    color: var(--vortex-accent);
+    font-size: 18px;
+    transition: all 0.2s;
+}
+
+    .telegram-attach-btn:hover {
+        background: rgba(0, 229, 255, 0.1);
+        border-color: var(--vortex-accent);
+    }
+
+/* Фон для секции Telegram */
+#section-telegram {
+    position: relative;
+}
+
+    #section-telegram::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../images/simon73.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+.telegram-side-panel,
+.telegram-chat-main {
+    position: relative;
+    z-index: 1;
+}
