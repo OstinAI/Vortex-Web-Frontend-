@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Vortex Tasks</title>
     <link rel="stylesheet" href="../static/css/tasks.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="vortex-runtime">
 
@@ -23,6 +24,23 @@
                 <button id="btn-global-tasks" class="btn-vortex-action secondary" onclick="toggleGlobalTasks()" style="display: none;">
                     ВСЕ ЗАДАЧИ
                 </button>
+            </div>
+
+            <!-- ИНДИКАТОРЫ СПРАВА -->
+            <div class="header-indicators">
+                <!-- Индикатор календаря (дата и время) -->
+                <div class="header-indicator calendar-indicator" id="header-calendar" onclick="openCalendar()">
+                    <div class="calendar-info">
+                        <span class="calendar-date" id="header-date">Вт, 07.07</span>
+                        <span class="calendar-time" id="header-time">00:00:00</span>
+                    </div>
+                </div>
+
+                <!-- Индикатор пользователя -->
+                <div class="header-indicator user-indicator">
+                    <div class="user-avatar" id="header-avatar">Н</div>
+                    <span id="header-user-name">Загрузка...</span>
+                </div>
             </div>
         </div>
     </header>
@@ -79,10 +97,13 @@
 
                     <select id="filter-status" class="vortex-input-select" onchange="loadTasks()">
                         <option value="">Все статусы</option>
-                        <option value="open" selected>Открытые</option>
-                        <option value="in_progress">В работе</option>
-                        <option value="done">Выполненные</option>
-                        <option value="overdue">Просроченные</option>
+                        <option value="open">○ Открытые</option>
+                        <option value="in_progress">● В работе</option>
+                        <option value="done">✓ Выполненные</option>
+                        <option value="urgent">⚡ Срочные</option>
+                        <option value="waiting">⏳ Ожидание</option>
+                        <option value="attention">❗ Требуют внимания</option>
+                        <option value="overdue">🔴 Просроченные</option>
                     </select>
                 </div>
             </div>
@@ -115,10 +136,15 @@
 
                 <div class="vortex-input-row" style="display: flex; gap: 15px;">
                     <div class="vortex-input-group" style="flex: 1;">
-                        <label>ПРИОРИТЕТ</label>
-                        <select id="task-priority">
-                            <option value="normal">Обычный</option>
-                            <option value="urgent">Срочный (urgent)</option>
+                        <label>СТАТУС ВЫПОЛНЕНИЯ</label>
+                        <select id="task-status-select">
+                            <option value="open">○ Новая (Ждет)</option>
+                            <option value="in_progress">● В работе</option>
+                            <option value="done">✓ Завершена</option>
+                            <option value="urgent">⚡ Срочная</option>
+                            <option value="waiting">⏳ Ожидание</option>
+                            <option value="attention">❗ Требует внимания</option>
+                            <option value="overdue">🔴 Просрочена</option>
                         </select>
                     </div>
 
@@ -142,13 +168,32 @@
                     </div>
                 </div>
 
-                <div class="vortex-input-group" id="status-group" style="display: none; margin-top: 15px;">
-                    <label class="vortex-label">СТАТУС ВЫПОЛНЕНИЯ</label>
-                    <select id="task-status" class="vortex-input-select">
-                        <option value="open" style="color: #ffffff;">○ Новая (Ждет)</option>
-                        <option value="in_progress" style="color: #ffcc00;">● В работе</option>
-                        <option value="done" style="color: #00ff44;">✓ Завершена</option>
-                    </select>
+                
+
+                <!-- СВЯЗАТЬ С КЛИЕНТОМ -->
+                <div class="vortex-input-group" id="client-group">
+                    <label>СВЯЗАТЬ С КЛИЕНТОМ</label>
+                    <div class="vortex-custom-select" id="vortex-client-select">
+                        <div class="vortex-chips-container" id="client-chips" onclick="toggleClientDropdown()">
+                            <span class="vortex-placeholder" id="selected-client-name">Без клиента</span>
+                            <input type="hidden" id="selected-client-id" value="">
+                        </div>
+                        <div class="vortex-dropdown-menu" id="client-dropdown"></div>
+                    </div>
+                </div>
+
+                <!-- ЦВЕТОВАЯ МЕТКА ЗАДАЧИ -->
+                <div class="vortex-input-group">
+                    <label>ЦВЕТОВАЯ МЕТКА ЗАДАЧИ</label>
+                    <div id="color-palette-container" style="display: flex; gap: 8px; flex-wrap: wrap; padding: 5px 0;">
+                        <!-- Сюда рендерится палитра -->
+                    </div>
+                </div>
+
+                <!-- ДЛИТЕЛЬНОСТЬ -->
+                <div class="vortex-input-group">
+                    <label>ДЛИТЕЛЬНОСТЬ (МИНУТ)</label>
+                    <input type="number" id="task-duration" value="30" min="5" step="5">
                 </div>
 
             </div>

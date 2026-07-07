@@ -1,7 +1,7 @@
 :root {
-    --vortex-bg-dark: #020b12; /* Глубокий сине-черный фон */
+    --vortex-bg-dark: #020b12;
     --vortex-bg-black: #050505;
-    --vortex-accent: #00E5FF; /* Фирменный циан */
+    --vortex-accent: #00E5FF;
     --vortex-border: rgba(0, 229, 255, 0.15);
     --header-h: 70px;
     --text-main: #ffffff;
@@ -12,17 +12,42 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: linear-gradient(180deg, var(--vortex-bg-dark) 0%, var(--vortex-bg-black) 100%);
+    background: var(--vortex-bg-dark);
     color: var(--text-main);
     overflow: hidden;
     font-family: sans-serif;
 }
 
+    /* Фоновое изображение */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../images/pexels-sheken-astro-211351917-13923686.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.25;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+/* Все элементы поверх фона */
+.vortex-top-bar,
+.vortex-layout-grid,
+.vortex-modal {
+    position: relative;
+    z-index: 1;
+}
+
 /* --- ШАПКА --- */
 .vortex-top-bar {
     height: var(--header-h);
-    background: rgba(0, 0, 0, 0.8);
-    border-bottom: 1px solid var(--vortex-border);
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     position: fixed;
     top: 0;
     width: 100%;
@@ -55,8 +80,7 @@ body, html {
     align-items: center;
     justify-content: center;
     padding: 5px;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 0 2px rgba(0, 229, 255, 0.4));
+    transition: all 0.2s ease;
 }
 
     .btn-vortex-back:hover {
@@ -66,13 +90,13 @@ body, html {
 
 /* Кнопки действий в шапке */
 .btn-vortex-action {
-    background: #111111;
-    border: 1px solid #222;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text-main);
     font-size: 11px;
     font-weight: 700;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -82,7 +106,7 @@ body, html {
     .btn-vortex-action:hover {
         border-color: var(--vortex-accent);
         color: var(--vortex-accent);
-        box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+        background: rgba(0, 229, 255, 0.05);
     }
 
     .btn-vortex-action.secondary {
@@ -103,16 +127,20 @@ body, html {
     box-sizing: border-box;
 }
 
+/* ЛЕВАЯ ЧАСТЬ - прозрачная без blur */
 .zone-left {
-    width: 70%; /* Левая часть по умолчанию 70% */
-    background: rgba(255, 255, 255, 0.01);
+    width: 70%;
+    background: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
     padding: 20px;
+    overflow-y: auto;
 }
 
+/* ПРАВАЯ ЧАСТЬ - прозрачная без blur */
 .zone-right {
-    flex-grow: 1; /* Правая занимает оставшееся (30%) */
-    background: rgba(0, 0, 0, 0.3);
-    border-left: 1px solid rgba(0, 229, 255, 0.05);
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
     display: flex;
     flex-direction: column;
 }
@@ -121,20 +149,21 @@ body, html {
 .vortex-resizer-h {
     width: 3px;
     cursor: col-resize;
-    background: rgba(0, 229, 255, 0.1);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.2s ease;
     z-index: 10;
 }
 
-    .vortex-resizer-h:hover, .vortex-resizer-h.active {
+    .vortex-resizer-h:hover,
+    .vortex-resizer-h.active {
         background: var(--vortex-accent);
-        box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
     }
 
 /* --- ПРАВАЯ ЧАСТЬ (СПИСОК ЗАДАЧ) --- */
 .tasks-list-header {
     padding: 15px 20px;
-    border-bottom: 1px solid var(--vortex-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
     .tasks-list-header h3 {
@@ -151,35 +180,33 @@ body, html {
     scroll-behavior: smooth;
 }
 
-    /* Скроллбар в стиле Vortex */
     .tasks-scroll-area::-webkit-scrollbar {
         width: 4px;
     }
 
     .tasks-scroll-area::-webkit-scrollbar-track {
-        background: rgba(0,0,0,0.2);
+        background: rgba(255, 255, 255, 0.02);
     }
 
     .tasks-scroll-area::-webkit-scrollbar-thumb {
-        background: linear-gradient(to bottom, #00E5FF, #005f73);
+        background: rgba(0, 229, 255, 0.3);
         border-radius: 4px;
     }
 
-/* Элемент списка задач */
+/* Элемент списка задач - легкий стеклянный эффект только при наведении */
 .task-item {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
     padding: 12px;
     margin-bottom: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
     .task-item:hover {
-        background: rgba(0, 229, 255, 0.05);
-        border-color: var(--vortex-accent);
-        box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+        background: rgba(0, 229, 255, 0.04);
+        border-color: rgba(0, 229, 255, 0.15);
         transform: translateX(-2px);
     }
 
@@ -196,7 +223,7 @@ body, html {
 
 .task-date {
     font-size: 10px;
-    color: #ff4444; /* Если просрочена, можно менять цвет через JS */
+    color: #ff4444;
 }
 
 .task-item-body {
@@ -210,7 +237,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255,255,255,0.2);
+    color: rgba(255, 255, 255, 0.15);
     font-size: 14px;
     letter-spacing: 2px;
 }
@@ -224,20 +251,19 @@ body, html {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .vortex-modal-content {
-    background: linear-gradient(145deg, #020b12 0%, #050505 100%);
+    background: rgba(10, 10, 10, 0.85);
     margin: 8% auto;
     width: 90%;
     max-width: 500px;
-    border: 1px solid rgba(0, 229, 255, 0.3);
-    border-radius: 4px;
-    box-shadow: 0 0 30px rgba(0, 150, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     color: #fff;
-    animation: slideInVortex 0.3s;
+    animation: slideInVortex 0.2s ease;
 }
 
 @keyframes slideInVortex {
@@ -254,11 +280,12 @@ body, html {
 
 .vortex-modal-header {
     padding: 15px 20px;
-    background-color: rgba(0, 229, 255, 0.05);
-    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 12px 12px 0 0;
 }
 
     .vortex-modal-header h2 {
@@ -270,9 +297,10 @@ body, html {
 .btn-close {
     background: none;
     border: none;
-    color: #555;
+    color: #888;
     font-size: 24px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
     .btn-close:hover {
@@ -299,14 +327,14 @@ body, html {
     .vortex-input-group textarea,
     .vortex-input-group select {
         width: 100%;
-        background: #0a0a0a;
-        border: 1px solid #222;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         padding: 10px;
-        border-radius: 4px;
+        border-radius: 6px;
         color: #fff;
         box-sizing: border-box;
         font-family: inherit;
-        transition: all 0.2s;
+        transition: all 0.15s ease;
     }
 
         .vortex-input-group input:focus,
@@ -314,25 +342,37 @@ body, html {
         .vortex-input-group select:focus {
             outline: none;
             border-color: var(--vortex-accent);
-            box-shadow: inset 0 0 5px rgba(0, 229, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
         }
+
+    .vortex-input-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .vortex-input-group select option {
+        background: #020b12;
+        color: #fff;
+    }
 
 .vortex-modal-footer {
     padding: 15px 20px;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    border-radius: 0 0 12px 12px;
 }
 
 .btn-cancel {
     background: transparent;
-    border: 1px solid #333;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     color: #888;
     padding: 8px 15px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 11px;
+    transition: all 0.2s ease;
 }
 
     .btn-cancel:hover {
@@ -346,16 +386,16 @@ body, html {
     color: #000;
     font-weight: bold;
     padding: 8px 15px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 11px;
+    transition: all 0.2s ease;
 }
 
     .btn-confirm:hover {
         background: #00bcd4;
-        box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
     }
-
 
 /* --- КАСТОМНЫЙ MULTI-SELECT (CHIPS) --- */
 .vortex-custom-select {
@@ -364,25 +404,24 @@ body, html {
     font-family: inherit;
 }
 
-/* Контейнер для чипов (выглядит как инпут) */
 .vortex-chips-container {
     min-height: 40px;
-    background: #0a0a0a;
-    border: 1px solid #222;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
     padding: 5px 10px;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
     .vortex-chips-container:hover,
     .vortex-chips-container.active {
         border-color: var(--vortex-accent);
-        box-shadow: inset 0 0 5px rgba(0, 229, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
     }
 
 .vortex-placeholder {
@@ -391,10 +430,9 @@ body, html {
     user-select: none;
 }
 
-/* Сами чипы (плашки) */
 .vortex-chip {
-    background: rgba(0, 229, 255, 0.1);
-    border: 1px solid var(--vortex-accent);
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.15);
     color: var(--vortex-accent);
     padding: 3px 8px;
     border-radius: 12px;
@@ -402,19 +440,6 @@ body, html {
     display: flex;
     align-items: center;
     gap: 6px;
-    animation: chipFadeIn 0.2s ease;
-}
-
-@keyframes chipFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 .vortex-chip-remove {
@@ -425,56 +450,41 @@ body, html {
     line-height: 1;
     cursor: pointer;
     padding: 0;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
 }
 
     .vortex-chip-remove:hover {
         opacity: 1;
-        color: #ff4444; /* Крестик краснеет при наведении */
+        color: #ff4444;
     }
 
-/* Выпадающий список */
 .vortex-dropdown-menu {
-    display: none; /* Скрыт по умолчанию */
+    display: none;
     position: absolute;
     top: calc(100% + 5px);
     left: 0;
     width: 100%;
     max-height: 200px;
-    background: linear-gradient(180deg, #050505 0%, #020b12 100%);
-    border: 1px solid rgba(0, 229, 255, 0.3);
-    border-radius: 4px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    background: rgba(2, 11, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     overflow-y: auto;
     z-index: 3000;
 }
 
     .vortex-dropdown-menu.show {
         display: block;
-        animation: dropFadeIn 0.2s ease;
     }
 
-@keyframes dropFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Элемент выпадающего списка */
 .vortex-dropdown-item {
     padding: 10px 15px;
     color: #fff;
     font-size: 12px;
     cursor: pointer;
-    border-bottom: 1px solid #111;
-    transition: background 0.2s, color 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    transition: background 0.15s ease;
 }
 
     .vortex-dropdown-item:last-child {
@@ -482,18 +492,17 @@ body, html {
     }
 
     .vortex-dropdown-item:hover {
-        background: rgba(0, 229, 255, 0.1);
+        background: rgba(0, 229, 255, 0.05);
         color: var(--vortex-accent);
     }
 
     .vortex-dropdown-item.selected {
-        background: rgba(255, 255, 255, 0.05);
-        color: #888;
+        background: rgba(255, 255, 255, 0.02);
+        color: #666;
         cursor: not-allowed;
-        text-decoration: line-through; /* Зачеркиваем уже выбранных */
+        text-decoration: line-through;
     }
 
-/* Скроллбар для списка */
 .vortex-dropdown-menu::-webkit-scrollbar {
     width: 4px;
 }
@@ -503,27 +512,35 @@ body, html {
 }
 
 .vortex-dropdown-menu::-webkit-scrollbar-thumb {
-    background: var(--vortex-accent);
+    background: rgba(0, 229, 255, 0.3);
     border-radius: 4px;
 }
 
-/* --- СТИЛИ ДЛЯ КАЛЕНДАРЯ FLATPICKR (VORTEX THEME) --- */
+/* --- СТИЛИ ДЛЯ КАЛЕНДАРЯ FLATPICKR --- */
 .flatpickr-calendar.dark {
-    background: #020b12 !important;
-    border: 1px solid rgba(0, 229, 255, 0.3) !important;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 229, 255, 0.05) !important;
+    background: rgba(2, 11, 18, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
 }
 
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover {
     background: #00E5FF !important;
     color: #000 !important;
     border-color: #00E5FF !important;
     font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5) !important;
-}
-
-.flatpickr-time input:hover, .flatpickr-time .flatpickr-am-pm:hover, .flatpickr-time input:focus, .flatpickr-time .flatpickr-am-pm:focus {
-    background: rgba(0, 229, 255, 0.1) !important;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.15) !important;
 }
 
 /* Контейнер управления */
@@ -549,55 +566,54 @@ body, html {
 
 /* Кастомный темный селект */
 .vortex-input-select {
-    background: #020b12;
+    background: rgba(255, 255, 255, 0.03);
     color: #00E5FF;
-    border: 1px solid rgba(0, 229, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     padding: 6px 10px;
     font-size: 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     outline: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s ease;
     width: 100%;
 }
 
     .vortex-input-select:hover {
-        border-color: #00E5FF;
-        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        border-color: var(--vortex-accent);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .vortex-input-select option {
-        background: #02121d;
+        background: #020b12;
         color: #fff;
     }
 
+/* Графики - легкая прозрачность без blur */
 .chart-container {
-    background: rgba(2, 11, 18, 0.5);
-    border: 1px solid rgba(0, 229, 255, 0.1);
-    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
-    /* ВОТ ЭТО ИСПРАВИТ БЕСКОНЕЧНЫЙ СКРОЛЛ */
     height: 250px;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
     .chart-container:hover {
-        transform: translateY(-5px);
-        border-color: rgba(0, 229, 255, 0.3);
+        border-color: rgba(0, 229, 255, 0.1);
+        background: rgba(0, 0, 0, 0.3);
     }
 
 .vortex-label {
-    color: #55aeb8; /* Приглушенный бирюзовый */
+    color: #55aeb8;
     font-size: 11px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
 }
 
 /* --- СПЕЦИФИЧЕСКИЕ СТИЛИ ДЛЯ АНАЛИТИКИ --- */
-
-/* Контейнер индекса скорости */
 .speed-index-container {
     text-align: center;
     margin-bottom: 30px;
@@ -608,32 +624,29 @@ body, html {
     font-size: 32px;
     font-weight: 800;
     margin-bottom: 10px;
-    transition: color 0.5s ease, text-shadow 0.5s ease;
-    /* Начальное свечение */
+    transition: color 0.3s ease;
     text-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
 }
 
-/* Сама полоска-шкала */
 .speed-progress-bg {
     height: 8px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
     border-radius: 10px;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 #speed-index-bar {
     height: 100%;
-    width: 50%; /* Будет меняться через JS */
+    width: 50%;
     background: var(--vortex-accent);
     border-radius: 10px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
 }
 
-/* Метки под шкалой (-10, 0, +10) */
 .speed-labels {
     display: flex;
     justify-content: space-between;
@@ -644,17 +657,6 @@ body, html {
     letter-spacing: 1px;
 }
 
-/* Ховер-эффект для всех графиков (усиливаем твой текущий стиль) */
-.chart-container {
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-    .chart-container:hover {
-        background: rgba(0, 229, 255, 0.03);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 229, 255, 0.05);
-    }
-
-/* Исправляем отступ заголовка аналитики */
 .zone-left .vortex-title {
     margin-top: 5px;
     margin-bottom: 20px;
@@ -662,23 +664,189 @@ body, html {
     border-left: 2px solid var(--vortex-accent);
 }
 
-/* --- КРИТИЧЕСКИЙ КОД: СКРЫВАЕМ СКРОЛЛБАР, НО СОХРАНЯЕМ ПРОКРУТКУ --- */
-
-/* Полное скрытие скроллбара для правой части (задачи) */
-.tasks-scroll-area::-webkit-scrollbar {
+/* --- СКРЫВАЕМ СКРОЛЛБАР --- */
+.tasks-scroll-area::-webkit-scrollbar,
+.vortex-zone.zone-left::-webkit-scrollbar {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
 }
 
-/* Полное скрытие для левой части (аналитика), если там тоже появился скролл */
-.vortex-zone.zone-left::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
+.tasks-scroll-area,
+.zone-left {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 
-/* Для Firefox и Edge */
-.tasks-scroll-area, .zone-left {
-    scrollbar-width: none !important; /* Firefox */
-    -ms-overflow-style: none !important; /* IE/Edge */
+
+/* Цветовые кружки для палитры */
+.vortex-color-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    box-sizing: border-box;
 }
+
+    .vortex-color-circle:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px currentColor;
+    }
+
+    .vortex-color-circle.active {
+        border-color: #ffffff;
+        transform: scale(1.1);
+        box-shadow: 0 0 20px currentColor;
+    }
+
+    .vortex-color-circle.custom-palette-btn {
+        background: #0f172a;
+        border: 2px solid #334155;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+        .vortex-color-circle.custom-palette-btn:hover {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .vortex-color-circle.custom-palette-btn.active {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+/* --- ИНДИКАТОРЫ В ШАПКЕ --- */
+.header-indicators {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    padding-right: 20px;
+    height: 100%;
+}
+
+.header-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #aaa;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    height: 44px;
+    box-sizing: border-box;
+    /* Ширина по содержимому */
+    width: auto;
+    flex-shrink: 0;
+}
+
+    /* Стеклянный блик */
+    .header-indicator::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03), transparent 70%);
+        pointer-events: none;
+    }
+
+    /* --- ИНДИКАТОР КАЛЕНДАРЯ (без иконки) --- */
+    .header-indicator.calendar-indicator {
+        cursor: pointer;
+        border-color: rgba(0, 229, 255, 0.1);
+        padding: 6px 18px;
+        justify-content: center;
+        /* Ширина по содержимому */
+        width: auto;
+        min-width: unset;
+    }
+
+.calendar-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.calendar-date {
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.calendar-time {
+    color: var(--vortex-accent);
+    font-size: 11px;
+    font-weight: 500;
+    font-family: monospace;
+    opacity: 0.8;
+}
+
+.header-indicator.calendar-indicator:hover {
+    background: rgba(0, 229, 255, 0.08);
+    border-color: var(--vortex-accent);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.05), inset 0 0 20px rgba(0, 229, 255, 0.02);
+    transform: translateY(-1px);
+}
+
+    .header-indicator.calendar-indicator:hover .calendar-date {
+        color: #fff;
+    }
+
+    .header-indicator.calendar-indicator:hover .calendar-time {
+        opacity: 1;
+    }
+
+/* --- ИНДИКАТОР ПОЛЬЗОВАТЕЛЯ --- */
+.header-indicator.user-indicator {
+    padding: 4px 14px 4px 8px;
+    gap: 8px;
+    /* Ширина по содержимому */
+    width: auto;
+    justify-content: center;
+}
+
+    .header-indicator.user-indicator .user-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(0, 229, 255, 0.05));
+        border: 1px solid rgba(0, 229, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--vortex-accent);
+        flex-shrink: 0;
+    }
+
+    .header-indicator.user-indicator #header-user-name {
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+    }
+
+    .header-indicator.user-indicator:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
