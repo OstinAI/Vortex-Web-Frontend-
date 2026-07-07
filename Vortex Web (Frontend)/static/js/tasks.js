@@ -412,16 +412,21 @@ function toggleGlobalTasks() {
 // --- ЗАГРУЗКА ЗАДАЧ (СЕРВЕР) ---
 async function loadTasks() {
     const token = localStorage.getItem('vortex_token');
+    const myId = localStorage.getItem('vortex_user_id');
     const myFullName = localStorage.getItem('vortex_user_name');
 
     const viewMode = document.getElementById('task-view-mode').value;
     const statusFilter = document.getElementById('filter-status').value;
 
-    let url = `${API_BASE_URL}/api/tasks/?limit=100`;
-    // Отправляем статус на сервер для всех статусов, кроме 'overdue'
-    if (statusFilter && statusFilter !== 'overdue') {
-        url += `&status=${statusFilter}`;
-    }
+    const fullAccessRoles = ['admin', 'integrator', 'director', 'president'];
+    const userRole = (localStorage.getItem('role') || '').toLowerCase();
+    const isAdmin = fullAccessRoles.includes(userRole);
+
+    let url = `${API_BASE_URL}/api/tasks/?limit=500`;
+
+    console.log("🔵 Режим:", viewMode);
+    console.log("🔵 Фильтр статуса:", statusFilter);
+    console.log("🔵 isAdmin:", isAdmin);
 
     try {
         const res = await fetch(url, {
@@ -430,23 +435,56 @@ async function loadTasks() {
         const data = await res.json();
 
         if (data.ok) {
-            let tasks = data.tasks;
+            let tasks = data.tasks || [];
 
-            // Фильтрация "Мои задачи"
+            // --- ФИЛЬТРАЦИЯ ПО ПОЛЬЗОВАТЕЛЮ ---
+            // Для всех пользователей (включая админов) в режиме "Мои задачи" - только свои задачи
             if (viewMode === 'my') {
                 tasks = tasks.filter(t => {
-                    const assigneesForThisTask = (t.assignees || []).map(id => {
+                    const assigneesIds = t.assignees || [];
+
+                    // Проверяем по ID
+                    const isAssigned = assigneesIds.some(id => parseInt(id) === parseInt(myId));
+
+                    // Проверяем по имени
+                    const assigneesNames = assigneesIds.map(id => {
                         const user = allUsersList.find(u => u.id == id);
                         return user ? user.full_name : '';
                     });
-                    return assigneesForThisTask.includes(myFullName);
+                    const isAssignedByName = assigneesNames.includes(myFullName);
+
+                    // Проверяем, создатель ли задачи
+                    const isCreator = parseInt(t.created_by_user_id) === parseInt(myId);
+
+                    return isAssigned || isAssignedByName || isCreator;
                 });
+                console.log(`🔵 "Мои задачи" отфильтровано: ${tasks.length} задач`);
+            } else {
+                // Режим "Все задачи" - только для админов показываем все, для остальных - только свои
+                if (!isAdmin) {
+                    tasks = tasks.filter(t => {
+                        const assigneesIds = t.assignees || [];
+                        const isAssigned = assigneesIds.some(id => parseInt(id) === parseInt(myId));
+
+                        const assigneesNames = assigneesIds.map(id => {
+                            const user = allUsersList.find(u => u.id == id);
+                            return user ? user.full_name : '';
+                        });
+                        const isAssignedByName = assigneesNames.includes(myFullName);
+
+                        const isCreator = parseInt(t.created_by_user_id) === parseInt(myId);
+
+                        return isAssigned || isAssignedByName || isCreator;
+                    });
+                }
             }
 
-            // Фильтрация по просрочке (на клиенте)
+            // --- ПРИМЕНЯЕМ ФИЛЬТР СТАТУСА ---
             if (statusFilter === 'overdue') {
                 const now = Date.now();
                 tasks = tasks.filter(t => t.status !== 'done' && t.end_ts_ms && t.end_ts_ms < now);
+            } else if (statusFilter) {
+                tasks = tasks.filter(t => t.status === statusFilter);
             }
 
             renderTasksList(tasks);
@@ -456,7 +494,7 @@ async function loadTasks() {
             }
         }
     } catch (e) {
-        console.error("Ошибка загрузки задач:", e);
+        console.error("❌ Ошибка загрузки задач:", e);
     }
 }
 
@@ -472,16 +510,15 @@ function renderTasksList(tasks) {
         return;
     }
 
-    // Функция получения цвета по статусу
     function getColorByStatus(status) {
         const colorMap = {
-            'open': '#00E5FF',        // голубой
-            'in_progress': '#FFD700', // жёлтый
-            'done': '#00FF00',        // зелёный
-            'urgent': '#FF4500',      // оранжевый
-            'waiting': '#696969',     // серый
-            'attention': '#FF00FF',   // розовый
-            'overdue': '#ff4d4d'      // красный
+            'open': '#00E5FF',
+            'in_progress': '#FFD700',
+            'done': '#00FF00',
+            'urgent': '#FF4500',
+            'waiting': '#696969',
+            'attention': '#FF00FF',
+            'overdue': '#ff4d4d'
         };
         return colorMap[status] || '#ffffff';
     }
@@ -493,15 +530,13 @@ function renderTasksList(tasks) {
         const now = Date.now();
         const isOverdue = t.status !== 'done' && t.end_ts_ms && t.end_ts_ms < now;
 
-        // --- ОПРЕДЕЛЕНИЕ ЦВЕТА (ПО СТАТУСУ) ---
         let statusColor;
         if (isOverdue && t.status !== 'done') {
-            statusColor = '#ff4d4d'; // просрочена - красный
+            statusColor = '#ff4d4d';
         } else {
             statusColor = getColorByStatus(t.status);
         }
 
-        // Форматирование даты
         const dateStr = t.end_ts_ms
             ? new Date(t.end_ts_ms).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
             : '';
