@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX - Контакты</title>
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА (НОВЫЙ ФАЙЛ) -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS (фон, глобальные стили) -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- СПЕЦИФИЧНЫЙ CSS ДЛЯ КОНТАКТОВ (только контент) -->
+    <link rel="stylesheet" href="/static/js/style/contacts/contacts.css">
+
+</head>
+<body>
+
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="/#auth" class="nav-link">Вход</a>
+        </div>
+    </div>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="/about" class="side-link">О нас</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
+        </nav>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="contacts-page">
+        <div class="contacts-wrapper">
+            <div class="contacts-grid">
+
+                <!-- ЛЕВАЯ КОЛОНКА -->
+                <div class="contact-info">
+                    <div class="contact-header">
+                        <h1><span class="gradient-text">КОНТАКТЫ</span></h1>
+                        <div class="subhead">Свяжитесь с нами удобным способом</div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-location-dot"></i>
+                        <div class="text">
+                            <span class="label">Офис</span>
+                            <span class="value">Блок 4В, Әл-Фараби даңғылы 7<br>Нурлы Тау, Алматы 050059<br>Казахстан</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div class="text">
+                            <span class="label">WhatsApp (чат поддержки 24/7)</span>
+                            <span class="value"><a href="https://wa.me/77718945319" target="_blank">+7 771 894 53 19</a></span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-phone-volume"></i>
+                        <div class="text">
+                            <span class="label">Телефон для звонков</span>
+                            <span class="value"><a href="tel:+77718945319">+7 771 894 53 19</a></span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="text">
+                            <span class="label">Электронная почта</span>
+                            <span class="value"><a href="mailto:vortex.blocks@gmail.com">vortex.blocks@gmail.com</a></span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fab fa-instagram"></i>
+                        <div class="text">
+                            <span class="label">Instagram</span>
+                            <span class="value"><a href="https://instagram.com/vortex_block" target="_blank">@vortex_block</a></span>
+                        </div>
+                    </div>
+
+                    <hr class="contact-divider">
+
+                    <div class="contact-meta-row">
+                        <div class="work-hours">
+                            <i class="far fa-calendar-alt" style="color: #00E5FF; margin-right: 8px;"></i>
+                            <strong>Пн–Пт:</strong> 10:00 – 17:00 <br>
+                            <span style="color: rgba(255,255,255,0.4); font-size: 14px; margin-left: 28px;">
+                                <span class="weekend">Сб–Вс:</span> выходной
+                            </span>
+                        </div>
+                        <div>
+                            <span class="badge-support">
+                                <i class="fas fa-headset"></i> Чат поддержки 24/7
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="contact-support-note">
+                        <span class="dot-wa"><i class="fas fa-circle"></i></span>
+                        WhatsApp-чат работает <strong>круглосуточно</strong> — напишите в любое время
+                    </div>
+                </div>
+
+                <!-- ПРАВАЯ КОЛОНКА: КАРТА -->
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2907.0432!2d76.945286!3d43.231421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38836f6b4b7b7b7b%3A0x7b7b7b7b7b7b7b7b!2z0J3Qo9Cg0JvQqS3QotCQ0JtQsCDQkdCm!5e0!3m2!1sru!2skz!4v1690000000000"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ JS -->
+    <script src="/static/js/style/contacts/contacts.js"></script>
+
+</body>
+</html>

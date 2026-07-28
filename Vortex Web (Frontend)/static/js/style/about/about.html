@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX - О системе</title>
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА (НОВЫЙ ФАЙЛ) -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS (фон, глобальные стили) -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- СПЕЦИФИЧНЫЙ CSS ДЛЯ СТРАНИЦЫ "О НАС" (только контент) -->
+    <link rel="stylesheet" href="/static/js/style/about/about.css">
+
+</head>
+<body>
+
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="/#auth" class="nav-link">Вход</a>
+        </div>
+    </div>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="/about" class="side-link">О нас</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
+        </nav>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="about-page">
+        <div class="about-wrapper">
+            <div class="about-grid">
+
+                <!-- ЗАГОЛОВОК -->
+                <div class="about-header">
+                    <h1><span class="gradient-text">О СИСТЕМЕ VORTEX</span></h1>
+                </div>
+
+                <!-- ВВЕДЕНИЕ -->
+                <div class="about-section">
+                    <p class="about-text">VORTEX CORE представляет собой кульминацию современных разработок в области автоматизации enterprise-уровня и проектирования интеллектуальных бизнес-сред. Платформа создавалась не просто как очередная база данных для фиксации контактов, а как центральная нервная система бизнеса, способная функционировать в условиях экстремальных информационных нагрузок и распределенных каналов коммуникации.</p>
+                    <p class="about-text">В основу архитектуры заложен принцип абсолютной автономности операционных процессов, где рутинные действия делегируются искусственному интеллекту, освобождая человеческий ресурс для стратегического планирования и масштабирования.</p>
+                    <p class="about-text">Исторически предпосылкой к созданию VORTEX стал глубокий кризис классических CRM-систем, представленных на мировом рынке. Традиционные решения требуют колоссального количества ручного ввода, страдают от отсутствия гибких интеграций и не способны обрабатывать лавинообразный поток лидов из современных экосистем вроде WhatsApp, Telegram, Instagram и TikTok в режиме реального времени.</p>
+                    <p class="about-text">VORTEX был разработан как технологический ответ на этот вызов: бесшовная среда, где каждый входящий клик, сообщение или триггер мгновенно конвертируются в структурированную сделку, минимизируя человеческий фактор и исключая потерю потенциальной прибыли на любом из этапов воронки продаж.</p>
+                </div>
+
+                <!-- АРХИТЕКТУРА -->
+                <div class="about-section">
+                    <h2 class="section-title"><i class="fas fa-microchip"></i> АРХИТЕКТУРА И КЛЮЧЕВЫЕ МОДУЛИ</h2>
+
+                    <div class="module-grid">
+                        <div class="module-card">
+                            <div class="module-icon"><i class="fas fa-brain"></i></div>
+                            <h3>Интеллектуальное ядро</h3>
+                            <p>Система базируется на проприетарных алгоритмах машинного обучения, обеспечивающих сквозную ИИ-аналитику. Система непрерывно сканирует паттерны поведения клиентов, вычисляет вероятность успешного закрытия сделок, прогнозирует LTV (Lifetime Value) и автоматически распределяет приоритет задач между менеджерами.</p>
+                            <p>ИИ-Менеджер, интегрированный в структуру VORTEX, способен вести квалификацию лидов, отвечать на сложные коммерческие запросы в мессенджерах и доводить клиента до этапа оплаты без прямого участия оператора, работая в режиме 24/7/365.</p>
+                        </div>
+
+                        <div class="module-card">
+                            <div class="module-icon"><i class="fas fa-comments"></i></div>
+                            <h3>Омниканальная коммуникация</h3>
+                            <p>Модуль агрегирует в себе прямые шлюзы к ключевым социальным сетям и мессенджерам. В отличие от сторонних виджетов, перегружающих интерфейс, во VORTEX реализована нативная обработка трафика из WhatsApp, Instagram, Telegram и Viber.</p>
+                            <p>Каждое диалоговое окно снабжено контекстной панелью с данными клиента, историей его покупок и текущим статусом на складе. Это позволяет сотрудникам вести полноценный цикл продаж, выставлять счета и подключать IP-телефонию непосредственно из единого рабочего пространства.</p>
+                        </div>
+
+                        <div class="module-card">
+                            <div class="module-icon"><i class="fas fa-warehouse"></i></div>
+                            <h3>Складской учет 2.0</h3>
+                            <p>Складской учет версии 2.0, встроенный в контур CRM, синхронизирован с платежными шлюзами и конструктором документов. При формировании заказа система автоматически резервирует номенклатурные единицы на складе, проверяет остатки, генерирует закрывающие документы, накладные и договоры по заранее заданным шаблонам.</p>
+                            <p>Вся цепочка — от первого сообщения в TikTok до списания товара со склада и фиксации прибыли — занимает несколько секунд и происходит в полностью автоматическом режиме.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- КОНТРОЛЬ И БЕЗОПАСНОСТЬ -->
+                <div class="about-section">
+                    <h2 class="section-title"><i class="fas fa-shield-alt"></i> КОНТРОЛЬ, БЕЗОПАСНОСТЬ И МАСШТАБИРУЕМОСТЬ</h2>
+
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Real-time статистика</h4>
+                                <p>Панели мониторинга отображают KPI персонала, скорость обработки заявок, учет рабочего времени и эффективность выполнения задач в виде интерактивных графиков.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Контроль сотрудников</h4>
+                                <p>Элементы геймификации, внедренные в рабочую среду, стимулируют внутреннюю конкуренцию среди менеджеров, повышая общую маржинальность бизнеса.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-satellite"></i>
+                            <div>
+                                <h4>GPS-трекинг</h4>
+                                <p>Система оснащена модулями GPS-трекинга для выездных сотрудников и сложными алгоритмами контроля задач, исключающими срыв дедлайнов.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-lock"></i>
+                            <div>
+                                <h4>Безопасность данных</h4>
+                                <p>Вся конфиденциальная информация проходит через многоуровневое сквозное шифрование данных. Разграничение прав доступа позволяет гибко настраивать видимость элементов системы.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-code"></i>
+                            <div>
+                                <h4>Открытый API</h4>
+                                <p>Архитектура поддерживает открытый API, что гарантирует легкую интеграцию VORTEX с любыми внешними сервисами, государственными системами учета и корпоративными сетями.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h4>Мобильное приложение</h4>
+                                <p>Стабильная работа мобильного приложения на платформах iOS и Android позволяет управлять бизнесом из любой точки мира.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- МИССИЯ И ЗАДАЧИ -->
+                <div class="about-section">
+                    <div class="mission-grid">
+                        <div class="mission-item">
+                            <div class="mission-icon"><i class="fas fa-rocket"></i></div>
+                            <h3>Ключевая миссия</h3>
+                            <p>Полная ликвидация рутинных операций и перевод управления предприятием на автономные ИИ-рельсы.</p>
+                        </div>
+                        <div class="mission-item">
+                            <div class="mission-icon"><i class="fas fa-tasks"></i></div>
+                            <h3>Решаемые задачи</h3>
+                            <ul>
+                                <li><span class="task-label">Потеря лидов</span> — Мгновенный перехват трафика 24/7</li>
+                                <li><span class="task-label">Ручной ввод в CRM</span> — Автоматическое создание сделок</li>
+                                <li><span class="task-label">Хаос в коммуникациях</span> — Единое окно для всех мессенджеров</li>
+                                <li><span class="task-label">Человеческий фактор</span> — Автогенерация счетов и документов</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- СТАТИСТИКА ЭФФЕКТИВНОСТИ -->
+                <div class="about-section">
+                    <h2 class="section-title"><i class="fas fa-chart-bar"></i> Эффективность внедрения</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">+400%</div>
+                            <div class="stat-label">Скорость обработки</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">-98%</div>
+                            <div class="stat-label">Ошибки персонала</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">~35 часов</div>
+                            <div class="stat-label">Экономия времени в неделю</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ЗАКЛЮЧЕНИЕ -->
+                <div class="about-section conclusion">
+                    <p class="about-text conclusion-text">VORTEX — это не просто программное обеспечение, это цифровая эволюция вашего бизнеса. Мы создали эту платформу, чтобы навсегда стереть технологические барьеры между компаниями и их клиентами, превратив хаотичные потоки информации в структурированную, предсказуемую и постоянно растущую прибыль.</p>
+                    <p class="about-text conclusion-text">Это готовый фундамент для масштабного роста, способный адаптироваться под специфику любой индустрии и выдерживать нагрузки завтрашнего дня уже сегодня.</p>
+                    <p class="about-text conclusion-text highlight">Мы верим, что создали одну из лучших систем в мире.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ JS -->
+    <script src="/static/js/style/about/about.js"></script>
+
+</body>
+</html>

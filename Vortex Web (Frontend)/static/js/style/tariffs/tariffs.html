@@ -5,17 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тарифы - VORTEX Technologies</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="/static/js/style/css/menu.css">
-    <link rel="stylesheet" href="static/js/style/tariffs/tariffs.css">
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА (НОВЫЙ ФАЙЛ) -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS (фон, глобальные стили) -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- СПЕЦИФИЧНЫЙ CSS ДЛЯ ТАРИФОВ (только контент) -->
+    <link rel="stylesheet" href="/static/js/style/tariffs/tariffs.css">
 </head>
+
 <body>
 
-    <div class="navbar" style="z-index: 20;">
-        <a href="/" style="text-decoration: none; color: inherit; display: inline-block;">
-            <div class="nav-logo">VORTEX</div>
-        </a>
-
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
         <div class="burger-menu" id="burgerToggle">
             <span></span>
             <span></span>
@@ -26,13 +37,18 @@
         </div>
     </div>
 
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
     <div class="side-panel" id="sidePanel">
         <nav class="side-nav">
             <a href="/about" class="side-link">О нас</a>
             <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
         </nav>
     </div>
 
+    <!-- ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ ТАРИФОВ -->
     <div class="tariffs-container">
 
         <div class="tariffs-header">
@@ -52,6 +68,7 @@
 
         <div class="tariffs-grid">
 
+            <!-- Тариф 1: BASIC -->
             <div class="tariff-card card-standard">
                 <div class="tariff-label">01 // BASIC</div>
                 <h3 class="tariff-name">Предприниматель</h3>
@@ -69,6 +86,7 @@
                 <button class="tariff-btn open-auth-btn">Выбрать тариф</button>
             </div>
 
+            <!-- Тариф 2: BUSINESS (рекомендуемый) -->
             <div class="tariff-card card-business">
                 <div class="tariff-label" style="color: #00E5FF;">02 // RECOMMENDED</div>
                 <h3 class="tariff-name">Бизнес</h3>
@@ -77,20 +95,21 @@
                 <ul class="tariff-features">
                     <li><i class="feature-dot"></i> Все функции Стандарта</li>
                     <li><i class="feature-dot"></i> 50 активных менеджеров</li>
-                    <li><i class="feature-dot"></i> Полная омниканальность (TikTok, Instaи еще все соц сети)</li>
+                    <li><i class="feature-dot"></i> Полная омниканальность (TikTok, Insta и еще все соц сети)</li>
                     <li><i class="feature-dot"></i> Продвинутый ИИ-Менеджер 24/7</li>
                     <li><i class="feature-dot"></i> Персональный интегратор 24/7</li>
                     <li><i class="feature-dot"></i> Складской учет версии 2.0</li>
                     <li><i class="feature-dot"></i> Интеграция Календаря (Google Calendar, Calendar - Apple iCloud)</li>
-                    <li><i class="feature-dot"></i> Интеграция Google Диск </li>
-                    <li><i class="feature-dot"></i> Интеграция хостинга YouTube </li>
-                    <li><i class="feature-dot"></i> Интеграция касса, банк, финансы </li>
-                    <li><i class="feature-dot"></i> Интеграция IP - телефонии </li>
+                    <li><i class="feature-dot"></i> Интеграция Google Диск</li>
+                    <li><i class="feature-dot"></i> Интеграция хостинга YouTube</li>
+                    <li><i class="feature-dot"></i> Интеграция касса, банк, финансы</li>
+                    <li><i class="feature-dot"></i> Интеграция IP - телефонии</li>
                 </ul>
 
                 <button class="tariff-btn btn-accent open-auth-btn">Запустить</button>
             </div>
 
+            <!-- Тариф 3: PRO -->
             <div class="tariff-card card-pro">
                 <div class="tariff-label">03 // ADVANCED</div>
                 <h3 class="tariff-name">Про</h3>
@@ -102,13 +121,13 @@
                     <li><i class="feature-dot"></i> Выделенный ИИ-сервер аналитики</li>
                     <li><i class="feature-dot"></i> GPS-трекинг и геймификация KPI</li>
                     <li><i class="feature-dot"></i> Приоритетная поддержка 24/7</li>
-                    <li><i class="feature-dot"></i> Полный кантроль производственных процесов (подходит для производственных компаний)</li>
-
+                    <li><i class="feature-dot"></i> Полный контроль производственных процессов (подходит для производственных компаний)</li>
                 </ul>
 
                 <button class="tariff-btn open-auth-btn">Активировать</button>
             </div>
 
+            <!-- Тариф 4: ULTIMA -->
             <div class="tariff-card card-ultima">
                 <div class="tariff-label" style="color: #ff3366;">04 // CUSTOM</div>
                 <h3 class="tariff-name">Ультима</h3>
@@ -128,6 +147,7 @@
 
     </div>
 
+    <!-- ИИ-МОДУЛИ -->
     <div class="modules-section">
         <div class="tariffs-header" style="margin-top: 100px; margin-bottom: 40px;">
             <div class="tariffs-title">ДОПОЛНИТЕЛЬНЫЕ ИИ-МОДУЛИ</div>
@@ -186,11 +206,10 @@
 
         </div>
     </div>
- 
 
-   
-    <script src="/static/js/style/style.js"></script>
+    <!-- ПОДКЛЮЧАЕМ JS -->
     <script src="/static/js/style/menu.js"></script>
-    <script src="static/js/style/tariffs/tariffs.js"></script>
+    <script src="/static/js/style/tariffs/tariffs.js"></script>
+
 </body>
 </html>

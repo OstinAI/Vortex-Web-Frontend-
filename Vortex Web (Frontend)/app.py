@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
@@ -11,28 +11,45 @@ def calendar_page():
 # 🚀 ДОБАВЬ ЭТОТ КЛАССИЧЕСКИЙ РОУТ ДЛЯ СТРАНИЦЫ ТАРИФОВ
 @app.route('/tariffs')
 def tariffs_page():
-    return render_template('tariffs.html')
+    return send_from_directory('static/js/style/tariffs', 'tariffs.html')
+
+@app.route('/contacts')
+def contacts_page():
+    return send_from_directory('static/js/style/contacts', 'contacts.html')
+
+@app.route('/questions')
+def questions_page():
+    return send_from_directory('static/js/style/questions', 'questions.html')
+
+@app.route('/support')
+def support_page():
+    return send_from_directory('static/js/style/support', 'support.html')
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return send_from_directory('static/js/style/about', 'about.html')
 
-# Фавикон
+# Фавикон - исправлен для работы со статическими файлами
 @app.after_request
 def inject_vortex_favicon(response):
-    if response.mimetype == 'text/html':
-        html_content = response.get_data(as_text=True)
-        
-        # Если фавикона еще нет в коде страницы, вклеиваем его
-        if 'images/logo.png' not in html_content:
-            favicon_code = '<link rel="icon" type="image/png" href="/static/images/logo.png">'
+    # Проверяем, что это HTML и не статический файл
+    if response.mimetype == 'text/html' and not response.direct_passthrough:
+        try:
+            html_content = response.get_data(as_text=True)
             
-            if '</head>' in html_content:
-                html_content = html_content.replace('</head>', f'    {favicon_code}\n</head>', 1)
-            elif '<body>' in html_content:
-                html_content = html_content.replace('<body>', f'<body>\n    {favicon_code}', 1)
+            # Если фавикона еще нет в коде страницы, вклеиваем его
+            if 'images/logo.png' not in html_content:
+                favicon_code = '<link rel="icon" type="image/png" href="/static/images/logo.png">'
                 
-            response.set_data(html_content)
+                if '</head>' in html_content:
+                    html_content = html_content.replace('</head>', f'    {favicon_code}\n</head>', 1)
+                elif '<body>' in html_content:
+                    html_content = html_content.replace('<body>', f'<body>\n    {favicon_code}', 1)
+                    
+                response.set_data(html_content)
+        except Exception:
+            # Если ошибка - просто пропускаем
+            pass
             
     return response
 

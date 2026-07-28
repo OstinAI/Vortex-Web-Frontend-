@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX - Поддержка</title>
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА (НОВЫЙ ФАЙЛ) -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS (фон, глобальные стили) -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- СПЕЦИФИЧНЫЙ CSS ДЛЯ ПОДДЕРЖКИ (только контент) -->
+    <link rel="stylesheet" href="/static/js/style/support/support.css">
+
+</head>
+<body>
+
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="/#auth" class="nav-link">Вход</a>
+        </div>
+    </div>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="/about" class="side-link">О нас</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
+        </nav>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="support-page">
+        <div class="support-wrapper">
+            <div class="support-grid">
+
+                <!-- ЗАГОЛОВОК -->
+                <div class="support-header">
+                    <h1><span class="gradient-text">ГАРАНТИРОВАННАЯ ТЕХНИЧЕСКАЯ ПОДДЕРЖКА</span></h1>
+                    <div class="subhead">Мы всегда готовы помочь вам</div>
+                </div>
+
+                <!-- ТЕХНИЧЕСКАЯ ПОДДЕРЖКА -->
+                <div class="support-section">
+                    <h2 class="section-title"><i class="fas fa-headset"></i> Техническая поддержка</h2>
+
+                    <div class="support-info-grid">
+                        <div class="support-info-item">
+                            <div class="info-icon"><i class="far fa-calendar-alt"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Регламент работы</span>
+                                <span class="info-value">Понедельник – Пятница с 10:00 - 20:00 (По Казахстану)</span>
+                            </div>
+                        </div>
+                        <div class="support-info-item">
+                            <div class="info-icon"><i class="fas fa-clock"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Время реакции на заявку</span>
+                                <span class="info-value">Не более 2 часов</span>
+                            </div>
+                        </div>
+                        <div class="support-info-item">
+                            <div class="info-icon"><i class="fas fa-id-card"></i></div>
+                            <div class="info-content">
+                                <span class="info-label">При принятии заявки</span>
+                                <span class="info-value">Необходимо сообщить ID компании</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- КОМПЕТЕНЦИЯ ПОДДЕРЖКИ -->
+                <div class="support-section">
+                    <h2 class="section-title"><i class="fas fa-check-circle"></i> В компетенции гарантированной технической поддержки</h2>
+
+                    <div class="competence-grid">
+                        <div class="competence-item">
+                            <i class="fas fa-cogs"></i>
+                            <span>Функционал программы</span>
+                        </div>
+                        <div class="competence-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Вопросы по работе с программой</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-block">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Обучение не относится к гарантированной технической поддержке!</span>
+                    </div>
+                </div>
+
+                <!-- ОБУЧЕНИЕ -->
+                <div class="support-section">
+                    <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Обучение</h2>
+
+                    <div class="learning-info">
+                        <div class="learning-item">
+                            <i class="fas fa-video"></i>
+                            <div>
+                                <span class="learning-label">Проводится посредством</span>
+                                <span class="learning-value">Google Meet</span>
+                            </div>
+                        </div>
+                        <div class="learning-item">
+                            <i class="fas fa-gem"></i>
+                            <div>
+                                <span class="learning-label">Первичное обучение</span>
+                                <span class="learning-value">Входит в стоимость покупки программы, специалист нашей компании обучает программе VORTEX CORE не более 2-х часов (120 минут)</span>
+                            </div>
+                        </div>
+                        <div class="learning-item">
+                            <i class="fas fa-coins"></i>
+                            <div>
+                                <span class="learning-label">Повторные обучения</span>
+                                <span class="learning-value">А также обучения которые вышли за рамки 120 минут, тарифицируются как 15 000 тенге в час</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ДОПОЛНИТЕЛЬНЫЕ РЕСУРСЫ -->
+                <div class="support-section">
+                    <h2 class="section-title"><i class="fas fa-book"></i> Также вы можете воспользоваться</h2>
+
+                    <div class="resources-grid">
+                        <a href="#" class="resource-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Инструкцией</span>
+                        </a>
+                        <a href="#" class="resource-item">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Видео-уроками</span>
+                        </a>
+                        <a href="/questions" class="resource-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- КОНТАКТЫ ПОДДЕРЖКИ -->
+                <div class="support-section">
+                    <h2 class="section-title"><i class="fas fa-phone-alt"></i> Контакты поддержки</h2>
+
+                    <div class="support-contacts">
+                        <div class="support-contact-item">
+                            <div class="contact-icon whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-info-text">
+                                <span class="contact-label">WhatsApp (только чат)</span>
+                                <a href="https://wa.me/77010063601" class="contact-value">+7 701 006 36 01</a>
+                            </div>
+                        </div>
+                        <div class="support-contact-item">
+                            <div class="contact-icon phone">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-info-text">
+                                <span class="contact-label">Звонок в колл-центр</span>
+                                <a href="tel:+77010063600" class="contact-value">+7 701 006 36 00</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="support-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Вся техническая поддержка осуществляется только по официальным каналам и нашими дистрибьюторами</span>
+                    </div>
+                </div>
+
+                <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+                <div class="contact-form-section">
+                    <div class="form-header">
+                        <h2>Отправить заявку</h2>
+                        <p>Заполните форму и мы свяжемся с вами в ближайшее время</p>
+                    </div>
+
+                    <form class="contact-form" id="supportForm" onsubmit="return handleFormSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="formName">Имя</label>
+                                <input type="text" id="formName" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="formEmail">Электронная почта</label>
+                                <input type="email" id="formEmail" placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formPhone">Номер телефона</label>
+                            <input type="tel" id="formPhone" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formMessage">Текст сообщения</label>
+                            <textarea id="formMessage" rows="4" placeholder="Опишите вашу проблему или вопрос..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Отправить
+                        </button>
+                    </form>
+
+                    <!-- Сообщение об успешной отправке -->
+                    <div id="formSuccess" class="form-success" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Заявка отправлена!</h3>
+                        <p>Мы свяжемся с вами в ближайшее время.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ JS -->
+    <script src="/static/js/style/support/support.js"></script>
+
+</body>
+</html>

@@ -1,43 +1,49 @@
-﻿:root {
-    --vortex-bg-dark: #020b12;
-    --vortex-bg-black: #050505;
+﻿/* ============================================================
+   TARIFFS PAGE — VORTEX STYLE (ТОЛЬКО КОНТЕНТ)
+   Путь: static/js/style/tariffs/tariffs.css
+   ============================================================ */
+
+/* ----- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ----- */
+:root {
     --vortex-accent: #00E5FF;
+    --vortex-accent-dark: #0099cc;
     --vortex-border: rgba(0, 229, 255, 0.15);
     --text-main: #ffffff;
-    --text-muted: #888888;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --text-dim: rgba(255, 255, 255, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    --glass-blur: blur(20px);
 }
 
+/* ----- БАЗОВЫЕ СТИЛИ ----- */
 html {
-    /* 🚀 Включаем мягкое поведение скролла по умолчанию */
-    scroll-behavior: smooth !important;
+    scroll-behavior: smooth;
 }
 
-html, body {
-    background: linear-gradient(180deg, var(--vortex-bg-dark) 0%, var(--vortex-bg-black) 100%);
-    color: var(--text-main);
-    font-family: 'Segoe UI', sans-serif;
+body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    /* Браузер сам мягко управляет нативным скроллом */
-    overflow-y: auto !important;
     min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #020b12;
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(0, 80, 200, 0.25) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(0, 180, 255, 0.15) 0%, transparent 40%), radial-gradient(ellipse at 50% 100%, rgba(0, 40, 120, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0, 200, 255, 0.05) 0%, transparent 30%), linear-gradient(180deg, #020b12 0%, #051a2a 40%, #0a2540 70%, #061525 100%);
+    background-attachment: fixed;
+    overflow-y: scroll !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
 }
 
-    /* 🚀 ПОЛНОСТЬЮ СКРЫВАЕМ ПОЛОСУ СКРОЛЛА (как на странице О нас) */
-    html::-webkit-scrollbar,
     body::-webkit-scrollbar {
         display: none !important;
         width: 0 !important;
         height: 0 !important;
     }
 
-html, body {
-    scrollbar-width: none; /* Фикс для Firefox */
-    -ms-overflow-style: none; /* Фикс для IE */
-}
+/* ============================================================
+   ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ ТАРИФОВ
+   ============================================================ */
 
-/* Главный контейнер */
 .tariffs-container {
     max-width: 1400px;
     margin: 120px auto 60px auto;
@@ -45,21 +51,20 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Заголовок страницы */
 .tariffs-header {
     text-align: center;
     margin-bottom: 60px;
 }
 
 .tariffs-title {
-    font-size: 24px;
+    font-size: 26px !important;
     font-weight: 300;
-    letter-spacing: 6px;
+    letter-spacing: 6px !important;
     color: var(--text-main);
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    text-shadow: 0 0 25px rgba(0, 229, 255, 0.35) !important;
     display: inline-block;
     border-left: 3px solid var(--vortex-accent);
-    padding-left: 15px;
+    padding-left: 18px;
     text-transform: uppercase;
 }
 
@@ -68,9 +73,37 @@ html, body {
     color: var(--text-muted);
     margin-top: 15px;
     font-weight: 400;
+    letter-spacing: 1px;
 }
 
-/* Сетка тарифов (Строго по горизонтали) */
+/* ----- ПРОМО И АКЦИИ ----- */
+.tariffs-promo {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+}
+
+.promo-highlight {
+    color: var(--vortex-accent);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+.promo-alert {
+    color: #ff6b6b;
+    font-size: 12px;
+}
+
+.promo-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: inline-block;
+    margin-top: 5px;
+}
+
+/* ----- СТЕКЛЯННАЯ КАРТА ТАРИФА ----- */
 .tariffs-grid {
     display: flex;
     justify-content: center;
@@ -79,34 +112,48 @@ html, body {
     width: 100%;
 }
 
-/* Общая стеклянная карточка тарифа */
 .tariff-card {
     flex: 1;
     min-width: 260px;
     max-width: 320px;
-    background: rgba(2, 11, 18, 0.3);
-    border: 1px solid var(--vortex-border);
-    border-radius: 12px;
-    padding: 35px 25px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 35px 30px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     position: relative;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 80px rgba(0, 100, 255, 0.03);
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    /* Начальное состояние для анимации появления */
     opacity: 0;
     transform: translateY(40px);
 }
 
-    /* Анимация плавного появления */
     .tariff-card.reveal {
         opacity: 1;
         transform: translateY(0);
     }
 
-/* Метки над названиями */
+    .tariff-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(ellipse at 30% 20%, rgba(0, 150, 255, 0.03) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(0, 200, 255, 0.02) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .tariff-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
 .tariff-label {
     font-size: 11px;
     letter-spacing: 2px;
@@ -115,7 +162,6 @@ html, body {
     margin-bottom: 15px;
 }
 
-/* Название тарифа */
 .tariff-name {
     font-size: 22px;
     font-weight: 300;
@@ -124,7 +170,6 @@ html, body {
     color: var(--text-main);
 }
 
-/* Цена тарифа */
 .tariff-price {
     font-size: 26px;
     font-weight: 400;
@@ -140,7 +185,6 @@ html, body {
         letter-spacing: 0;
     }
 
-/* Список того, что входит (КУДА ВПИСЫВАТЬ ПУНКТЫ) */
 .tariff-features {
     list-style: none;
     margin: 0 0 40px 0;
@@ -148,7 +192,7 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    flex-grow: 1; /* Подталкивает кнопку всегда вниз, чтобы карточки были одной высоты */
+    flex-grow: 1;
 }
 
     .tariff-features li {
@@ -160,7 +204,6 @@ html, body {
         gap: 10px;
     }
 
-/* Точки перед пунктами */
 .feature-dot {
     width: 5px;
     height: 5px;
@@ -171,7 +214,6 @@ html, body {
     box-shadow: 0 0 6px var(--vortex-accent);
 }
 
-/* Кнопки тарифов */
 .tariff-btn {
     width: 100%;
     background: transparent;
@@ -193,15 +235,12 @@ html, body {
         box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
-/* --- ИНДИВИДУАЛЬНАЯ СТИЛИЗАЦИЯ И НЕОН ДЛЯ КАЖДОЙ СТЕКЛЯННОЙ РАМКИ --- */
-
-/* 1. Стандарт */
+/* ----- ИНДИВИДУАЛЬНЫЕ СТИЛИ ТАРИФОВ ----- */
 .card-standard:hover {
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
-/* 2. Бизнес (Акцентный тариф) */
 .card-business {
     border-color: rgba(0, 229, 255, 0.3);
     background: rgba(0, 229, 255, 0.03);
@@ -223,7 +262,6 @@ html, body {
         box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
     }
 
-/* 3. Про */
 .card-pro:hover {
     border-color: #9d4edd;
     box-shadow: 0 0 30px rgba(157, 78, 221, 0.15);
@@ -234,7 +272,6 @@ html, body {
         box-shadow: 0 0 6px #9d4edd;
     }
 
-/* 4. Ультима */
 .card-ultima:hover {
     border-color: #ff3366;
     box-shadow: 0 0 30px rgba(255, 51, 102, 0.15);
@@ -256,39 +293,7 @@ html, body {
         box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
     }
 
-/* АДАПТИВНОСТЬ: На экранах поменьше перестраиваем в колонку */
-@media (max-width: 1200px) {
-    .tariffs-grid {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-
-    .tariff-card {
-        max-width: 450px;
-        width: 100%;
-    }
-}
-
-
-/* 🚀 УБИРАЕМ БЕЛОЕ СВЕЧЕНИЕ С КНОПКИ ВХОД */
-.navbar .nav-links .nav-link {
-    text-shadow: none !important;
-    box-shadow: none !important;
-    border-color: rgba(255, 255, 255, 0.2) !important; /* Делаем рамку аккуратной и не яркой */
-    color: rgba(255, 255, 255, 0.8) !important; /* Слегка приглушаем белый цвет текста */
-    transition: all 0.3s ease;
-}
-
-    /* Эффект при наведении на Вход (сделаем аккуратное фирменное бирюзовое подсвечивание вместо белого взрыва) */
-    .navbar .nav-links .nav-link:hover {
-        color: var(--vortex-accent) !important;
-        border-color: var(--vortex-accent) !important;
-        box-shadow: 0 0 10px rgba(0, 229, 255, 0.2) !important;
-        text-shadow: none !important;
-    }
-
-/* --- СТИЛИ ДЛЯ ИИ-МОДУЛЕЙ --- */
+/* ----- ИИ-МОДУЛИ ----- */
 .modules-section {
     width: 100%;
     margin-bottom: 100px;
@@ -303,23 +308,21 @@ html, body {
     margin: 0 auto;
 }
 
-/* Базовая плашка модуля */
 .module-card {
-    background: rgba(2, 11, 18, 0.2);
-    border: 1px solid rgba(0, 229, 255, 0.1);
-    border-radius: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
     padding: 25px 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
 }
 
-/* Левая часть плашки */
 .module-info {
     flex: 1;
     padding-right: 40px;
@@ -347,7 +350,6 @@ html, body {
     line-height: 1.5;
 }
 
-/* Правая часть плашки (Цена и Кнопка) */
 .module-action {
     display: flex;
     flex-direction: column;
@@ -373,9 +375,7 @@ html, body {
     min-width: 160px;
 }
 
-/* --- ИНДИВИДУАЛЬНЫЕ НЕОНОВЫЕ СТИЛИ ПРИ НАВЕДЕНИИ --- */
-
-/* 1. Продажник (Бирюзовый неон) */
+/* ----- ИНДИВИДУАЛЬНЫЕ СТИЛИ МОДУЛЕЙ ----- */
 .mod-sales {
     border-left: 4px solid var(--vortex-accent);
 }
@@ -397,7 +397,6 @@ html, body {
         box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
     }
 
-/* 2. Руководитель (Фиолетовый неон) */
 .mod-boss {
     border-left: 4px solid #9d4edd;
 }
@@ -419,7 +418,6 @@ html, body {
         box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
     }
 
-/* 3. Учитель (Золотой/Желтый неон) */
 .mod-teacher {
     border-left: 4px solid #ffb703;
 }
@@ -441,7 +439,6 @@ html, body {
         box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
     }
 
-/* 4. Ассистент (Розовый/Малиновый неон) */
 .mod-assistant {
     border-left: 4px solid #ff3366;
 }
@@ -463,7 +460,23 @@ html, body {
         box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
     }
 
-/* Адаптив под мобилки */
+/* ============================================================
+   АДАПТИВНОСТЬ (ТОЛЬКО ДЛЯ КОНТЕНТА)
+   ============================================================ */
+
+@media (max-width: 1200px) {
+    .tariffs-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .tariff-card {
+        max-width: 450px;
+        width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     .module-card {
         flex-direction: column;
@@ -484,28 +497,31 @@ html, body {
         .module-action .tariff-btn {
             width: 100%;
         }
+
+    .tariffs-container {
+        margin-top: 120px;
+        padding: 0 15px;
+    }
+
+    .tariffs-title {
+        font-size: 22px !important;
+        letter-spacing: 4px !important;
+    }
 }
 
-/* --- СТИЛИ ДЛЯ ПРЕДЛОЖЕНИЯ И АКЦИИ --- */
-.tariffs-promo {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
-    margin-top: 15px;
-    letter-spacing: 0.5px;
-}
+@media (max-width: 480px) {
+    .tariffs-container {
+        padding: 0 12px;
+        margin-top: 100px;
+    }
 
-/* Яркая неоновая подсветка для "1 месяц" и "10 дней" */
-.promo-highlight {
-    color: var(--vortex-accent); /* Твой бирюзовый неон */
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
-}
+    .tariffs-title {
+        font-size: 18px !important;
+        letter-spacing: 3px !important;
+        padding-left: 12px;
+    }
 
-/* Сноска про доп. модули чуть поменьше и прозрачнее */
-.promo-note {
-    font-size: 12px;
-    color: var(--text-muted);
-    display: inline-block;
-    margin-top: 5px;
+    .tariffs-subtitle {
+        font-size: 13px;
+    }
 }

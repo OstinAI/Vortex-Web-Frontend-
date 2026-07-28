@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX - Вопросы и ответы</title>
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА (НОВЫЙ ФАЙЛ) -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS (фон, глобальные стили) -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- СПЕЦИФИЧНЫЙ CSS ДЛЯ СТРАНИЦЫ ВОПРОСОВ (только контент) -->
+    <link rel="stylesheet" href="/static/js/style/questions/questions.css">
+
+</head>
+<body>
+
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
+        <div class="burger-menu" id="burgerToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="/#auth" class="nav-link">Вход</a>
+        </div>
+    </div>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="side-panel" id="sidePanel">
+        <nav class="side-nav">
+            <a href="/about" class="side-link">О нас</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
+        </nav>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="questions-page">
+        <div class="questions-wrapper">
+            <div class="questions-grid">
+
+                <!-- ЗАГОЛОВОК -->
+                <div class="questions-header">
+                    <h1><span class="gradient-text">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</span></h1>
+                    <div class="subhead">Ответы на самые популярные вопросы</div>
+                </div>
+
+                <!-- ВОПРОС 1 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Что делать если у нас отключился интернет, как работать в программе в этом случае?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>За всё время к нам в поддержку с такой проблемой обратились только 1 раз. Но, на всякий случай, важно понимать, что при отключении интернета Ваши данные не пропадают, просто доступ к программе отсутствует.</p>
+                        <p>В таком случае, Вы можете воспользоваться смартфоном или планшетом, у которых есть возможность подключения через мобильный интернет. Его скорости достаточно, чтобы спокойно продолжить работу с программой.</p>
+                        <p>В крайнем случае, если планшета или телефона сейчас нет, то придется записать данные локально на компьютер, а потом, при подключении интернета их просто можно будет перенести в Dentist Plus.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 2 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Безопасно ли хранить данные в облаке? Насколько я защищен от потери моих данных?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Сохранение данных в облаке в наше время самый безопасный способ и защита для данных, они никуда не могут пропасть или где-то "потеряться".</p>
+                        <p>На компьютере есть шанс переполнения памяти, возгорания из-за технических перебоев, физического влияния или человеческого фактора.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 3 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>На каких устройствах работает ваша программа?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Наша программа работает на любых устройствах: компьютеры (Windows, macOS, Linux), планшеты и смартфоны (iOS, Android).</p>
+                        <p>Вам нужен только доступ к интернету и современный браузер.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 4 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Какие требования к оборудованию предъявляет ваша программа?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Никаких, программа не нагружает устройство, через которое заходите в программу.</p>
+                        <p>Для этого требуется только доступ к интернету, будь то стационарный интернет, wi-fi или мобильный интернет.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 5 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Как работает тех поддержка?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Тех поддержка у нас работает на сайте, ватсап и вайбере.</p>
+                        <p>Более подробную информацию вы можете получить на странице <a href="/support" style="color: #00E5FF; text-decoration: none; border-bottom: 1px solid rgba(0, 229, 255, 0.2);">поддержка</a>.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 6 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Ведется ли учет по материалам и расходам в программе?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Да, у нас есть модуль склад, где формирует весь учет по материалам и расходам компаний.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 7 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Где мы находимся? С какими странами работаем?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Головной офис находится в Алматы. Работаем мы по всему миру. Наша программа доступна для использования в любой точке земного шара, где есть доступ к интернету.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 8 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Сколько времени занимает внедрение программы?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Внедрение программы занимает от 1 до 3 дней в зависимости от объема данных и специфики работы компаний.</p>
+                        <p>Мы проводим полное обучение персонала и помогаем с переносом данных.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 9 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Как защищены мои данные от взлома?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Мы используем современные протоколы шифрования данных (SSL/TLS).</p>
+                        <p>Все данные хранятся в защищенных облачных хранилищах с многоуровневой системой безопасности.</p>
+                        <p>Регулярно проводим аудит безопасности и обновляем системы защиты.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 10 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Как часто обновляется программа?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Обновления выходят регулярно, примерно 1-2 раза в месяц.</p>
+                        <p>Все обновления происходят автоматически и не требуют дополнительных действий со стороны пользователя.</p>
+                        <p>Мы постоянно добавляем новые функции и улучшаем существующие.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 11 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Предоставляете ли вы обучение для сотрудников?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Да, мы проводим обучение для сотрудников на всех этапах внедрения.</p>
+                        <p>Доступны видеоуроки, инструкции и онлайн-консультации с нашими специалистами.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 12 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Какие способы оплаты вы принимаете?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Мы принимаем оплату по безналичному расчету, банковскими картами и через системы электронных платежей.</p>
+                        <p>Для юридических лиц предоставляются все необходимые документы для бухгалтерии.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 13 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Есть ли у вас мобильное приложение?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>На данный момент у нас нет мобильного приложения. Вся работа с программой осуществляется через веб-сайт, который адаптирован для любых устройств — компьютеров, планшетов и смартфонов.</p>
+                    </div>
+                </div>
+
+                <!-- ВОПРОС 14 -->
+                <div class="question-item">
+                    <div class="question-header" onclick="toggleQuestion(this)">
+                        <div class="question-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="question-text">
+                            <h3>Можно ли протестировать программу перед покупкой?</h3>
+                        </div>
+                        <div class="question-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="question-answer">
+                        <p>Да, мы предоставляем демо-доступ к программе на 10 дней.</p>
+                        <p>Вы можете протестировать все функции, познакомиться с интерфейсом и убедиться, что программа подходит для вашей работы.</p>
+                    </div>
+                </div>
+
+                <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+                <div class="contact-form-section">
+                    <div class="form-header">
+                        <h2>Остались вопросы? <span style="color: #00E5FF;">Задавайте.</span></h2>
+                        <p>Напишите нам, и мы с радостью ответим на все ваши вопросы</p>
+                    </div>
+
+                    <form class="contact-form" id="questionForm" onsubmit="return handleFormSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="formName">Имя</label>
+                                <input type="text" id="formName" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="formEmail">Электронная почта</label>
+                                <input type="email" id="formEmail" placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formPhone">Номер телефона</label>
+                            <input type="tel" id="formPhone" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formQuestion">Напишите вопрос</label>
+                            <textarea id="formQuestion" rows="4" placeholder="Опишите ваш вопрос подробнее..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Задать вопрос
+                        </button>
+                    </form>
+
+                    <!-- Сообщение об успешной отправке -->
+                    <div id="formSuccess" class="form-success" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Спасибо за ваш вопрос!</h3>
+                        <p>Мы свяжемся с вами в ближайшее время.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ JS -->
+    <script src="/static/js/style/questions/questions.js"></script>
+
+</body>
+</html>

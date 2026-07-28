@@ -20,67 +20,12 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/logo.png');
+    background-image: url('../images/pexels-thales13-27173061.jpg');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.35);
-    z-index: -1;
+    filter: brightness(0.6);
+    z-index: 0;
 }
-
-/* Навигация */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-}
-
-.nav-logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--neon-blue);
-}
-
-.nav-links {
-    display: flex;
-    gap: 30px;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-    .nav-link:hover {
-        color: var(--neon-blue);
-    }
-
-    .nav-link.disabled {
-        opacity: 0.5;
-        cursor: default;
-    }
-
-/* Лендинг */
-.landing-content {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-    .landing-content h1 {
-        font-size: 64px;
-        margin: 0;
-        text-shadow: 0 0 20px var(--vortex-light);
-    }
 
 /* Контейнеры авторизации и регистрации */
 .auth-container {
@@ -163,7 +108,8 @@ body, html {
         transition: 0.3s;
     }
 
-    .input-field input:focus ~ label, .input-field input:not(:placeholder-shown) ~ label {
+    .input-field input:focus ~ label,
+    .input-field input:not(:placeholder-shown) ~ label {
         top: -12px;
         font-size: 12px;
         color: var(--neon-blue);
@@ -209,22 +155,87 @@ body, html {
     margin-bottom: 10px;
 }
 
-/* Финальное решение для автозаполнения Vortex */
+/* Автозаполнение */
 .input-field input:-webkit-autofill,
 .input-field input:-webkit-autofill:hover,
 .input-field input:-webkit-autofill:focus,
 .input-field input:-webkit-autofill:active {
-    /* Фоновая заливка цветом системы */
     -webkit-box-shadow: 0 0 0 1000px var(--deep-blue) inset !important;
-    /* Принудительно белый текст (основной хак) */
     -webkit-text-fill-color: #ffffff !important;
     color: #ffffff !important;
-    /* Цвет мигающего курсора тоже делаем белым/неоновым */
     caret-color: var(--neon-blue) !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     border-bottom: 2px solid var(--neon-blue) !important;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Настройка холста */
+#spiralCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 1;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Контент лендинга */
+.landing-content {
+    position: relative;
+    z-index: 2;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.main-cta {
+    position: absolute;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 35px;
+    font-size: 18px;
+    background: #00ffff;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+    transition: 0.3s;
+}
+
+    .main-cta:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 1);
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.reg-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+    .reg-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
 
 /* CRM Dashboard элементы */
 .dashboard-header {
@@ -315,139 +326,15 @@ body, html {
         height: 70px;
     }
 
-
-/* Базовые настройки для исключения прокрутки */
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    /* Убираем background-color: #000, чтобы не было лишней черноты */
-}
-
-.bg-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../images/pexels-thales13-27173061.jpg');
-    background-size: cover;
-    background-position: center;
-    /* Увеличиваем яркость (было 0.15), теперь фото будет видно */
-    filter: brightness(0.6);
-    z-index: 0;
-}
-
-/* Стеклянная прозрачная шапка */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    /* Эффект прозрачного стекла */
-    background: rgba(255, 255, 255, 0.05); /* Очень легкий белый налет */
-    backdrop-filter: blur(20px); /* Усилили размытие для глубины */
-    -webkit-backdrop-filter: blur(20px);
-    /* Тонкий блик по краю */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    transition: 0.3s;
-}
-
-/* Настройка холста, чтобы он был между фоном и текстом */
-#spiralCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    z-index: 1; /* Над bg-image (0), но под navbar (100) */
-}
-
-/* Контент лендинга */
-.landing-content {
-    position: relative;
-    z-index: 2; /* Над точками */
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-}
-
-.main-cta {
+#cta-button {
     position: absolute;
-    pointer-events: auto;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    text-decoration: none; /* Убираем подчеркивание ссылки */
-    /* Стили как у кнопки */
-    padding: 15px 35px;
-    font-size: 18px;
-    background: #00ffff;
-    border-radius: 50px;
-    display: inline-block;
-    font-weight: bold;
-    color: #000;
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
-    transition: 0.3s;
-}
-
-    .main-cta:hover {
-        box-shadow: 0 0 40px rgba(0, 255, 255, 1);
-        transform: translate(-50%, -50%) scale(1.05);
-    }
-
-.auth-footer {
-    /* Делаем отступ 25 пикселей от кнопки ВХОД */
-    margin-top: 25px;
-    text-align: center;
-}
-
-.reg-link {
-    /* Чистый белый цвет, как ты и просил */
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-    opacity: 0.8; /* Делаем чуть приглушенным, чтобы не отвлекать от кнопки */
-    transition: all 0.3s ease;
-}
-
-    .reg-link:hover {
-        opacity: 1; /* При наведении становится ярко-белым */
-        text-decoration: underline;
-        /* Добавим легкое свечение при наведении в стиле Vortex */
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    }
-
-#spiralCanvas {
-    /* Подсказываем браузеру, что холст будет постоянно меняться */
+    left: 0;
+    top: 0;
     will-change: transform;
-    /* Включаем аппаратное ускорение */
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    transition: none !important;
 }
 
 .auth-card, .feature-label {
-    /* Чтобы плашки не "прыгали", выносим их отрисовку на GPU */
     will-change: transform;
     transform: translateZ(0);
 }
-
-#cta-button {
-    position: absolute; /* Кнопка должна летать поверх холста */
-    left: 0;
-    top: 0;
-    will-change: transform; /* Подсказываем видеокарте телевизора/телефона, что элемент будет двигаться */
-    transition: none !important; /* ВАЖНО: отключаем CSS-анимации переходов, чтобы они не конфликтовали с циклом JS */
-}
-

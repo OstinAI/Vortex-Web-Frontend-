@@ -6,13 +6,22 @@
     <title>VORTEX - Technologies</title>
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ЕДИНАЯ ШАПКА -->
+    <link rel="stylesheet" href="/static/js/style/cap/header.css">
+
+    <!-- ОБЩИЙ CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none;"></canvas>
-
-    
 
     <div id="galaxy-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2; font-family: 'Segoe UI', Roboto, sans-serif;">
 
@@ -29,18 +38,15 @@
                 font-size: 13px;
                 font-weight: 500;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-                display: none; /* Управляется строго через JS */
-                /* 🚀 Оставляем плавность только для цвета и прозрачности */
+                display: none;
                 transition: opacity 0.3s, border-color 0.3s, background-color 0.3s;
             }
 
-                /* 🚀 При наведении меняем только цвета шапки, размер здесь НЕ трогаем */
                 .feature-label:hover {
                     border-color: #00ffff;
                     background-color: rgba(0, 0, 0, 0.9);
                 }
 
-            /* На телефонах выключаем ТОЛЬКО галактику и летающие плашки. Кнопка выше НЕ исчезнет! */
             @media (max-width: 600px) {
                 #spiralCanvas, #galaxy-overlay {
                     display: none !important;
@@ -83,29 +89,29 @@
 
     <div class="bg-image"></div>
 
-
-    <div class="navbar" style="z-index: 20;">
-        <div class="nav-logo">VORTEX CORE</div>
-
+    <!-- ШАПКА (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
+    <div class="navbar">
+        <a href="/" class="nav-logo">VORTEX CORE</a>
         <div class="burger-menu" id="burgerToggle">
             <span></span>
             <span></span>
             <span></span>
         </div>
-
         <div class="nav-links">
-            <a href="#" class="nav-link" id="login-nav" onclick="toggleAuth()">Вход</a>
+            <a href="/#auth" class="nav-link" id="login-nav">Вход</a>
         </div>
     </div>
 
+    <!-- БОКОВАЯ ПАНЕЛЬ (ЕДИНАЯ ДЛЯ ВСЕХ СТРАНИЦ) -->
     <div class="side-panel" id="sidePanel">
         <nav class="side-nav">
             <a href="/about" class="side-link">О нас</a>
-            <a href="{{ url_for('tariffs_page') }}" class="side-link">Тарифы</a>
+            <a href="/tariffs" class="side-link">Тарифы</a>
+            <a href="/contacts" class="side-link">Контакты</a>
+            <a href="/questions" class="side-link">Вопросы</a>
+            <a href="/support" class="side-link">Поддержка</a>
         </nav>
     </div>
-
-   
 
     <div id="auth-form" class="auth-container">
         <div class="auth-card">
@@ -144,14 +150,10 @@
         </div>
     </div>
 
-
-
     <script src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
     <script src="/static/js/style/style.js"></script>
-    <link rel="stylesheet" href="/static/js/style/css/menu.css">
     <script src="/static/js/style/menu.js"></script>
-   
 
 </body>
 </html>
