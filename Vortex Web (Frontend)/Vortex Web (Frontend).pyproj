@@ -152,6 +152,9 @@
     <Content Include="static\js\style\css\about.css" />
     <Content Include="static\js\style\contacts\contacts.css" />
     <Content Include="static\js\style\css\menu.css" />
+    <Content Include="static\js\style\distributor\distributor.css" />
+    <Content Include="static\js\style\distributor\distributor.html" />
+    <Content Include="static\js\style\distributor\distributor.js" />
     <Content Include="static\js\style\menu.js" />
     <Content Include="static\js\style\questions\questions.css" />
     <Content Include="static\js\style\questions\questions.html" />
@@ -195,6 +198,7 @@
     <Folder Include="static\js\style\contacts\" />
     <Folder Include="static\js\style\about\" />
     <Folder Include="static\js\style\cap\" />
+    <Folder Include="static\js\style\distributor\" />
     <Folder Include="static\js\style\support\" />
     <Folder Include="static\js\style\questions\" />
     <Folder Include="static\js\telegram\" />

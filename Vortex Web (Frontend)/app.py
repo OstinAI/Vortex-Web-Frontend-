@@ -29,6 +29,10 @@ def support_page():
 def about():
     return send_from_directory('static/js/style/about', 'about.html')
 
+@app.route('/distributor')
+def distributor():
+    return send_from_directory('static/js/style/distributor', 'distributor.html')
+
 # Фавикон - исправлен для работы со статическими файлами
 @app.after_request
 def inject_vortex_favicon(response):
