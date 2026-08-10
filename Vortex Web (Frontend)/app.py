@@ -1,12 +1,17 @@
 ﻿# -*- coding: utf-8 -*-
 from flask import Flask, render_template, send_from_directory
+import os
 
 app = Flask(__name__)
 
 # Главная страница (Лендинг и вход)
+# Добавьте эту строку в самое начало app.py (после импортов)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# И замените сам маршрут /:
 @app.route('/')
 def index():
-    return send_from_directory('home/home', 'home.html')
+    return send_from_directory(os.path.join(BASE_DIR, 'home', 'home'), 'home.html')
 
 @app.route('/home/home/<path:filename>')
 def home_style(filename):
