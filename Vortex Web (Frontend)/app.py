@@ -314,5 +314,5 @@ def serve_company_counterparty(filename):
     return send_from_directory('crm/company/right/counterparty', filename)
 
 if __name__ == '__main__':
-    # Запуск на порту 8080
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
