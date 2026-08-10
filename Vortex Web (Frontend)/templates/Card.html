@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Карта</title>
+
+    <!-- ПОДКЛЮЧЕНИЕ ШРИФТА INTER -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../static/css/Card.css">
+    <link rel="stylesheet" href="../static/js/cart/info/CardInfoFields.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
 </head>
@@ -88,8 +95,8 @@
                 <div class="sector-title">ИНФОРМАЦИЯ О КЛИЕНТЕ</div>
                 <div id="custom-fields-container" class="fields-scroll-area"></div>
                 <div id="add-field-btn-container" style="display: none; padding: 10px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
-                    <button class="mini-btn" onclick="openFieldModal()" style="width: 100%; background: rgba(0, 229, 255, 0.1); border: 1px dashed var(--vortex-accent); color: var(--vortex-accent);">
-                        + ДОБАВИТЬ НОВОЕ ПОЛЕ
+                    <button class="mini-btn" onclick="openFieldManager()" style="width: 100%; background: rgba(0, 229, 255, 0.1); border: 1px dashed var(--vortex-accent); color: var(--vortex-accent);">
+                        + Редактирование полей
                     </button>
                 </div>
             </div>
@@ -335,30 +342,7 @@
 
     </div>
 
-    <div id="field-modal" class="vortex-modal">
-        <div class="vortex-modal-content">
-            <div class="modal-header">НОВОЕ ПОЛЕ</div>
-            <div class="modal-body">
-                <label class="field-label">Название поля (например: ФИО или Номер телефона)</label>
-                <input type="text" id="new-field-title" class="field-input" placeholder="Введите название...">
-
-                <label class="field-label" style="margin-top: 15px;">Тип данных</label>
-                <select id="new-field-type" class="field-input">
-                    <option value="text">Текст</option>
-                    <option value="number">Число</option>
-                    <option value="date">Дата</option>
-                    <option value="bool">Чипсет (Да/Нет)</option>
-                </select>
-
-            </div>
-            <div class="modal-footer">
-                <button class="vortex-btn-save" onclick="saveNewField()">СОХРАНИТЬ</button>
-                <button class="vortex-btn-edit" onclick="closeFieldModal()">ОТМЕНА</button>
-            </div>
-        </div>
-    </div>
-
-
+   
 
 
 
@@ -394,6 +378,9 @@
     <script src="../static/js/config.js"></script>
     <script src="../static/js/Card.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="../static/js/cart/info/CardInfoFields.js"></script>
+    <script src="../static/js/cart/info/CardFieldManager.js"></script>
 
     <script src="../static/js/mailru/mailru.js"></script>
     <script src="../static/js/mailru/massagenewmail.js"></script>

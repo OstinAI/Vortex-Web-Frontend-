@@ -1,0 +1,36 @@
+/* ========================================= */
+/* ИНДИКАТОР КОМПАНИИ (Только текст)          */
+/* ========================================= */
+
+/* Основной контейнер */
+.company-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px; /* Отступы только по бокам */
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    height: 44px;
+    box-sizing: border-box;
+    cursor: default;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    /* Эффект при наведении */
+    .company-indicator:hover {
+        border-color: #00E5FF;
+        background: rgba(0, 229, 255, 0.06);
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+    }
+
+    /* Название компании (текст) */
+    .company-indicator .company-name {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase; /* Сделаем капсом для стиля */
+    }

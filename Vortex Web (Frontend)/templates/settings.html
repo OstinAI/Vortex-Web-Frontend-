@@ -1,3 +1,4 @@
+<!-- templates/settings.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vortex Settings | Настройки</title>
     <link rel="stylesheet" href="static/css/settings.css">
+    <link rel="stylesheet" href="static/administration/admin.css">
 </head>
 <body class="vortex-runtime">
 
@@ -19,6 +21,10 @@
         </div>
 
         <div class="vortex-header-actions">
+            <!-- Кнопка "АДМИНИСТРИРОВАНИЕ" - СКРЫТА ПО УМОЛЧАНИЮ -->
+            <button class="btn-glass-vortex btn-automation" id="admin-panel-toggle" onclick="openVortexAdmin()" style="display: none;">
+                ⚙️ АДМИНИСТРИРОВАНИЕ
+            </button>
             <button class="btn-glass-vortex btn-automation" onclick="openAutomation()">
                 АВТОМАТИЗАЦИЯ
             </button>
@@ -31,22 +37,38 @@
     <main class="vortex-layout-grid">
         <section class="tasks-scroll-area" style="width: 100%; padding-top: 0 !important; scrollbar-width: none; -ms-overflow-style: none;">
 
-
-
+            <div id="admin-panel-container" style="display: none;"></div>
             <div id="settings-content-area" class="settings-viewport"></div>
-
             <div class="settings-viewport"></div>
 
         </section>
     </main>
 
+    <div id="admin-modal-root"></div>
 
+    <!-- ============================================================ -->
+    <!-- СКРИПТЫ -->
+    <!-- ============================================================ -->
+    <!-- Конфигурация -->
     <script src="static/js/config.js"></script>
+
+    <!-- Интеграции -->
     <script src="static/js/mailru/mailru.js"></script>
     <script src="static/js/mailru/contactmail.js"></script>
     <script src="static/js/whatsapp/whatsapp_integration.js"></script>
     <script src="static/js/telegram/telegram_integration.js"></script>
+
+    <!-- Основные настройки -->
     <script src="static/js/settings.js"></script>
+
+    <!-- Административная панель -->
+    <script src="static/administration/admin-background.js"></script>
+    <script src="/static/administration/admin-modal.js"></script>
+    <script src="/static/administration/admin-button.js"></script>
+    <script src="static/administration/admin.js"></script>
+
+    <!-- НОВЫЙ ФАЙЛ: управление кнопкой администрирования -->
+    <script src="static/administration/admin-settings.js"></script>
 
 </body>
 </html>

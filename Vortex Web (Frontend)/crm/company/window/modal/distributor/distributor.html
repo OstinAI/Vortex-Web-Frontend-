@@ -1,0 +1,305 @@
+﻿<!-- ============================================
+     ДИСТРИБЬЮТОР - МОДАЛЬНОЕ ОКНО
+     Путь: /crm/company/window/modal/distributor/distributor.html
+     ============================================ -->
+
+<div class="distributor-modal-overlay" id="distributorModal">
+    <div class="distributor-modal">
+        <!-- Шапка -->
+        <div class="distributor-modal-header">
+            <div class="distributor-header-left">
+                <span class="distributor-icon"></span>
+                <h2 class="distributor-title">Стать дистрибьютором</h2>
+            </div>
+            <button class="distributor-close-btn" onclick="window.closeDistributorModal()">&#10005;</button>
+        </div>
+
+        <!-- Содержание -->
+        <div class="distributor-modal-body">
+            <!-- Табы -->
+            <div class="distributor-tabs">
+                <button class="distributor-tab active" data-tab="offer" onclick="window.switchDistributorTab('offer')">
+                    Договор оферты
+                </button>
+                <button class="distributor-tab" data-tab="instructions" onclick="window.switchDistributorTab('instructions')">
+                    Инструкция
+                </button>
+                <button class="distributor-tab" data-tab="apply" onclick="window.switchDistributorTab('apply')">
+                    Подать заявку
+                </button>
+            </div>
+
+            <!-- Вкладка: Договор оферты -->
+            <div class="distributor-tab-content active" id="tab-offer">
+                <div class="distributor-offer-text">
+                    <h3>Договор публичной оферты</h3>
+                    <p><strong>г. Алматы</strong> &nbsp;|&nbsp; <span id="currentDate"></span></p>
+
+                    <div class="offer-section">
+                        <h4>1. Общие положения</h4>
+                        <p>
+                            1.1. Настоящий договор является официальным предложением (публичной офертой)
+                            ТОО «Vortex» (далее — «Компания») в адрес любого физического или юридического лица
+                            (далее — «Дистрибьютор») заключить договор на условиях, изложенных ниже.
+                        </p>
+                        <p>
+                            1.2. Акцептом настоящей оферты является подача заявки через форму на сайте
+                            и регистрация в партнерской программе Vortex.
+                        </p>
+                    </div>
+
+                    <div class="offer-section">
+                        <h4>2. Предмет договора</h4>
+                        <p>
+                            2.1. Дистрибьютор обязуется привлекать клиентов для Компании Vortex
+                            и передавать их в обработку через партнерскую систему.
+                        </p>
+                        <p>
+                            2.2. Компания обязуется выплачивать Дистрибьютору комиссионное вознаграждение
+                            от каждого привлеченного клиента в размере <strong>10%</strong> от суммы
+                            каждого платежа, совершенного клиентом.
+                        </p>
+                        <p>
+                            2.3. Комиссия выплачивается ежемесячно на банковский счет Дистрибьютора,
+                            указанный при регистрации.
+                        </p>
+                    </div>
+
+                    <div class="offer-section">
+                        <h4>3. Права и обязанности</h4>
+                        <p>
+                            <strong>3.1. Дистрибьютор обязуется:</strong>
+                        </p>
+                        <ul>
+                            <li>Зарегистрироваться в партнерской системе Vortex;</li>
+                            <li>Предоставить достоверные данные для идентификации и выплат;</li>
+                            <li>Соблюдать условия публичной оферты и законодательство РК;</li>
+                            <li>Не использовать спам и недобросовестные методы привлечения клиентов.</li>
+                        </ul>
+                        <p>
+                            <strong>3.2. Компания обязуется:</strong>
+                        </p>
+                        <ul>
+                            <li>Обеспечить стабильную работу партнерской системы;</li>
+                            <li>Ежемесячно производить выплаты комиссионного вознаграждения;</li>
+                            <li>Предоставить Дистрибьютору реферальную ссылку и промо-материалы.</li>
+                        </ul>
+                    </div>
+
+                    <div class="offer-section">
+                        <h4>4. Порядок расчетов</h4>
+                        <p>
+                            4.1. Комиссионное вознаграждение начисляется за каждого клиента,
+                            привлеченного по реферальной ссылке Дистрибьютора.
+                        </p>
+                        <p>
+                            4.2. Размер комиссии составляет <strong>10%</strong> от суммы платежа
+                            клиента за услуги Компании.
+                        </p>
+                        <p>
+                            4.3. Выплаты производятся до 15-го числа месяца, следующего за отчетным.
+                        </p>
+                        <p>
+                            4.4. Минимальная сумма к выплате — <strong>10 000 KZT</strong>.
+                        </p>
+                    </div>
+
+                    <div class="offer-section">
+                        <h4>5. Ответственность сторон</h4>
+                        <p>
+                            5.1. За невыполнение или ненадлежащее выполнение обязательств по настоящему
+                            договору стороны несут ответственность в соответствии с законодательством РК.
+                        </p>
+                        <p>
+                            5.2. Компания не несет ответственности за действия Дистрибьютора,
+                            направленные на дискредитацию бренда Vortex.
+                        </p>
+                    </div>
+
+                    <div class="offer-section">
+                        <h4>6. Срок действия и расторжение</h4>
+                        <p>
+                            6.1. Настоящий договор вступает в силу с момента подачи заявки
+                            и действует бессрочно.
+                        </p>
+                        <p>
+                            6.2. Любая из сторон имеет право расторгнуть договор в одностороннем
+                            порядке, уведомив другую сторону за 14 календарных дней.
+                        </p>
+                    </div>
+
+                    <div class="offer-footer">
+                        <p>&#169; 2026 ТОО «Vortex». Все права защищены.</p>
+                        <p>Версия оферты 2.0 от 01.01.2026</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка: Инструкция -->
+            <div class="distributor-tab-content" id="tab-instructions">
+                <div class="distributor-instructions">
+                    <h3>Как стать дистрибьютором Vortex</h3>
+
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Подайте заявку</h4>
+                            <p>Заполните форму на вкладке <strong>«Подать заявку»</strong>.</p>
+                            <p>Укажите свои контактные данные, БИН/ИИН и банковские реквизиты для получения выплат.</p>
+                            <p class="step-hint">После проверки заявки вы получите уведомление о регистрации в системе дистрибьюторов.</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Зарегистрируйте PayPal аккаунт</h4>
+                            <p>Для получения комиссионных выплат необходимо зарегистрировать <strong>PayPal аккаунт</strong>.</p>
+                            <p>Укажите email, привязанный к вашему PayPal, в личном кабинете дистрибьютора.</p>
+                            <p class="step-hint">Все начисления будут поступать на ваш PayPal аккаунт автоматически.</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Компании выбирают вас</h4>
+                            <p>Любая компания в своем кабинете переходит в раздел <strong>«Дистрибьюторы»</strong>.</p>
+                            <p>В списке доступных дистрибьюторов компания выбирает вашу компанию и привязывается к вам.</p>
+                            <p class="step-hint">Чем больше компаний выберут вас — тем выше ваше комиссионное вознаграждение!</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Получайте выплаты</h4>
+                            <p>Комиссия <strong>10%</strong> от каждого платежа клиентов привязанных компаний начисляется автоматически.</p>
+                            <p>Выплаты производятся ежемесячно на ваш <strong>PayPal аккаунт</strong> до 15-го числа.</p>
+                            <p class="step-hint">Следите за статистикой в личном кабинете дистрибьютора.</p>
+                        </div>
+                    </div>
+
+                    <div class="instruction-note">
+                        <span class="note-icon">&#128161;</span>
+                        <div class="note-content">
+                            <strong>Важно знать:</strong>
+                            <p>&bull; Vortex оплачивает комиссию <strong>10%</strong> от всех клиентов, которых приведут привязанные компании.</p>
+                            <p>&bull; Компания сама выбирает дистрибьютора в своем кабинете — вы не привязываетесь к компании, а компания привязывается к вам.</p>
+                            <p>&bull; По всем вопросам обращайтесь в службу поддержки: <a href="mailto:support@vortex.kz">support@vortex.kz</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Дополнительный блок о PayPal -->
+                    <div class="instruction-paypal-info">
+                        <div class="paypal-icon">&#128179;</div>
+                        <div class="paypal-content">
+                            <h4>Зачем нужен PayPal?</h4>
+                            <p>PayPal — это международная платежная система, которая позволяет безопасно получать выплаты из любой точки мира.</p>
+                            <p>Регистрация PayPal аккаунта <strong>бесплатна</strong> и занимает всего несколько минут.</p>
+                            <p>После регистрации укажите ваш PayPal email в личном кабинете дистрибьютора для получения выплат.</p>
+                            <a href="https://www.paypal.com/ru/signup" target="_blank" class="paypal-link">Зарегистрировать PayPal →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка: Подать заявку -->
+            <div class="distributor-tab-content" id="tab-apply">
+                <div class="distributor-apply-form">
+                    <h3>Подать заявку на дистрибьютора</h3>
+                    <p class="form-description">
+                        Заполните форму ниже, чтобы стать партнером Vortex и получать комиссионное вознаграждение.
+                        <br>Поля отмеченные <span class="required-star">*</span> обязательны для заполнения.
+                    </p>
+
+                    <form id="distributorApplyForm" onsubmit="return false;">
+                        <div class="distributor-form-grid">
+                            <!-- НАЗВАНИЕ КОМПАНИИ - ТОЛЬКО ДЛЯ ПРОСМОТРА (НЕ РЕДАКТИРУЕТСЯ) -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">Название компании <span class="required-star">*</span></label>
+                                <div class="distributor-form-display" id="dfCompanyNameDisplay">—</div>
+                                <input type="hidden" id="dfCompanyName" value="">
+                                <small class="distributor-form-hint">Название компании берется из реквизитов и не редактируется</small>
+                            </div>
+
+                            <!-- БИН/ИИН -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">БИН/ИИН <span class="required-star">*</span></label>
+                                <input type="text" class="distributor-form-input" id="dfBin" placeholder="123456789012" required>
+                            </div>
+
+                            <!-- ФИО ПРЕЗИДЕНТА -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">ФИО президента <span class="required-star">*</span></label>
+                                <input type="text" class="distributor-form-input" id="dfPresident" placeholder="Иванов Иван Иванович" required>
+                            </div>
+
+                            <!-- Телефон -->
+                            <div class="distributor-form-field">
+                                <label class="distributor-form-label">Телефон <span class="required-star">*</span></label>
+                                <input type="tel" class="distributor-form-input" id="dfPhone" placeholder="+7 777 777 77 77" required>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="distributor-form-field">
+                                <label class="distributor-form-label">Email <span class="required-star">*</span></label>
+                                <input type="email" class="distributor-form-input" id="dfEmail" placeholder="info@company.kz" required>
+                            </div>
+
+                            <!-- Адрес -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">Юридический адрес <span class="required-star">*</span></label>
+                                <input type="text" class="distributor-form-input" id="dfAddress" placeholder="г. Алматы, ул. Абая 10" required>
+                            </div>
+
+                            <!-- Фактический адрес -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">Фактический адрес</label>
+                                <input type="text" class="distributor-form-input" id="dfActualAddress" placeholder="г. Алматы, ул. Абая 10">
+                            </div>
+
+                            <!-- Веб-сайт -->
+                            <div class="distributor-form-field">
+                                <label class="distributor-form-label">Веб-сайт</label>
+                                <input type="text" class="distributor-form-input" id="dfWebsite" placeholder="www.company.kz">
+                            </div>
+
+                            <!-- Форма собственности -->
+                            <div class="distributor-form-field">
+                                <label class="distributor-form-label">Форма собственности</label>
+                                <input type="text" class="distributor-form-input" id="dfOwnershipForm" placeholder="ТОО, АО, ИП и т.д.">
+                            </div>
+
+                            <!-- PayPal Email -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">PayPal Email <span class="required-star">*</span></label>
+                                <input type="email" class="distributor-form-input" id="dfPaypalEmail" placeholder="paypal@company.kz" required>
+                                <small class="distributor-form-hint">На этот email будут поступать комиссионные выплаты</small>
+                            </div>
+
+                            <!-- Дополнительная информация -->
+                            <div class="distributor-form-field full-width">
+                                <label class="distributor-form-label">Дополнительная информация</label>
+                                <textarea class="distributor-form-input" id="dfNotes" placeholder="Опишите ваш опыт, аудиторию, планы по привлечению клиентов..." rows="3"></textarea>
+                            </div>
+
+                            <!-- Согласие -->
+                            <div class="distributor-form-field full-width checkbox-field">
+                                <label class="distributor-checkbox">
+                                    <input type="checkbox" id="dfAgreement" required>
+                                    <span>Я ознакомился и согласен с условиями <a href="#" onclick="window.switchDistributorTab('offer'); return false;">договора публичной оферты</a></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="distributor-form-actions">
+                            <button type="button" class="distributor-form-btn cancel" onclick="window.closeDistributorModal()">Отмена</button>
+                            <button type="button" class="distributor-form-btn submit" onclick="window.submitDistributorApplication()">Отправить заявку</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

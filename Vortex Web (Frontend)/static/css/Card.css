@@ -16,6 +16,10 @@ html, body {
     flex-direction: column;
 }
 
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
 /* ШАПКА: Уменьшили высоту (padding 10px вместо 25px) */
 .vortex-top-bar {
     width: 100%;

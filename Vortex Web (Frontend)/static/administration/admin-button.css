@@ -1,0 +1,75 @@
+/* admin-button.css - Стили для кнопки администрирования */
+
+.admin-button-container {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.admin-button-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    background: rgba(0, 229, 255, 0.03);
+    border: 1px solid var(--vortex-border);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    min-height: 20px;
+    gap: 10px;
+}
+
+    .admin-card:hover {
+        background: rgba(0, 229, 255, 0.1);
+        border-color: var(--vortex-accent);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        transform: translateY(-5px);
+    }
+
+.admin-card-text {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.admin-card-badge {
+    width: 14px;
+    height: 14px;
+    background: var(--vortex-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+    flex-shrink: 0;
+}
+
+    .admin-card-badge svg {
+        width: 8px;
+        height: 8px;
+    }
+
+        .admin-card-badge svg path {
+            stroke: #020b12;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+.admin-placeholder {
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    padding-left: 20px;
+}

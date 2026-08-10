@@ -1,0 +1,269 @@
+﻿/* ========================================
+   РАЗДЕЛЕНИЕ ОКНА НА ЛЕВУЮ И ПРАВУЮ ЧАСТЬ
+   Тонкая серая полоска-разделитель с неоном
+   ======================================== */
+
+/* Контейнер разделения */
+.split-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 72px);
+    min-height: calc(100vh - 72px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Левая часть */
+.split-left {
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+    min-width: 40px;
+    transition: backdrop-filter 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+    /* Левая часть в состоянии минимальной ширины (эффект стекла) */
+    .split-left.glass-effect {
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.02) !important;
+    }
+
+        /* Скрываем содержимое, когда левая часть в режиме стекла */
+        .split-left.glass-effect .content-wrapper {
+            opacity: 0 !important;
+            transition: opacity 0.3s ease !important;
+        }
+
+    .split-left .content-wrapper {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+/* Правая часть */
+.split-right {
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+    min-width: 40px;
+    transition: backdrop-filter 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+    /* Правая часть в состоянии минимальной ширины (эффект стекла) */
+    .split-right.glass-effect {
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.02) !important;
+    }
+
+        /* Скрываем содержимое, когда правая часть в режиме стекла */
+        .split-right.glass-effect .content-wrapper {
+            opacity: 0 !important;
+            transition: opacity 0.3s ease !important;
+        }
+
+    .split-right .content-wrapper {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+/* ========================================
+   ТОНКАЯ СЕРАЯ ПОЛОСКА-РАЗДЕЛИТЕЛЬ
+   ======================================== */
+.split-divider {
+    width: 2px;
+    height: 100%;
+    flex-shrink: 0;
+    background: rgba(128, 128, 128, 0.25);
+    position: relative;
+    z-index: 10;
+    cursor: col-resize;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+    /* ========================================
+   НЕОНОВОЕ СВЕЧЕНИЕ ПРИ НАВЕДЕНИИ (ЦИАН)
+   ======================================== */
+    .split-divider:hover {
+        background: rgba(0, 255, 255, 0.6);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2), 0 0 40px rgba(0, 255, 255, 0.1);
+    }
+
+        .split-divider:hover::after {
+            background: linear-gradient( to bottom, transparent, rgba(0, 255, 255, 0.3) 10%, rgba(0, 255, 255, 0.6) 50%, rgba(0, 255, 255, 0.3) 90%, transparent );
+        }
+
+    /* ========================================
+   АНИМАЦИЯ СВЕЧЕНИЯ РАЗДЕЛИТЕЛЯ (в покое)
+   ======================================== */
+    .split-divider::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        height: 100%;
+        background: linear-gradient( to bottom, transparent, rgba(255, 255, 255, 0.05) 10%, rgba(128, 128, 128, 0.1) 50%, rgba(255, 255, 255, 0.05) 90%, transparent );
+        pointer-events: none;
+        transition: background 0.4s ease;
+    }
+
+    .split-divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 60px;
+        background: radial-gradient(ellipse, rgba(128, 128, 128, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: dividerPulse 3s ease-in-out infinite;
+        transition: background 0.4s ease;
+    }
+
+    .split-divider:hover::before {
+        background: radial-gradient(ellipse, rgba(0, 255, 255, 0.4) 0%, transparent 70%);
+        animation: dividerPulseNeon 1.5s ease-in-out infinite;
+    }
+
+/* ========================================
+   АНИМАЦИИ
+   ======================================== */
+@keyframes dividerPulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@keyframes dividerPulseNeon {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* ========================================
+   ДОПОЛНИТЕЛЬНОЕ НЕОНОВОЕ СВЕЧЕНИЕ
+   ======================================== */
+.split-divider:hover .neon-glow {
+    opacity: 1;
+}
+
+.split-divider .neon-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 80%;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* ========================================
+   КОНТЕНТ ВНУТРИ ЧАСТЕЙ
+   ======================================== */
+.split-left .content-wrapper,
+.split-right .content-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+    .split-left .content-wrapper::-webkit-scrollbar,
+    .split-right .content-wrapper::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background: transparent;
+    }
+
+.split-left .content-wrapper,
+.split-right .content-wrapper {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* ========================================
+   АДАПТИВНОСТЬ
+   ======================================== */
+@media (max-width: 768px) {
+    .split-container {
+        flex-direction: column;
+        height: calc(100vh - 64px);
+        min-height: calc(100vh - 64px);
+    }
+
+    .split-divider {
+        width: 100%;
+        height: 2px;
+        flex-shrink: 0;
+        cursor: row-resize;
+    }
+
+        .split-divider::after {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 1px;
+        }
+
+        .split-divider::before {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 4px;
+        }
+
+        .split-divider:hover {
+            background: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2), 0 0 40px rgba(0, 255, 255, 0.1);
+        }
+
+    .split-left,
+    .split-right {
+        flex: 1;
+        min-height: 200px;
+    }
+
+    .split-left {
+        min-width: unset;
+        min-height: 40px;
+    }
+
+    .split-right {
+        min-width: unset;
+        min-height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .split-container {
+        height: calc(100vh - 56px);
+        min-height: calc(100vh - 56px);
+    }
+}

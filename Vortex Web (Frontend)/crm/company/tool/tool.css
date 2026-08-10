@@ -1,0 +1,346 @@
+﻿﻿ /* ========================================
+   ИНСТРУМЕНТЫ ДЛЯ СТРАНИЦЫ КОМПАНИИ
+   Папка: /crm/company/tool/
+   ======================================== */
+/* ===== НИЖНЯЯ ПАНЕЛЬ ===== */
+.vortex-bottom-bar {
+    position: fixed !important;
+    bottom: 30px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    box-sizing: border-box !important;
+    z-index: 100 !important;
+}
+
+.vortex-tools-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== КНОПКА "ИНСТРУМЕНТЫ" (ТРИГГЕР) ===== */
+.vortex-trigger-cell {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .vortex-trigger-cell:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    .vortex-trigger-cell img {
+        width: 46px;
+        height: 46px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-trigger-cell:hover img {
+        transform: scale(1.1);
+    }
+
+/* ===== СЕТКА ИНСТРУМЕНТОВ ===== */
+.vortex-tools-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-40px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+    .vortex-tools-grid.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+/* ===== ЯЧЕЙКИ ИНСТРУМЕНТОВ ===== */
+.vortex-tool-cell {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: grab;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+    .vortex-tool-cell img {
+        width: 34px;
+        height: 34px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-tool-cell:hover img {
+        transform: scale(1.15);
+    }
+
+    .vortex-tool-cell:active {
+        cursor: grabbing;
+    }
+
+/* ===== АКТИВАЦИЯ ПОЯВЛЕНИЯ ===== */
+.vortex-tools-grid.active .vortex-tool-cell {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(1) {
+        transition-delay: 0.05s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(2) {
+        transition-delay: 0.10s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(3) {
+        transition-delay: 0.15s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(4) {
+        transition-delay: 0.20s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(5) {
+        transition-delay: 0.25s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(6) {
+        transition-delay: 0.30s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(7) {
+        transition-delay: 0.35s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(8) {
+        transition-delay: 0.40s;
+    }
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(8) {
+    transition-delay: 0.05s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(7) {
+    transition-delay: 0.10s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(6) {
+    transition-delay: 0.15s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(5) {
+    transition-delay: 0.20s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(4) {
+    transition-delay: 0.25s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(3) {
+    transition-delay: 0.30s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(2) {
+    transition-delay: 0.35s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(1) {
+    transition-delay: 0.40s;
+}
+
+/* ===== КНОПКА "ВЫХОД" (СПРАВА) - ИСПРАВЛЕНО ===== */
+.vortex-exit-zone {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin-left: auto !important; /* Прижимает к правому краю */
+}
+
+.vortex-exit-cell {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .vortex-exit-cell:hover {
+        background: rgba(255, 70, 70, 0.15);
+        border-color: rgba(255, 70, 70, 0.4);
+        transform: scale(1.05);
+    }
+
+    .vortex-exit-cell img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-exit-cell:hover img {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 70, 70, 0.5));
+    }
+
+/* ===== ПОДСКАЗКИ ===== */
+.vortex-ui-hint {
+    position: fixed;
+    display: none;
+    background: #000;
+    color: #00E5FF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid #00E5FF;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* ===== СКРЫВАЕМ ПО УМОЛЧАНИЮ ===== */
+#tool-settings {
+    display: none !important;
+}
+
+#tool-company {
+    display: none !important;
+}
+
+/* ======================================== */
+/* АДАПТИВНОСТЬ */
+/* ======================================== */
+
+@media (max-width: 768px) {
+    .vortex-bottom-bar {
+        bottom: 15px !important;
+        padding: 0 15px !important;
+    }
+
+    .vortex-tools-container {
+        gap: 10px;
+    }
+
+    .vortex-tools-grid {
+        gap: 8px;
+    }
+
+    .vortex-trigger-cell {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+    }
+
+        .vortex-trigger-cell img {
+            width: 34px;
+            height: 34px;
+        }
+
+    .vortex-exit-cell {
+        width: 54px;
+        height: 54px;
+        min-width: 54px;
+    }
+
+        .vortex-exit-cell img {
+            width: 30px;
+            height: 30px;
+        }
+
+    .vortex-tool-cell {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+    }
+
+        .vortex-tool-cell img {
+            width: 26px;
+            height: 26px;
+        }
+}
+
+@media (max-width: 480px) {
+    .vortex-bottom-bar {
+        bottom: 10px !important;
+        padding: 0 10px !important;
+    }
+
+    .vortex-tools-container {
+        gap: 8px;
+    }
+
+    .vortex-tools-grid {
+        gap: 6px;
+    }
+
+    .vortex-trigger-cell {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+    }
+
+        .vortex-trigger-cell img {
+            width: 28px;
+            height: 28px;
+        }
+
+    .vortex-exit-cell {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
+
+        .vortex-exit-cell img {
+            width: 24px;
+            height: 24px;
+        }
+
+    .vortex-tool-cell {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+
+        .vortex-tool-cell img {
+            width: 22px;
+            height: 22px;
+        }
+}

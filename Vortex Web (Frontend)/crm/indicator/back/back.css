@@ -1,0 +1,87 @@
+﻿/* ============================================
+   КНОПКА НАЗАД (BACK) - Стили Vortex
+   Папка: /crm/indicator/back/
+   Наследует базовые стили от /crm/indicator/indicator.css
+   ============================================ */
+
+/* ----- Узкая форма индикатора ----- */
+.crm-indicator.back-button {
+    width: 36px !important; /* Узкая ширина */
+    min-width: 36px !important; /* Фиксация Flexbox */
+    padding: 0 !important; /* Отмена отступов */
+}
+
+    /* ----- Контейнер иконки ----- */
+    .crm-indicator.back-button .check-icon {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 60px !important;
+        line-height: 1 !important;
+        font-weight: 300 !important;
+        font-family: var(--vortex-font-family, 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif) !important;
+        color: var(--vortex-accent, #00E5FF) !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        user-select: none !important;
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s ease, text-shadow 0.3s ease !important;
+    }
+
+        /* Отрисовка символа ‹ (Юникод \2039) и ИДЕАЛЬНАЯ ЦЕНТРОВКА */
+        .crm-indicator.back-button .check-icon::before {
+            content: '\2039' !important; /* Юникод для символа ‹ */
+            display: block !important;
+            text-align: center !important;
+            width: 100% !important;
+            height: auto !important;
+            line-height: 1 !important;
+            /* ТАКЖЕ В ЦЕНТР: опускаем ровно на золотую середину -6px */
+            transform: translateY(-8px) !important;
+        }
+
+    /* Интерактивность при наведении */
+    .crm-indicator.back-button:hover .check-icon {
+        transform: translateX(-2px) scale(1.08) !important;
+        color: #66f0ff !important;
+        text-shadow: 0 0 12px rgba(0, 229, 255, 0.6) !important;
+    }
+
+    /* Мягкий клик */
+    .crm-indicator.back-button:active .check-icon {
+        transform: scale(0.92) !important;
+    }
+
+/* ----- Адаптивность ----- */
+@media (max-width: 768px) {
+    .crm-indicator.back-button {
+        width: 30px !important;
+        min-width: 30px !important;
+    }
+
+        .crm-indicator.back-button .check-icon {
+            font-size: 44px !important;
+        }
+
+            .crm-indicator.back-button .check-icon::before {
+                transform: translateY(-4px) !important;
+            }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.back-button {
+        width: 26px !important;
+        min-width: 26px !important;
+    }
+
+        .crm-indicator.back-button .check-icon {
+            font-size: 34px !important;
+        }
+
+            .crm-indicator.back-button .check-icon::before {
+                transform: translateY(-3px) !important;
+            }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Индикатор: Прибыль за месяц</title>
+    <link rel="stylesheet" href="monthly-profit.css">
+    <style>
+        body {
+            background: #0a0e17;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .demo-block {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .demo-title {
+            font-size: 14px;
+            color: #6c7a8d;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-block">
+        <span class="demo-title">💰 ПРИБЫЛЬ ЗА МЕСЯЦ</span>
+        <div class="demo-row">
+            <div class="crm-indicator monthly-profit-button animated vortex-style"
+                 data-action="monthly-profit"
+                 data-href="/stats"
+                 title="Прибыль за текущий месяц">
+                <div class="indicator-content">
+                    <span class="profit-number">0 ₸</span>
+                    <span class="profit-label">ЯНВАРЬ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/config.js"></script>
+    <script src="monthly-profit.js"></script>
+</body>
+</html>

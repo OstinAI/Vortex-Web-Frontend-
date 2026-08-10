@@ -1,0 +1,50 @@
+﻿﻿
+<!-- ============================================
+    КОНТРАГЕНТЫ - HTML
+    Путь: /crm/company/right/counterparty/counterparty.html
+    ============================================ -->
+
+<div id="counterpartyApp">
+    <!-- Шапка -->
+    <div class="counterparty-header">
+        <div class="counterparty-header-left">
+            <h2 class="counterparty-title">Контрагенты</h2>
+            <button id="counterpartyAddBtn" class="counterparty-add-btn">
+                <span class="add-icon">+</span>
+                <span>Добавить</span>
+            </button>
+        </div>
+        <div class="counterparty-actions">
+            <button class="counterparty-close-btn" id="counterpartyCloseBtn">✕</button>
+        </div>
+    </div>
+
+    <!-- Поиск и фильтр (кастомный стеклянный select) -->
+    <div class="counterparty-controls-row">
+        <div class="filter-container custom-select" id="typeFilterWrapper">
+            <div class="custom-select-trigger" id="typeFilterTrigger">
+                <span class="selected-value" id="typeFilterSelected">Все типы</span>
+                <span class="arrow">▼</span>
+            </div>
+            <ul class="custom-select-options" id="typeFilterOptions">
+                <li data-value="all" class="selected">Все типы</li>
+                <!-- сюда будут добавляться типы из API -->
+            </ul>
+        </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="counterpartySearch"
+                   placeholder="Поиск контрагентов..."
+                   oninput="window.filterCounterparties()"
+                   onkeydown="if(event.key === 'Enter') event.preventDefault()">
+        </div>
+    </div>
+
+    <!-- Список контрагентов -->
+    <div class="counterparty-list" id="counterpartyList">
+        <div class="counterparty-loader">
+            <div class="spinner"></div>
+            <span>Загрузка...</span>
+        </div>
+    </div>
+</div>

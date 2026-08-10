@@ -1,0 +1,1263 @@
+﻿/* ============================================
+   КОНТРАГЕНТЫ - СТИЛИ (СТЕКЛЯННЫЙ СТИЛЬ)
+   Путь: /crm/company/right/counterparty/counterparty.css
+   ============================================ */
+
+/* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+#counterpartyApp {
+    width: 100%;
+    height: 100%;
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+}
+
+    #counterpartyApp::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    #counterpartyApp::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    #counterpartyApp::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+/* ===== ШАПКА ===== */
+.counterparty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    flex-shrink: 0;
+    margin-bottom: 16px;
+}
+
+.counterparty-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.counterparty-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.counterparty-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* ===== КНОПКА ДОБАВИТЬ ===== */
+.counterparty-add-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 0 16px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    box-sizing: border-box !important;
+    background: rgba(0, 229, 255, 0.04) !important;
+    border: 1px solid rgba(0, 229, 255, 0.08) !important;
+    border-radius: 8px !important;
+    color: rgba(0, 229, 255, 0.6) !important;
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    user-select: none !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    white-space: nowrap !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+    .counterparty-add-btn * {
+        pointer-events: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+
+    .counterparty-add-btn:hover {
+        background: rgba(0, 229, 255, 0.08) !important;
+        border-color: rgba(0, 229, 255, 0.2) !important;
+        color: rgba(0, 229, 255, 0.9) !important;
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.03) !important;
+    }
+
+    .counterparty-add-btn:active {
+        transform: scale(0.97) !important;
+    }
+
+    .counterparty-add-btn .add-icon {
+        font-size: 16px;
+        line-height: 1;
+    }
+
+.counterparty-close-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+    .counterparty-close-btn:hover {
+        background: rgba(255, 70, 70, 0.08);
+        border-color: rgba(255, 70, 70, 0.15);
+        color: #ff6b6b;
+        transform: rotate(90deg);
+    }
+
+/* ===== ПОИСК ===== */
+.counterparty-search {
+    position: relative;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.counterparty-search-input {
+    width: 100%;
+    padding: 8px 16px 8px 42px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+    .counterparty-search-input:focus {
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .counterparty-search-input::placeholder {
+        color: rgba(255, 255, 255, 0.15);
+    }
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+}
+
+/* ===== СПИСОК ===== */
+.counterparty-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+    .counterparty-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .counterparty-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .counterparty-list::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+    }
+
+/* ===== КАРТОЧКА КОНТРАГЕНТА ===== */
+.counterparty-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+    .counterparty-card:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .counterparty-card.expanded {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(0, 229, 255, 0.08);
+    }
+
+/* ===== ЗАГОЛОВОК КАРТОЧКИ (всегда виден) ===== */
+.counterparty-card-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr 1fr 0.8fr 60px;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+    .counterparty-card-header .field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .counterparty-card-header .field-label {
+        font-size: 9px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .counterparty-card-header .field-value {
+        font-size: 13px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.8);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .counterparty-card-header .field-value.type-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: lowercase;
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+        }
+
+            .counterparty-card-header .field-value.type-badge.supplier {
+                background: rgba(0, 229, 255, 0.04);
+                color: rgba(0, 229, 255, 0.6);
+            }
+
+            .counterparty-card-header .field-value.type-badge.partner {
+                background: rgba(0, 255, 150, 0.04);
+                color: rgba(0, 255, 150, 0.6);
+            }
+
+            .counterparty-card-header .field-value.type-badge.distributor {
+                background: rgba(255, 200, 0, 0.04);
+                color: rgba(255, 200, 0, 0.6);
+            }
+
+            .counterparty-card-header .field-value.type-badge.other {
+                background: rgba(255, 255, 255, 0.02);
+                color: rgba(255, 255, 255, 0.4);
+            }
+
+.counterparty-expand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.counterparty-card.expanded .counterparty-expand-icon {
+    transform: rotate(180deg);
+}
+
+/* ===== РАСКРЫТАЯ ЧАСТЬ ===== */
+.counterparty-card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    opacity: 0;
+}
+
+.counterparty-card.expanded .counterparty-card-body {
+    max-height: 2000px;
+    opacity: 1;
+}
+
+.counterparty-card-body-inner {
+    padding: 0 16px 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* ===== ДЕТАЛЬНАЯ ИНФОРМАЦИЯ ===== */
+.counterparty-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    padding-top: 12px;
+}
+
+    .counterparty-details .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .counterparty-details .detail-label {
+        font-size: 10px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .counterparty-details .detail-value {
+        font-size: 13px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
+        word-break: break-word;
+    }
+
+        .counterparty-details .detail-value a {
+            color: rgba(0, 229, 255, 0.6);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(0, 229, 255, 0.1);
+        }
+
+            .counterparty-details .detail-value a:hover {
+                border-bottom: 1px solid rgba(0, 229, 255, 0.4);
+                color: rgba(0, 229, 255, 0.8);
+            }
+
+/* ===== ПЛАТЕЖНЫЕ РЕКВИЗИТЫ ===== */
+.counterparty-payment-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+    .counterparty-payment-section .section-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+    }
+
+.counterparty-payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+}
+
+    .counterparty-payment-grid .payment-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .counterparty-payment-grid .payment-label {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .counterparty-payment-grid .payment-value {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+/* ===== КАСТОМНЫЕ ПОЛЯ ===== */
+.counterparty-custom-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+    .counterparty-custom-section .section-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+    }
+
+.counterparty-custom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+}
+
+    .counterparty-custom-grid .custom-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .counterparty-custom-grid .custom-label {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .counterparty-custom-grid .custom-value {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+/* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+.counterparty-actions-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    justify-content: flex-end;
+}
+
+.counterparty-action-btn {
+    padding: 4px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.01);
+    color: rgba(255, 255, 255, 0.4);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+    .counterparty-action-btn:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .counterparty-action-btn.edit:hover {
+        border-color: rgba(0, 229, 255, 0.15);
+        color: rgba(0, 229, 255, 0.7);
+    }
+
+    .counterparty-action-btn.delete:hover {
+        border-color: rgba(255, 70, 70, 0.15);
+        color: rgba(255, 70, 70, 0.7);
+    }
+
+/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+.counterparty-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.15);
+    text-align: center;
+    gap: 12px;
+}
+
+    .counterparty-empty .empty-icon {
+        font-size: 48px;
+    }
+
+    .counterparty-empty p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+/* ===== ЛОАДЕР ===== */
+.counterparty-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0;
+    gap: 16px;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+}
+
+    .counterparty-loader .spinner {
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(255, 255, 255, 0.03);
+        border-top: 2px solid rgba(0, 229, 255, 0.5);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 1024px) {
+    .counterparty-card-header {
+        grid-template-columns: 1fr 1fr 1fr 60px;
+        gap: 8px;
+    }
+
+        .counterparty-card-header .field:nth-child(4) {
+            display: none;
+        }
+}
+
+@media (max-width: 768px) {
+    #counterpartyApp {
+        padding: 16px 18px;
+    }
+
+    .counterparty-card-header {
+        grid-template-columns: 1fr 1fr 60px;
+        gap: 6px;
+        padding: 10px 12px;
+    }
+
+        .counterparty-card-header .field:nth-child(3),
+        .counterparty-card-header .field:nth-child(4) {
+            display: none;
+        }
+
+    .counterparty-details {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .counterparty-payment-grid {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .counterparty-custom-grid {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    #counterpartyApp {
+        padding: 12px 14px;
+    }
+
+    .counterparty-title {
+        font-size: 16px;
+    }
+
+    .counterparty-card-header {
+        grid-template-columns: 1fr 40px;
+        gap: 4px;
+    }
+
+        .counterparty-card-header .field:nth-child(2) {
+            display: none;
+        }
+
+        .counterparty-card-header .field-value {
+            font-size: 12px;
+        }
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ДЛЯ ФОРМЫ (СТЕКЛО) ===== */
+.counterparty-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.counterparty-modal {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 28px 32px;
+    width: 90%;
+    max-width: 720px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUpModal 0.3s ease;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUpModal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.counterparty-modal::-webkit-scrollbar {
+    width: 4px;
+}
+
+.counterparty-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.counterparty-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+}
+
+.counterparty-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.counterparty-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+.counterparty-modal-close {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .counterparty-modal-close:hover {
+        background: rgba(255, 70, 70, 0.08);
+        border-color: rgba(255, 70, 70, 0.15);
+        color: #ff6b6b;
+    }
+
+/* ===== ПОЛЯ ФОРМЫ ===== */
+.counterparty-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+}
+
+.counterparty-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .counterparty-form-field.full-width {
+        grid-column: 1 / -1;
+    }
+
+.counterparty-form-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+    .counterparty-form-label .required-star {
+        color: rgba(255, 70, 70, 0.5);
+        margin-left: 2px;
+    }
+
+.counterparty-form-input {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+    .counterparty-form-input:focus {
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .counterparty-form-input::placeholder {
+        color: rgba(255, 255, 255, 0.12);
+    }
+
+    .counterparty-form-input select {
+        appearance: auto;
+        cursor: pointer;
+    }
+
+    .counterparty-form-input option {
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+    }
+
+/* ===== КАСТОМНЫЕ ПОЛЯ В ФОРМЕ ===== */
+.counterparty-custom-fields-container {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+    .counterparty-custom-fields-container .section-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+.counterparty-custom-field-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+    .counterparty-custom-field-row input {
+        flex: 1;
+    }
+
+    .counterparty-custom-field-row .remove-custom-btn {
+        background: none;
+        border: none;
+        color: rgba(255, 70, 70, 0.3);
+        cursor: pointer;
+        font-size: 16px;
+        padding: 4px;
+        transition: color 0.3s ease;
+    }
+
+        .counterparty-custom-field-row .remove-custom-btn:hover {
+            color: rgba(255, 70, 70, 0.7);
+        }
+
+.counterparty-add-custom-btn {
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.25);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .counterparty-add-custom-btn:hover {
+        border-color: rgba(0, 229, 255, 0.15);
+        color: rgba(0, 229, 255, 0.5);
+    }
+
+/* ===== ПЛАТЕЖНЫЕ РЕКВИЗИТЫ В ФОРМЕ ===== */
+.counterparty-payment-fields-container {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+    .counterparty-payment-fields-container .section-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+.counterparty-payment-grid-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+}
+
+    .counterparty-payment-grid-form .payment-field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .counterparty-payment-grid-form .payment-label {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .counterparty-payment-grid-form .payment-input {
+        padding: 5px 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 5px;
+        color: rgba(255, 255, 255, 0.7);
+        font-family: inherit;
+        font-size: 12px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+        .counterparty-payment-grid-form .payment-input:focus {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+/* ===== КНОПКИ ФОРМЫ ===== */
+.counterparty-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.counterparty-form-btn {
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+    .counterparty-form-btn.cancel {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+        .counterparty-form-btn.cancel:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+    .counterparty-form-btn.save {
+        background: rgba(0, 229, 255, 0.04);
+        color: rgba(0, 229, 255, 0.6);
+        border-color: rgba(0, 229, 255, 0.06);
+    }
+
+        .counterparty-form-btn.save:hover {
+            background: rgba(0, 229, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.02);
+            color: rgba(0, 229, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+/* ===== УВЕДОМЛЕНИЯ ===== */
+.counterparty-notification {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 100000;
+    padding: 14px 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .counterparty-notification.success {
+        border-left: 4px solid rgba(0, 229, 255, 0.5);
+    }
+
+    .counterparty-notification.error {
+        border-left: 4px solid rgba(255, 70, 70, 0.5);
+    }
+
+    .counterparty-notification.warning {
+        border-left: 4px solid rgba(255, 200, 0, 0.5);
+    }
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===== ФИЛЬТР СЛЕВА, ПОИСК СПРАВА (ОДНА ЛИНИЯ) ===== */
+.counterparty-controls-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+    .counterparty-controls-row .filter-container {
+        min-width: 150px;
+        max-width: 200px;
+        flex-shrink: 0;
+    }
+
+    .counterparty-controls-row .search-container {
+        flex: 1;
+        position: relative;
+        min-width: 200px;
+    }
+
+    /* ----- СЕЛЕКТ (сам фильтр) ----- */
+    .counterparty-controls-row .filter-container select {
+        width: 100%;
+        padding: 8px 14px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        appearance: auto;
+        -webkit-appearance: auto;
+        -moz-appearance: auto;
+        pointer-events: auto !important;
+    }
+
+        .counterparty-controls-row .filter-container select:focus {
+            border-color: rgba(255, 255, 255, 0.08);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* ----- ОПЦИИ (выпадающий список) ----- */
+        .counterparty-controls-row .filter-container select option {
+            /* Тёмный полупрозрачный фон для читаемости + блюр */
+            background: rgba(15, 15, 25, 0.92);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 13px;
+            border: none;
+            outline: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: background 0.2s ease;
+        }
+
+            /* Подсветка при наведении */
+            .counterparty-controls-row .filter-container select option:hover,
+            .counterparty-controls-row .filter-container select option:focus {
+                background: rgba(0, 229, 255, 0.15);
+                color: #00E5FF;
+            }
+
+            /* Выбранный пункт */
+            .counterparty-controls-row .filter-container select option:checked {
+                background: rgba(0, 229, 255, 0.08);
+                color: rgba(0, 229, 255, 0.8);
+            }
+
+    /* ----- ПОЛЕ ПОИСКА ----- */
+    .counterparty-controls-row .search-container input {
+        width: 100%;
+        padding: 8px 16px 8px 42px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+        .counterparty-controls-row .search-container input:focus {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .counterparty-controls-row .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+    .counterparty-controls-row .search-container .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.15);
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 768px) {
+    .counterparty-controls-row {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+        .counterparty-controls-row .filter-container {
+            flex: 1 1 calc(50% - 4px);
+            min-width: calc(50% - 4px);
+            max-width: none;
+        }
+
+        .counterparty-controls-row .search-container {
+            flex: 1 1 calc(50% - 4px);
+            min-width: calc(50% - 4px);
+        }
+}
+
+@media (max-width: 480px) {
+    .counterparty-controls-row .filter-container {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+
+    .counterparty-controls-row .search-container {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+}
+
+/* ===== КАСТОМНЫЙ SELECT (СТЕКЛЯННЫЙ) ===== */
+.custom-select {
+    position: relative;
+    min-width: 150px;
+    max-width: 200px;
+    user-select: none;
+}
+
+.custom-select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+    .custom-select-trigger:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .custom-select-trigger .arrow {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.3);
+        transition: transform 0.3s ease;
+    }
+
+.custom-select.open .custom-select-trigger .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 8px 0;
+    list-style: none;
+    background: rgba(10, 10, 20, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    z-index: 1000;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.custom-select.open .custom-select-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-select-options li {
+    padding: 8px 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    border-left: 2px solid transparent;
+}
+
+    .custom-select-options li:hover {
+        background: rgba(0, 229, 255, 0.08);
+        color: rgba(0, 229, 255, 0.85);
+        border-left-color: rgba(0, 229, 255, 0.4);
+    }
+
+    .custom-select-options li.selected {
+        background: rgba(0, 229, 255, 0.06);
+        color: rgba(0, 229, 255, 0.7);
+        border-left-color: rgba(0, 229, 255, 0.6);
+    }
+
+.custom-select-options::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-select-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-select-options::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+}
+
+/* Чтобы список выпадал ПОВЕРХ всех карточек */
+.counterparty-controls-row {
+    overflow: visible !important;
+    position: relative;
+    z-index: 1000 !important; /* поднимаем всю строку выше карточек */
+}
+
+.filter-container.custom-select {
+    overflow: visible !important;
+}
+
+.custom-select-options {
+    z-index: 99999 !important; /* максимальный приоритет */
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 100%;
+    width: max-content;
+    max-width: 300px;
+    background: rgba(10, 10, 20, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Если у #counterpartyApp есть overflow hidden – убираем */
+#counterpartyApp {
+    overflow: visible !important;
+}
+
+/* Если у .counterparty-list есть относительное позиционирование, убираем мешающее */
+.counterparty-list {
+    position: relative; /* оставляем, но не мешает */
+    z-index: 1; /* ниже, чем у controls */
+}
+
+/* Улучшение читаемости заголовка модального окна */
+.counterparty-modal-title {
+    color: #ffffff !important;
+    font-size: 20px !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,105 @@
+﻿/* ============================================
+   ИНДИКАТОР: БЛИЖАЙШАЯ ЗАДАЧА (IMMEDIATE TASK)
+   Папка: /crm/indicator/immediate task/
+   ============================================ */
+
+.crm-indicator.immediate-task-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 15px !important;
+    width: auto !important;
+    min-width: 90px !important;
+    height: 52px !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    transition: all 0.3s ease !important;
+}
+
+    .crm-indicator.immediate-task-button .indicator-content {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* ТЕКСТ ЗАДАЧИ */
+    .crm-indicator.immediate-task-button .task-text {
+        font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #ffffff !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        display: flex !important;
+        align-items: center !important;
+        max-width: 180px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+        /* ПРОСРОЧЕННАЯ ЗАДАЧА - КРАСНЫЙ */
+        .crm-indicator.immediate-task-button .task-text.overdue {
+            color: #FF4D4D !important;
+        }
+
+    /* Эффекты при наведении */
+    .crm-indicator.immediate-task-button:hover .task-text {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 12px rgba(0, 229, 255, 0.5) !important;
+    }
+
+        /* При наведении на просроченную - красный с свечением */
+        .crm-indicator.immediate-task-button:hover .task-text.overdue {
+            color: #FF4D4D !important;
+            text-shadow: 0 0 12px rgba(255, 77, 77, 0.5) !important;
+        }
+
+    .crm-indicator.immediate-task-button:active {
+        transform: scale(0.97) !important;
+    }
+
+    .crm-indicator.immediate-task-button.no-task .task-text {
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-weight: 400 !important;
+    }
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 768px) {
+    .crm-indicator.immediate-task-button {
+        height: 44px !important;
+        min-width: 70px !important;
+        padding: 0 10px !important;
+        gap: 6px !important;
+    }
+
+        .crm-indicator.immediate-task-button .task-text {
+            font-size: 12px !important;
+            max-width: 120px !important;
+        }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.immediate-task-button {
+        height: 38px !important;
+        min-width: 60px !important;
+        padding: 0 8px !important;
+        gap: 4px !important;
+    }
+
+        .crm-indicator.immediate-task-button .task-text {
+            font-size: 10px !important;
+            max-width: 80px !important;
+        }
+}

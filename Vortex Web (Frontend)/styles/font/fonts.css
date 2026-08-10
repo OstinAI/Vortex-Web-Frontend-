@@ -1,0 +1,233 @@
+/* ========================================
+   VORTEX FONTS - Глобальные стили шрифтов
+   Подключать во все HTML страницы
+   ======================================== */
+
+/* ---------- Базовые настройки ---------- */
+:root {
+    --vortex-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    --vortex-font-mono: 'Courier New', monospace;
+    --vortex-text-main: #ffffff;
+    --vortex-text-muted: #888888;
+    --vortex-accent: #00E5FF;
+}
+
+/* ---------- Основной текст ---------- */
+body, html {
+    font-family: var(--vortex-font-family);
+    color: var(--vortex-text-main);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Заголовки ---------- */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    letter-spacing: 4px;
+    margin: 0 0 20px 0;
+    color: var(--vortex-text-main);
+}
+
+/* Стиль как в статистике - с левой рамкой */
+.vortex-title {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-left: 15px;
+    border-left: 3px solid var(--vortex-accent);
+    margin: 0 0 30px 0;
+    color: var(--vortex-text-main);
+}
+
+/* ---------- Метки/лейблы (как в статистике) ---------- */
+.vortex-label {
+    color: var(--vortex-accent);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+/* ---------- Текст верхней панели ---------- */
+.vortex-topbar-text {
+    letter-spacing: 3px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--vortex-text-main);
+}
+
+/* ---------- Мелкий текст/подписи ---------- */
+.vortex-small {
+    font-size: 11px;
+    color: var(--vortex-text-muted);
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+/* ---------- Моноширинный (для кода/цифр) ---------- */
+.vortex-mono {
+    font-family: var(--vortex-font-mono);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Ссылки ---------- */
+a, .vortex-link {
+    color: var(--vortex-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+    a:hover, .vortex-link:hover {
+        color: #66f0ff;
+        text-decoration: none;
+    }
+
+/* ---------- Кнопки (текст внутри) ---------- */
+.vortex-btn-text {
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* ---------- Параграфы ---------- */
+p {
+    font-weight: 300;
+    color: var(--vortex-text-muted);
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+}
+
+/* ---------- Списки ---------- */
+ul, ol {
+    font-weight: 300;
+    color: var(--vortex-text-muted);
+    letter-spacing: 0.3px;
+}
+
+/* ---------- Таблицы ---------- */
+th {
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--vortex-accent);
+}
+
+td {
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Поля ввода ---------- */
+input, textarea, select {
+    font-family: var(--vortex-font-family);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: var(--vortex-text-main);
+}
+
+/* ---------- Утилиты для быстрого применения ---------- */
+.text-accent {
+    color: var(--vortex-accent);
+}
+
+.text-muted {
+    color: var(--vortex-text-muted);
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-lighter {
+    font-weight: 300;
+}
+
+.text-bold {
+    font-weight: 500;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* ---------- Размеры шрифтов ---------- */
+.font-xs {
+    font-size: 10px;
+}
+
+.font-sm {
+    font-size: 12px;
+}
+
+.font-md {
+    font-size: 14px;
+}
+
+.font-lg {
+    font-size: 16px;
+}
+
+.font-xl {
+    font-size: 20px;
+}
+
+.font-2xl {
+    font-size: 24px;
+}
+
+.font-3xl {
+    font-size: 28px;
+}
+
+/* ---------- Межбуквенный интервал ---------- */
+.letter-wide {
+    letter-spacing: 3px;
+}
+
+.letter-wider {
+    letter-spacing: 5px;
+}
+
+.letter-normal {
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Адаптивность ---------- */
+@media (max-width: 768px) {
+    body, html {
+        font-size: 13px;
+    }
+
+    .vortex-title {
+        font-size: 16px;
+        letter-spacing: 3px;
+    }
+
+    .vortex-topbar-text {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}

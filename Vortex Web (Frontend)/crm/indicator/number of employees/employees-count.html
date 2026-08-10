@@ -1,0 +1,273 @@
+﻿<!-- ============================================================
+     ИНДИКАТОР: КОЛИЧЕСТВО СОТРУДНИКОВ - HTML ШАБЛОН + ИНСТРУКЦИЯ
+     Папка: /crm/indicator/number of employees/
+     ============================================================ -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Индикатор: Количество сотрудников</title>
+
+    <link rel="stylesheet" href="employees-count.css">
+    <style>
+        body {
+            background: #0a0e17;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .demo-block {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px 40px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+            min-width: 300px;
+        }
+
+        .demo-title {
+            font-size: 14px;
+            color: #6c7a8d;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .instruction {
+            max-width: 700px;
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 28px 32px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+            .instruction strong {
+                color: #facc15;
+            }
+
+            .instruction code {
+                background: #334155;
+                padding: 2px 10px;
+                border-radius: 6px;
+                color: #94a3b8;
+                font-size: 13px;
+            }
+
+            .instruction .highlight {
+                color: #00E5FF;
+            }
+
+            .instruction .gif-note {
+                color: #f472b6;
+                font-weight: 600;
+            }
+
+        .btn-refresh {
+            background: rgba(0, 229, 255, 0.15);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            color: #00E5FF;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+            .btn-refresh:hover {
+                background: rgba(0, 229, 255, 0.25);
+                box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            }
+
+        .hr {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 8px 0;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    БЛОК С ПРИМЕРАМИ ИНДИКАТОРА
+    ============================================================ -->
+    <div class="demo-block">
+        <span class="demo-title">👥 Количество сотрудников</span>
+        <div class="demo-row">
+            <!-- Индикатор с гифкой и количеством -->
+            <div class="crm-indicator employees-count-button animated vortex-style"
+                 data-action="employees-count"
+                 data-href="/employees"
+                 title="Количество сотрудников">
+                <div class="indicator-content">
+                    <span class="employees-icon">
+                        <img src="/images/population.gif"
+                             alt="Сотрудники"
+                             loading="lazy"
+                             data-gif="true">
+                    </span>
+                    <span class="count-number">42</span>
+                    <span class="count-label">сотр.</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+            <button class="btn-refresh" onclick="addEmployees()">➕ Добавить</button>
+            <button class="btn-refresh" onclick="removeEmployees()">➖ Удалить</button>
+            <button class="btn-refresh" onclick="resetEmployees()">🔄 Сброс</button>
+            <button class="btn-refresh" onclick="testGif()">🎬 Тест гифки</button>
+        </div>
+
+        <div style="display:flex; gap:16px; align-items:center; font-size:13px; color:#94a3b8;">
+            <span class="status-badge">🟢 Статика: первый кадр</span>
+            <span class="status-badge" style="color:#f472b6;">🔄 При наведении: анимация</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    ИНСТРУКЦИЯ ПО УСТАНОВКЕ
+    ============================================================ -->
+    <div class="instruction">
+        <strong>📘 KAK USTANOVIT INDIKATOR "KOLICHESTVO SOTRUDNIKOV"</strong><br><br>
+
+        <strong>1.</strong> Skopiruyte papku <code>/crm/indicator/number of employees/</code> v vash proekt.<br>
+        <strong>2.</strong> Podklyuchite <code>employees-count.css</code> v <code>&lt;head&gt;</code> stranicy:<br>
+        <code>&lt;link rel="stylesheet" href="/crm/indicator/number of employees/employees-count.css"&gt;</code><br><br>
+
+        <strong>3.</strong> Podklyuchite <code>employees-count.js</code> pered zakrytiem <code>&lt;body&gt;</code>:<br>
+        <code>&lt;script src="/crm/indicator/number of employees/employees-count.js"&gt;&lt;/script&gt;</code><br><br>
+
+        <strong>4.</strong> Vstavte HTML-kod indikatora v nuzhnoe mesto:<br>
+        <code>
+            &lt;div class="crm-indicator employees-count-button animated vortex-style"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; data-action="employees-count" data-href="/employees"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;div class="indicator-content"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="employees-icon"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;img src="/images/population.gif"<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alt="Сотрудники" data-gif="true"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/span&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="count-number"&gt;42&lt;/span&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="count-label"&gt;сотр.&lt;/span&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br>
+            &lt;/div&gt;
+        </code><br><br>
+
+        <strong>5.</strong> <span class="gif-note">🎬 РАБОТА С ГИФКОЙ:</span><br>
+        &nbsp;&nbsp;• По умолчанию гифка <span class="gif-note">СТАТИЧНА</span> (показывает первый кадр)<br>
+        &nbsp;&nbsp;• При <span class="gif-note">НАВЕДЕНИИ</span> мыши гифка проигрывается непрерывно<br>
+        &nbsp;&nbsp;• При уходе мыши гифка снова становится статичной<br><br>
+
+        <strong>6.</strong> Dlya obnovleniya kolichestva cherez JS:<br>
+        <code>window.EmployeesCountIndicator.refresh(123);</code><br>
+        <span style="color:#94a3b8;">// ili bez parametra — podtyanet iz localStorage</span><br><br>
+
+        <strong>7.</strong> Klyuchi dlya polucheniya dannyh iz <span class="highlight">localStorage</span>:<br>
+        <code>employees_count</code>, <code>users_count</code>, <code>staff_count</code><br><br>
+
+        <strong>8.</strong> Gifka dolzhna lezhat po puti:<br>
+        <code>/images/population.gif</code><br><br>
+
+        <span style="color:#facc15;">✅ Indikator gotov k ispolzovaniyu na lyuboi stranice!</span>
+    </div>
+
+    <!-- ============================================================
+    ПОДКЛЮЧАЕМ JS
+    ============================================================ -->
+    <script src="employees-count.js"></script>
+
+    <!-- ============================================================
+    ДЕМОНСТРАЦИОННЫЙ JS ДЛЯ ТЕСТИРОВАНИЯ
+    ============================================================ -->
+    <script>
+        // Текущее количество сотрудников (для демонстрации)
+        let currentCount = 42;
+
+        // Функции для демонстрации
+        function addEmployees() {
+            currentCount++;
+            window.EmployeesCountIndicator.refresh(currentCount);
+            localStorage.setItem('employees_count', currentCount.toString());
+        }
+
+        function removeEmployees() {
+            if (currentCount > 0) {
+                currentCount--;
+                window.EmployeesCountIndicator.refresh(currentCount);
+                localStorage.setItem('employees_count', currentCount.toString());
+            } else {
+                alert('Количество сотрудников не может быть отрицательным!');
+            }
+        }
+
+        function resetEmployees() {
+            currentCount = 0;
+            window.EmployeesCountIndicator.refresh(currentCount);
+            localStorage.setItem('employees_count', currentCount.toString());
+        }
+
+        function testGif() {
+            const img = document.querySelector('.employees-count-button .employees-icon img');
+            if (img) {
+                // Принудительно запускаем гифку на 2 секунды
+                const currentSrc = img.src;
+                img.src = currentSrc.split('?')[0] + '?t=' + Date.now();
+                setTimeout(() => {
+                    const baseSrc = img.getAttribute('data-static') || '/images/population.gif';
+                    img.src = baseSrc;
+                }, 2000);
+                console.log('🎬 Гифка проигрывается 2 секунды');
+            }
+        }
+
+        // Инициализация из localStorage при загрузке
+        document.addEventListener('DOMContentLoaded', function () {
+            const saved = localStorage.getItem('employees_count');
+            if (saved !== null && !isNaN(parseInt(saved, 10))) {
+                currentCount = parseInt(saved, 10);
+                window.EmployeesCountIndicator.refresh(currentCount);
+                console.log('[Demo] Загружено из localStorage:', currentCount);
+            }
+        });
+
+        console.log('🎯 Демонстрация индикатора "Количество сотрудников" запущена!');
+        console.log('📌 Гифка статична, при наведении - проигрывается непрерывно');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+﻿/* ============================================
+   ИНДИКАТОР: КАЛЕНДАРЬ - Стили Vortex (с секундами и днём недели)
+   Папка: /crm/indicator/calendar/
+   ============================================ */
+
+/* Модификатор индикатора календаря */
+.crm-indicator.calendar-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 4px 18px !important;
+    width: auto !important;
+    min-width: 100px !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    height: 52px !important;
+}
+
+    /* Оформление даты (верхняя строка) - ТОЛЬКО ДАТА */
+    .crm-indicator.calendar-button .date-label {
+        font-family: var(--vortex-font-family) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        letter-spacing: 1px !important;
+        color: var(--vortex-text-main, #ffffff) !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        display: block !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
+
+    /* Оформление времени (нижняя строка) - ДЕНЬ НЕДЕЛИ + ВРЕМЯ */
+    .crm-indicator.calendar-button .time-label {
+        font-family: 'Segoe UI', monospace !important;
+        font-size: 12px !important;
+        font-weight: 400 !important;
+        line-height: 1.2 !important;
+        letter-spacing: 1px !important;
+        color: var(--vortex-text-secondary, rgba(255,255,255,0.6)) !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        display: block !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        font-variant-numeric: tabular-nums !important;
+    }
+
+        /* ⭐ ДЕНЬ НЕДЕЛИ В ВРЕМЕНИ (отдельный стиль) */
+        .crm-indicator.calendar-button .time-label .time-weekday {
+            font-family: var(--vortex-font-family) !important;
+            font-size: 10px !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.5px !important;
+            color: var(--vortex-text-secondary, rgba(255,255,255,0.4)) !important;
+            margin-right: 6px !important;
+            text-transform: uppercase !important;
+        }
+
+    /* Эффект наведения - неоновый циан */
+    .crm-indicator.calendar-button:hover .date-label {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 12px rgba(0, 229, 255, 0.7) !important;
+    }
+
+    .crm-indicator.calendar-button:hover .time-label {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 8px rgba(0, 229, 255, 0.5) !important;
+    }
+
+        .crm-indicator.calendar-button:hover .time-label .time-weekday {
+            color: var(--vortex-accent, #00E5FF) !important;
+            text-shadow: 0 0 6px rgba(0, 229, 255, 0.3) !important;
+        }
+
+    /* Эффект нажатия */
+    .crm-indicator.calendar-button:active {
+        transform: scale(0.97) !important;
+    }
+
+    /* Разделитель между строками */
+    .crm-indicator.calendar-button .indicator-content {
+        flex-direction: column !important;
+        gap: 0 !important;
+        height: auto !important;
+    }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .crm-indicator.calendar-button {
+        padding: 2px 12px !important;
+        min-width: 80px !important;
+        height: 44px !important;
+    }
+
+        .crm-indicator.calendar-button .date-label {
+            font-size: 12px !important;
+        }
+
+        .crm-indicator.calendar-button .time-label {
+            font-size: 10px !important;
+        }
+
+            .crm-indicator.calendar-button .time-label .time-weekday {
+                font-size: 8px !important;
+                margin-right: 4px !important;
+            }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.calendar-button {
+        padding: 2px 8px !important;
+        min-width: 65px !important;
+        height: 38px !important;
+    }
+
+        .crm-indicator.calendar-button .date-label {
+            font-size: 10px !important;
+        }
+
+        .crm-indicator.calendar-button .time-label {
+            font-size: 8px !important;
+        }
+
+            .crm-indicator.calendar-button .time-label .time-weekday {
+                font-size: 7px !important;
+                margin-right: 3px !important;
+            }
+}

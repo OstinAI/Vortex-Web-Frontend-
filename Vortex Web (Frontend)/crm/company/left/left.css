@@ -1,0 +1,117 @@
+﻿/* ========================================
+   СТИЛИ ДЛЯ ЛЕВОЙ ЧАСТИ СТРАНИЦЫ КОМПАНИИ
+   ======================================== */
+
+/* ===== КОНТЕЙНЕР ЛЕВОЙ ЧАСТИ ===== */
+.left-content {
+    width: 100%;
+    height: 100%;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрирование по вертикали */
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+/* ===== ЗАГОЛОВОК "СТАТИСТИКА" С НЕОНОВОЙ ПАЛОЧКОЙ ===== */
+.statistics-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+    transform: translateY(15px); /* Смещение вниз на 5px */
+}
+
+    /* НЕОНОВАЯ ПАЛОЧКА (ЦИАН) */
+    .statistics-header .neon-bar {
+        width: 3px;
+        height: 34px; /* Уменьшено с 42px */
+        border-radius: 4px;
+        background: #00FFFF;
+        flex-shrink: 0;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(0, 255, 255, 0.2);
+        animation: neonPulse 2s ease-in-out infinite;
+    }
+
+    /* ЗАГОЛОВОК */
+    .statistics-header h1 {
+        font-family: var(--vortex-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+        font-size: 22px; /* Уменьшено с 28px */
+        font-weight: 300;
+        letter-spacing: 5px; /* Уменьшено с 6px */
+        text-transform: uppercase;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+        text-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+    }
+
+/* ===== АНИМАЦИЯ ПУЛЬСАЦИИ НЕОНА ===== */
+@keyframes neonPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(0, 255, 255, 0.2);
+        opacity: 1;
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(0, 255, 255, 0.3);
+        opacity: 0.9;
+    }
+}
+
+/* ===== ОБЛАСТЬ ДЛЯ КОНТЕНТА (ПОКА ПУСТАЯ) ===== */
+.statistics-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 10px;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .left-content {
+        padding: 0 16px;
+    }
+
+    .statistics-header {
+        gap: 12px;
+        transform: translateY(5px);
+    }
+
+        .statistics-header .neon-bar {
+            height: 28px; /* Уменьшено с 32px */
+            width: 3px;
+        }
+
+        .statistics-header h1 {
+            font-size: 18px; /* Уменьшено с 20px */
+            letter-spacing: 4px;
+        }
+}
+
+@media (max-width: 480px) {
+    .left-content {
+        padding: 0 12px;
+    }
+
+    .statistics-header {
+        gap: 10px;
+        transform: translateY(5px);
+    }
+
+        .statistics-header .neon-bar {
+            height: 22px; /* Уменьшено с 26px */
+            width: 3px;
+        }
+
+        .statistics-header h1 {
+            font-size: 15px; /* Уменьшено с 16px */
+            letter-spacing: 3px;
+        }
+}

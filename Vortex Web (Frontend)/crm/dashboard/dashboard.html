@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рабочий стол</title>
+
+    <!-- ШРИФТЫ -->
+    <link rel="stylesheet" href="/styles/font/fonts.css">
+
+    <!-- СТИЛИ ШАПКИ -->
+    <link rel="stylesheet" href="/styles/cap/header.css">
+
+    <!-- СТИЛИ ИНДИКАТОРОВ -->
+    <link rel="stylesheet" href="/crm/indicator/sample/indicator.css">
+    <link rel="stylesheet" href="/crm/indicator/company/company.css">
+    <link rel="stylesheet" href="/crm/indicator/employee/employee.css">
+    <link rel="stylesheet" href="/crm/indicator/rates/rates.css">
+    <link rel="stylesheet" href="/crm/indicator/calendar/calendar.css">
+    <link rel="stylesheet" href="/crm/indicator/back/back.css">
+
+    <!-- СТИЛИ НОВЫХ ИНДИКАТОРОВ -->
+    <link rel="stylesheet" href="/crm/indicator/immediate%20task/immediate-task.css">
+    <link rel="stylesheet" href="/crm/indicator/monthly%20profit/monthly-profit.css">
+    <link rel="stylesheet" href="/crm/indicator/in%20progress/in-progress.css">
+
+    <!-- СТИЛИ КАПЕЛЬ -->
+    <link rel="stylesheet" href="/drop/drop.css">
+
+    <!-- СТИЛИ СТРАНИЦЫ -->
+    <link rel="stylesheet" href="/crm/company/page/company.css">
+    <link rel="stylesheet" href="/crm/company/page/distributor.css">
+    <link rel="stylesheet" href="/crm/company/window/separation/separation.css">
+    <link rel="stylesheet" href="/crm/company/left/left.css">
+
+    <!-- СТИЛИ ИНСТРУМЕНТОВ КОМПАНИИ -->
+    <link rel="stylesheet" href="/crm/company/tool/tool.css">
+
+    <!-- СТИЛИ ИНСТРУМЕНТОВ (ОБЩИЕ) -->
+    <link rel="stylesheet" href="/crm/tools/tools.css">
+
+    <!-- СТИЛИ ИНДИКАТОРА "КОЛИЧЕСТВО СОТРУДНИКОВ" -->
+    <link rel="stylesheet" href="/crm/indicator/number%20of%20employees/employees-count.css">
+
+    <!-- УНИВЕРСАЛЬНЫЕ КНОПКИ -->
+    <link rel="stylesheet" href="/styles/button/buttons/buttons.css">
+
+    <style>
+        .glass-header .header-indicators {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            padding: 0 20px !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+            .glass-header .header-indicators .back-button {
+                margin-right: auto !important;
+            }
+
+        /* Стили для правой панели */
+        #rightContent {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 100% !important;
+            min-height: 400px !important;
+            padding: 20px !important;
+        }
+
+        /* Левая панель */
+        .split-left {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- ====== ШАПКА ====== -->
+    <header class="glass-header"
+            data-neon-drops
+            data-drops-count="8"
+            data-drops-speed="5000"
+            data-drops-delay="250"
+            data-drops-color="#00FFFF">
+
+        <div class="header-indicators">
+
+            <!-- КАЛЕНДАРЬ -->
+            <div class="crm-indicator calendar-button animated vortex-style"
+                 data-action="calendar"
+                 data-href="/calendar"
+                 title="Календарь">
+                <div class="indicator-content">
+                    <span class="date-label">03.03.1993</span>
+                    <span class="time-label">21:21</span>
+                </div>
+            </div>
+
+            <!-- ИНДИКАТОР "БЛИЖАЙШАЯ ЗАДАЧА" -->
+            <div class="crm-indicator immediate-task-button animated vortex-style"
+                 data-action="immediate-task"
+                 data-href="/tasks"
+                 title="Ближайшая задача"
+                 style="margin:0 !important; padding:0 15px !important; height:52px !important; min-width:90px !important;">
+                <div class="indicator-content" style="display:flex !important; align-items:center !important; justify-content:center !important; gap:8px !important; width:100% !important; height:100% !important;">
+                    <span class="task-text" style="font-family:var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important; font-size:14px !important; font-weight:600 !important; color:#ffffff !important; transition:color 0.3s ease, text-shadow 0.3s ease !important; line-height:1 !important; white-space:nowrap !important; display:flex !important; align-items:center !important; max-width:180px !important; overflow:hidden !important; text-overflow:ellipsis !important;">ЗАГРУЗКА...</span>
+                </div>
+            </div>
+
+            <!-- ИНДИКАТОР "В РАБОТЕ" -->
+            <div class="crm-indicator in-progress-button animated vortex-style"
+                 data-action="in-progress"
+                 data-href="/crm"
+                 title="Клиенты в работе"
+                 style="margin:0 !important; padding:0 15px !important; height:52px !important; min-width:70px !important;">
+                <div class="indicator-content" style="display:flex !important; align-items:center !important; justify-content:center !important; gap:6px !important; width:100% !important; height:100% !important;">
+                    <span class="count-number" style="font-family:var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important; font-size:18px !important; font-weight:700 !important; color:#ffffff !important; transition:color 0.3s ease, text-shadow 0.3s ease !important; line-height:1 !important; white-space:nowrap !important; display:flex !important; align-items:center !important;">0</span>
+                    <span class="in-progress-label" style="font-family:var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important; font-size:11px !important; font-weight:500 !important; color:rgba(255,255,255,0.5) !important; letter-spacing:0.5px !important; transition:color 0.3s ease !important; line-height:1 !important; white-space:nowrap !important; display:flex !important; align-items:center !important;">В РАБОТЕ</span>
+                </div>
+            </div>
+
+            <!-- ИНДИКАТОР "ПРИБЫЛЬ ЗА МЕСЯЦ" -->
+            <div class="crm-indicator monthly-profit-button animated vortex-style"
+                 data-action="monthly-profit"
+                 data-href="/stats"
+                 title="Прибыль за текущий месяц"
+                 style="margin:0 !important; padding:4px 15px !important; height:52px !important; min-width:90px !important; flex-direction:column !important;">
+                <div class="indicator-content" style="display:flex !important; align-items:center !important; justify-content:center !important; gap:2px !important; width:100% !important; height:100% !important; flex-direction:column !important;">
+                    <span class="profit-label" style="font-family:var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important; font-size:13px !important; font-weight:700 !important; color:rgba(255,255,255,0.5) !important; letter-spacing:2px !important; transition:color 0.3s ease !important; line-height:1 !important; white-space:nowrap !important; display:flex !important; align-items:center !important; text-transform:uppercase !important; order:1 !important;">АВГУСТ</span>
+                    <span class="profit-number" style="font-family:var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important; font-size:17px !important; font-weight:700 !important; color:#ffffff !important; transition:color 0.3s ease, text-shadow 0.3s ease !important; line-height:1 !important; white-space:nowrap !important; display:flex !important; align-items:center !important; order:2 !important;">0 ₸</span>
+                </div>
+            </div>
+
+            <!-- СОТРУДНИК (ИМЯ МЕНЕДЖЕРА) -->
+            <div class="crm-indicator employee-button animated vortex-style"
+                 data-action="employee"
+                 data-href="/employees"
+                 title="Сотрудник">
+                <div class="indicator-content">
+                    <span class="label">ЗАГРУЗКА...</span>
+                </div>
+            </div>
+
+            <!-- КОМПАНИЯ (НАЗВАНИЕ КОМПАНИИ) -->
+            <div class="crm-indicator company-button animated vortex-style"
+                 data-action="company"
+                 data-href="/company"
+                 title="Компания">
+                <div class="indicator-content">
+                    <span class="label">ЗАГРУЗКА...</span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ====== СТРАНИЦА ====== -->
+    <main class="page-content">
+
+        <!-- ВИДЕОФОН -->
+        <video class="background-video" autoplay muted loop playsinline>
+            <source src="/styles/background/video/background.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+
+        <!-- ========================================== -->
+        <!-- КОНТЕНТ СТРАНИЦЫ - separation.js создаст split-container -->
+        <!-- ========================================== -->
+        <div class="content-overlay" id="main-container">
+            <!-- separation.js создаст:
+                 <div class="split-container">
+                     <div id="leftContent" class="split-left"></div>
+                     <div id="rightContent" class="split-right"></div>
+                 </div>
+            -->
+        </div>
+
+        <!-- ========================================== -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ С ИНСТРУМЕНТАМИ -->
+        <!-- ========================================== -->
+        <footer class="vortex-bottom-bar">
+            <div class="vortex-tools-container">
+                <div class="vortex-trigger-cell" onclick="vortexToggleTools()">
+                    <img src="/static/images/tools.gif" alt="Инструменты">
+                </div>
+
+                <div class="vortex-tools-grid" id="tools-menu">
+                    <div class="vortex-tool-cell" data-label="Статистика" ondblclick="openStat()">
+                        <img src="/static/images/bars.gif" alt="Статистика">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Задачи" ondblclick="openTasks()">
+                        <img src="/static/images/task.gif" alt="Задачи">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Склад" ondblclick="openWH()">
+                        <img src="/static/images/crane.gif" alt="Склад">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="CRM" ondblclick="openCRM()">
+                        <img src="/static/images/crm.gif" alt="CRM">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Контакт-центр" ondblclick="openContact()">
+                        <img src="/static/images/24-hour-service.gif" alt="Контакт-центр">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Сотрудники" ondblclick="openEmpl()">
+                        <img src="/static/images/user.gif" alt="Сотрудники">
+                    </div>
+                    <div id="tool-company" class="vortex-tool-cell" data-label="Компания" ondblclick="openCompany()">
+                        <img src="/static/images/building.gif" alt="Компания">
+                    </div>
+                    <div id="tool-settings" class="vortex-tool-cell" data-label="Настройки" ondblclick="openSettings()">
+                        <img src="/static/images/technology.gif" alt="Настройки">
+                    </div>
+                </div>
+            </div>
+
+            <div class="vortex-exit-zone">
+                <div class="vortex-exit-cell" onclick="vortexLogout()">
+                    <img src="/static/images/import.gif" alt="Выход">
+                </div>
+            </div>
+        </footer>
+
+        <!-- Подсказки -->
+        <div id="vortex-hint" class="vortex-ui-hint"></div>
+
+    </main>
+
+    <!-- ====== БОКОВАЯ ПАНЕЛЬ ЗАДАЧ ====== -->
+    <div id="vortex-side-tasks" class="vortex-side-panel"></div>
+
+    <!-- ====== ПОДКЛЮЧАЕМ JS ====== -->
+    <script src="/static/js/config.js"></script>
+
+    <!-- Разделение -->
+    <script src="/crm/company/window/separation/separation.js"></script>
+
+    <!-- Универсальные кнопки -->
+    <script src="/styles/button/buttons/buttons.js"></script>
+
+    <script src="/crm/dashboard/right/right-button.js"></script>
+
+    <!-- Индикаторы -->
+    <script src="/crm/indicator/sample/indicator.js"></script>
+    <script src="/crm/indicator/company/company.js"></script>
+    <script src="/crm/indicator/employee/employee.js"></script>
+    <script src="/crm/indicator/rates/rates.js"></script>
+    <script src="/crm/indicator/calendar/calendar.js"></script>
+
+    <!-- НОВЫЕ ИНДИКАТОРЫ -->
+    <script src="/crm/indicator/immediate%20task/immediate-task.js"></script>
+    <script src="/crm/indicator/monthly%20profit/monthly-profit.js"></script>
+    <script src="/crm/indicator/in%20progress/in-progress.js"></script>
+
+    <script src="/crm/indicator/number%20of%20employees/employees-count.js"></script>
+    <script src="/crm/indicator/back/back.js"></script>
+
+    <!-- Капли -->
+    <script src="/drop/drop.js"></script>
+
+    <!-- Страница компании -->
+    <script src="/crm/company/page/company.js"></script>
+
+    <!-- ИНСТРУМЕНТЫ (TOOLS) -->
+    <script src="/crm/tools/tools.js"></script>
+
+    <!-- DASHBOARD JS (с функцией updateSideTasks) -->
+    <script src="/crm/dashboard/dashboard.js"></script>
+
+
+</body>
+</html>

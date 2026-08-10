@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Неоновые капли - пример</title>
+
+    <!-- Подключаем стили капель -->
+    <link rel="stylesheet" href="drop.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a14;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .demo-container {
+            width: 500px;
+            padding: 40px;
+            background: rgba(10, 10, 30, 0.45);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+            .demo-container h2 {
+                color: #fff;
+                font-size: 24px;
+                font-weight: 300;
+                letter-spacing: 2px;
+                margin-bottom: 10px;
+            }
+
+            .demo-container p {
+                color: rgba(255, 255, 255, 0.4);
+                font-size: 14px;
+            }
+
+            /* Контейнер для капель */
+            .demo-container .neon-drops {
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: 2px;
+                pointer-events: none;
+                overflow: visible;
+                z-index: 10;
+            }
+
+            .demo-container .neon-drop {
+                position: absolute;
+                bottom: 0;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #00FFFF;
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3);
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+                transition: none;
+            }
+
+                .demo-container .neon-drop.active {
+                    opacity: 1;
+                    transform: translateX(-50%) scale(1);
+                }
+
+                .demo-container .neon-drop::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -8px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 2px;
+                    height: 8px;
+                    background: linear-gradient(180deg, rgba(0, 255, 255, 0.6) 0%, rgba(0, 255, 255, 0) 100%);
+                    border-radius: 50%;
+                    filter: blur(2px);
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+                .demo-container .neon-drop.active::after {
+                    opacity: 1;
+                }
+
+                .demo-container .neon-drop.small {
+                    width: 4px;
+                    height: 4px;
+                }
+
+                .demo-container .neon-drop.medium {
+                    width: 7px;
+                    height: 7px;
+                }
+
+                .demo-container .neon-drop.large {
+                    width: 9px;
+                    height: 9px;
+                }
+
+        @keyframes dropPulse {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(0, 255, 255, 0.9), 0 0 50px rgba(0, 255, 255, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            }
+        }
+
+        .demo-container .neon-drop.active.pulse {
+            animation: dropPulse 0.6s ease-in-out 1;
+        }
+
+        /* Эффект при наведении на контейнер */
+        .demo-container:hover {
+            border-color: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.03);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== ДЕМО-КОНТЕЙНЕР С КАПЛЯМИ ====== -->
+    <div class="demo-container" data-neon-drops data-drops-count="4" data-drops-delay="200" data-drops-color="#00FFFF">
+        <h2>Наведи на меня</h2>
+        <p>Капли побегут слева направо с ускорением и замедлением</p>
+
+        <!-- Контейнер для капель будет создан автоматически -->
+    </div>
+
+    <!-- Подключаем JS капель -->
+    <script src="drop.js"></script>
+
+</body>
+</html>

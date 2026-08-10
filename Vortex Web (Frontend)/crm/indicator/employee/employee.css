@@ -1,0 +1,70 @@
+﻿/* ============================================
+   ИНДИКАТОР: СОТРУДНИК - Стили Vortex
+   Папка: /crm/indicator/employee/
+   ============================================ */
+
+/* Модификатор индикатора сотрудника */
+.crm-indicator.employee-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 18px !important;
+    width: auto !important;
+    min-width: 100px !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+    /* Оформление инициалов сотрудника - как у календаря */
+    .crm-indicator.employee-button .label {
+        font-family: var(--vortex-font-family) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        letter-spacing: 1.5px !important;
+        color: var(--vortex-text-main, #ffffff) !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        display: block !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+    }
+
+    /* Эффект наведения Vortex - НЕОНОВЫЙ ЦИАН */
+    .crm-indicator.employee-button:hover .label {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 12px rgba(0, 229, 255, 0.7) !important;
+    }
+
+    /* Эффект нажатия */
+    .crm-indicator.employee-button:active {
+        transform: scale(0.97) !important;
+    }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .crm-indicator.employee-button {
+        padding: 0 12px !important;
+        min-width: 80px !important;
+    }
+
+        .crm-indicator.employee-button .label {
+            font-size: 12px !important;
+            letter-spacing: 1.5px !important;
+            font-weight: 600 !important;
+        }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.employee-button {
+        padding: 0 8px !important;
+        min-width: 65px !important;
+    }
+
+        .crm-indicator.employee-button .label {
+            font-size: 10px !important;
+            letter-spacing: 1px !important;
+            font-weight: 600 !important;
+        }
+}

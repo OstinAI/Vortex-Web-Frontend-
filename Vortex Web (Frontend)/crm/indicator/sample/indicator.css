@@ -1,0 +1,222 @@
+/* ============================================
+   УНИВЕРСАЛЬНЫЙ ИНДИКАТОР - Стили (ДАШБОРД СТИЛЬ)
+   Папка: /crm/indicator/
+   ============================================ */
+
+/* ----- Контейнер-обёртка (сама кнопка) ----- */
+.crm-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* ----- РАЗМЕРЫ (адаптивный квадрат) ----- */
+    width: auto;
+    height: 52px;
+    min-width: 52px;
+    padding: 8px 18px;
+    /* ----- ФОРМА (скруглённые края) ----- */
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* ----- ОБЩИЕ НАСТРОЙКИ ----- */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    user-select: none;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    /* ----- ЗАЩИТА ОТ ВЫХОДА КОНТЕНТА ----- */
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+    /* ============================================ */
+    /* 1. ВНЕШНЕЕ СВЕЧЕНИЕ - УДАЛЕНО! */
+    /* ============================================ */
+    /* ::before больше не используется для свечения */
+
+    /* ============================================ */
+    /* 2. АНИМАЦИЯ БЛИКА (слева направо) */
+    /* ============================================ */
+    .crm-indicator::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient( 90deg, transparent 0%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.4) 45%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.4) 55%, rgba(255, 255, 255, 0.1) 80%, transparent 100% );
+        transform: skewX(-20deg);
+        pointer-events: none;
+        z-index: 3;
+        transition: none;
+    }
+
+    /* Запускаем анимацию блика при наведении */
+    .crm-indicator:hover::after {
+        animation: shineSweep 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+@keyframes shineSweep {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    95% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 150%;
+        opacity: 0;
+    }
+}
+
+/* ============================================ */
+/* 3. САМА КНОПКА ПРИ НАВЕДЕНИИ (БЕЗ ИЗМЕНЕНИЙ) */
+/* ============================================ */
+.crm-indicator:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
+
+    /* ============================================ */
+    /* 4. КОНТЕНТ ВНУТРИ (лёгкая анимация) */
+    /* ============================================ */
+    .crm-indicator:hover .indicator-content {
+        transform: translateY(-1px);
+        transition: transform 0.3s ease;
+    }
+
+/* ----- КОНТЕЙНЕР ДЛЯ КОНТЕНТА ----- */
+.indicator-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+    /* ----- РАЗНЫЕ ТИПЫ КОНТЕНТА ----- */
+    .indicator-content .icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .indicator-content .label {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+    }
+
+    .indicator-content .number {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1;
+        color: #00E5FF;
+    }
+
+    .indicator-content .emoji {
+        font-size: 24px;
+        line-height: 1;
+    }
+
+/* ============================================ */
+/* 5. АНИМАЦИЯ ПОЯВЛЕНИЯ */
+/* ============================================ */
+.crm-indicator.animated {
+    animation: indicatorAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+@keyframes indicatorAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotate(-3deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ============================================ */
+/* 6. АДАПТИВНОСТЬ */
+/* ============================================ */
+@media (max-width: 768px) {
+    .crm-indicator {
+        height: 44px;
+        min-width: 44px;
+        padding: 6px 14px;
+        border-radius: 8px;
+    }
+
+        .crm-indicator::after {
+            width: 60%;
+        }
+
+    .indicator-content .icon {
+        font-size: 17px;
+    }
+
+    .indicator-content .label {
+        font-size: 11px;
+    }
+
+    .indicator-content .number {
+        font-size: 18px;
+    }
+
+    .indicator-content .emoji {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator {
+        height: 38px;
+        min-width: 38px;
+        padding: 4px 10px;
+        border-radius: 6px;
+    }
+
+        .crm-indicator::after {
+            width: 70%;
+        }
+
+    .indicator-content .icon {
+        font-size: 14px;
+    }
+
+    .indicator-content .label {
+        font-size: 9px;
+    }
+
+    .indicator-content .number {
+        font-size: 14px;
+    }
+
+    .indicator-content .emoji {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,141 @@
+/* ========================================
+   КНОПКА "СТАТЬ ДИСТРИБЬЮТОРОМ"
+   Стили шрифта и дизайна по эталону Vortex
+   ======================================== */
+
+.crm-indicator.distributor-button {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Размеры в покое (палочка 3px) */
+    width: 3px !important;
+    min-width: 3px !important;
+    height: 50px !important;
+    max-height: 50px !important;
+    margin: auto 0 !important;
+    padding: 0 !important;
+    background: #00FFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+    /* Яркий неон в покое */
+    box-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px rgba(0, 255, 255, 0.8) !important;
+    /* Плавные переходы */
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease !important;
+}
+
+    /* Отключаем сторонние псевдоэлементы */
+    .crm-indicator.distributor-button::before,
+    .crm-indicator.distributor-button::after {
+        display: none !important;
+    }
+
+    /* Контейнер для текста */
+    .crm-indicator.distributor-button .indicator-content {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        white-space: nowrap !important;
+        padding: 0 20px !important;
+        background: transparent !important;
+        transition: opacity 0.2s ease 0.1s, visibility 0.2s ease 0.1s !important;
+    }
+
+    /* ========================================
+   ОФОРМЛЕНИЕ ТЕКСТА - КАК У КАЛЕНДАРЯ
+   ======================================== */
+
+    .crm-indicator.distributor-button .distributor-label,
+    .crm-indicator.distributor-button .label {
+        font-family: var(--vortex-font-family) !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        letter-spacing: 2px !important;
+        color: var(--vortex-text-main, #ffffff) !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        display: block !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+    }
+
+    /* ========================================
+   СОСТОЯНИЕ ПРИ НАВЕДЕНИИ И КЛИКЕ
+   ======================================== */
+
+    .crm-indicator.distributor-button:hover {
+        width: 250px !important;
+        min-width: 250px !important;
+        height: 50px !important;
+        max-height: 50px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+    }
+
+        .crm-indicator.distributor-button:hover .indicator-content {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Интерактивный неоновый эффект при наведении (ЦИАН) */
+        .crm-indicator.distributor-button:hover .distributor-label,
+        .crm-indicator.distributor-button:hover .label {
+            color: var(--vortex-accent, #00E5FF) !important;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.7) !important;
+        }
+
+    /* Эффект клика */
+    .crm-indicator.distributor-button:active {
+        transform: scale(0.97) !important;
+    }
+
+/* ========================================
+   АДАПТИВНОСТЬ
+   ======================================== */
+
+@media (max-width: 768px) {
+    .crm-indicator.distributor-button {
+        height: 36px !important;
+        max-height: 36px !important;
+    }
+
+        .crm-indicator.distributor-button:hover {
+            width: 200px !important;
+            min-width: 200px !important;
+            height: 36px !important;
+            max-height: 36px !important;
+        }
+
+        .crm-indicator.distributor-button .distributor-label,
+        .crm-indicator.distributor-button .label {
+            font-size: 12px !important;
+            letter-spacing: 1.5px !important;
+            font-weight: 600 !important;
+        }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.distributor-button:hover {
+        width: 170px !important;
+        min-width: 170px !important;
+    }
+
+    .crm-indicator.distributor-button .distributor-label,
+    .crm-indicator.distributor-button .label {
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+        font-weight: 600 !important;
+    }
+}

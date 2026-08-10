@@ -1,0 +1,115 @@
+﻿/* ============================================
+   ИНДИКАТОР: ПРИБЫЛЬ ЗА ТЕКУЩИЙ МЕСЯЦ (MONTHLY PROFIT)
+   Папка: /crm/indicator/monthly profit/
+   ============================================ */
+
+.crm-indicator.monthly-profit-button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 4px 15px !important;
+    width: auto !important;
+    min-width: 90px !important;
+    height: 52px !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    flex-direction: column !important; /* ⭐ ВЕРТИКАЛЬНО */
+}
+
+    .crm-indicator.monthly-profit-button .indicator-content {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        width: 100% !important;
+        height: 100% !important;
+        flex-direction: column !important; /* ⭐ ВЕРТИКАЛЬНО */
+    }
+
+    /* МЕТКА (МЕСЯЦ) - СВЕРХУ */
+    .crm-indicator.monthly-profit-button .profit-label {
+        font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important;
+        font-size: 13px !important; /* ⭐ УВЕЛИЧЕН */
+        font-weight: 700 !important; /* ⭐ ЖИРНЫЙ */
+        color: rgba(255, 255, 255, 0.5) !important;
+        letter-spacing: 2px !important; /* ⭐ ИНТЕРВАЛ */
+        transition: color 0.3s ease !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        display: flex !important;
+        align-items: center !important;
+        text-transform: uppercase !important;
+        order: 1 !important; /* ⭐ ПЕРВЫЙ (СВЕРХУ) */
+    }
+
+    /* ЦИФРА (СУММА) - СНИЗУ */
+    .crm-indicator.monthly-profit-button .profit-number {
+        font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif) !important;
+        font-size: 17px !important; /* ⭐ УВЕЛИЧЕН */
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        transition: color 0.3s ease, text-shadow 0.3s ease !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        display: flex !important;
+        align-items: center !important;
+        order: 2 !important; /* ⭐ ВТОРОЙ (СНИЗУ) */
+    }
+
+    /* Эффекты при наведении - НЕОНОВЫЙ ЦИАН */
+    .crm-indicator.monthly-profit-button:hover .profit-number {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 12px rgba(0, 229, 255, 0.7) !important;
+    }
+
+    .crm-indicator.monthly-profit-button:hover .profit-label {
+        color: var(--vortex-accent, #00E5FF) !important;
+        text-shadow: 0 0 8px rgba(0, 229, 255, 0.3) !important;
+    }
+
+    .crm-indicator.monthly-profit-button:active {
+        transform: scale(0.97) !important;
+    }
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+@media (max-width: 768px) {
+    .crm-indicator.monthly-profit-button {
+        height: 44px !important;
+        min-width: 70px !important;
+        padding: 2px 10px !important;
+    }
+
+        .crm-indicator.monthly-profit-button .profit-number {
+            font-size: 14px !important;
+        }
+
+        .crm-indicator.monthly-profit-button .profit-label {
+            font-size: 11px !important;
+            letter-spacing: 1.5px !important;
+        }
+}
+
+@media (max-width: 480px) {
+    .crm-indicator.monthly-profit-button {
+        height: 38px !important;
+        min-width: 60px !important;
+        padding: 2px 8px !important;
+    }
+
+        .crm-indicator.monthly-profit-button .profit-number {
+            font-size: 12px !important;
+        }
+
+        .crm-indicator.monthly-profit-button .profit-label {
+            font-size: 9px !important;
+            letter-spacing: 1px !important;
+        }
+}

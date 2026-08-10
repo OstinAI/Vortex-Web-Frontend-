@@ -1,0 +1,232 @@
+<!-- ============================================================
+     УНИВЕРСАЛЬНЫЙ ИНДИКАТОР - HTML ШАБЛОН + ИНСТРУКЦИЯ
+     Папка: /crm/indicator/
+     ============================================================ -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Универсальный индикатор - примеры</title>
+
+    <!-- ПОДКЛЮЧАЕМ ШРИФТЫ (у вас уже есть отдельный файл) -->
+    <!-- <link rel="stylesheet" href="/fonts/your-fonts.css"> -->
+    <!-- ПОДКЛЮЧАЕМ СТИЛИ ИНДИКАТОРА -->
+    <link rel="stylesheet" href="indicator.css">
+
+    <!-- Стили для демонстрации (только для примера, не обязательны) -->
+    <style>
+        body {
+            background: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .demo-block {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .demo-title {
+            font-size: 14px;
+            color: #6c7a8d;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .demo-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .instruction {
+            max-width: 600px;
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 24px 28px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            font-family: 'Courier New', monospace;
+        }
+
+            .instruction strong {
+                color: #facc15;
+            }
+
+            .instruction code {
+                background: #334155;
+                padding: 2px 8px;
+                border-radius: 6px;
+                color: #94a3b8;
+            }
+
+        .hr {
+            width: 100%;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    БЛОК С ПРИМЕРАМИ ИНДИКАТОРОВ
+    ============================================================ -->
+    <!-- Пример 1: Только иконка -->
+    <div class="demo-block">
+        <span class="demo-title">🔹 Только иконка</span>
+        <div class="demo-row">
+            <div class="crm-indicator" data-action="icon" data-value="star">
+                <div class="indicator-content">
+                    <span class="icon">⭐</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пример 2: Цифра / счётчик -->
+    <div class="demo-block">
+        <span class="demo-title">🔢 Счётчик</span>
+        <div class="demo-row">
+            <div class="crm-indicator" data-action="counter" data-value="42">
+                <div class="indicator-content">
+                    <span class="number">42</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пример 3: Иконка + текст -->
+    <div class="demo-block">
+        <span class="demo-title">📋 Иконка + текст</span>
+        <div class="demo-row">
+            <div class="crm-indicator" data-action="status" data-value="online">
+                <div class="indicator-content">
+                    <span class="icon">🟢</span>
+                    <span class="label">Online</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пример 4: Только текст (короткий) -->
+    <div class="demo-block">
+        <span class="demo-title">📝 Только текст</span>
+        <div class="demo-row">
+            <div class="crm-indicator" data-action="label" data-value="new">
+                <div class="indicator-content">
+                    <span class="label">NEW</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пример 5: Эмодзи + цифра -->
+    <div class="demo-block">
+        <span class="demo-title">📊 Эмодзи + цифра</span>
+        <div class="demo-row">
+            <div class="crm-indicator" data-action="stats" data-value="7">
+                <div class="indicator-content">
+                    <span class="emoji">🔥</span>
+                    <span class="number">7</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    ИНСТРУКЦИЯ ПО УСТАНОВКЕ (на русском, латиницей)
+    ============================================================ -->
+    <div class="instruction">
+        <strong>📘 KAK USTANOVIT INDIKATOR</strong><br><br>
+
+        <strong>1.</strong> Skopiruyte papku <code>/indicator/</code> v vash proekt.<br>
+        <strong>2.</strong> Podklyuchite <code>indicator.css</code> v <code>&lt;head&gt;</code> stranicy:<br>
+        <code>&lt;link rel="stylesheet" href="/crm/indicator/indicator.css"&gt;</code><br><br>
+
+        <strong>3.</strong> Podklyuchite <code>indicator.js</code> pered zakrytiem <code>&lt;body&gt;</code>:<br>
+        <code>&lt;script src="/crm/indicator/indicator.js"&gt;&lt;/script&gt;</code><br>
+        <span style="color:#94a3b8;">(Eto ne obyazatelno, no polezno dlya obrabotki klikov i dinamiki)</span><br><br>
+
+        <strong>4.</strong> Vstavte HTML-kod indikatora v nuzhnoe mesto stranicy:<br>
+        <code>
+            &lt;div class="crm-indicator" data-action="your_action" data-value="your_value"&gt;<br>
+            &nbsp;&nbsp;&lt;div class="indicator-content"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="icon"&gt;⭐&lt;/span&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="label"&gt;Tekst&lt;/span&gt;<br>
+            &nbsp;&nbsp;&lt;/div&gt;<br>
+            &lt;/div&gt;
+        </code><br><br>
+
+        <strong>5.</strong> Vnutri <code>.indicator-content</code> vy mozhete stavit LUBOY HTML:<br>
+        - <code>.icon</code> — dlya ikonok (font-size 24px)<br>
+        - <code>.emoji</code> — dlya emodzi (font-size 32px)<br>
+        - <code>.number</code> — dlya cifr (font-size 28px)<br>
+        - <code>.label</code> — dlya teksta (font-size 14px)<br>
+        - ili svoi klassy — eto prosto primery.<br><br>
+
+        <strong>6.</strong> Razmer indikatora — 64x64 px (kvadrat).<br>
+        Pri navedenii — vneshnee BELOE svechenie (fon s naruzhi).<br>
+        Vnutri — legkaya animaciya (podskakivanie konteksta).<br>
+        Razmer SAMOGO indikatora NE MENYAETSYA!<br><br>
+
+        <strong>7.</strong> Dlya izmeneniya soderzhimogo cherez JS ispolzuyte:<br>
+        <code>document.querySelector('.crm-indicator').updateContent('NOVYJ HTML');</code><br>
+        Ili globalnyj menedzher:<br>
+        <code>window.IndicatorManager.updateBySelector('.crm-indicator', 'NOVYJ HTML');</code><br><br>
+
+        <strong>8.</strong> Shrifty podklyuchayutsya otdelno — eto ne vliyaet na rabotu indikatora.<br><br>
+
+        <span style="color:#facc15;">✅ Indikator universalen — mozhet byt na odnoi stranice v desyatkah ekzemplyarov!</span>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ JS ИНДИКАТОРА (ОПЦИОНАЛЬНО) -->
+    <script src="indicator.js"></script>
+
+    <!-- ДЕМОНСТРАЦИЯ: через 2 секунды обновим содержимое первого индикатора -->
+    <script>
+        setTimeout(() => {
+            const firstIndicator = document.querySelector('.crm-indicator');
+            if (firstIndicator && typeof firstIndicator.updateContent === 'function') {
+                firstIndicator.updateContent(`
+                        <span class="emoji">✅</span>
+                        <span class="label">Gotovo</span>
+                    `);
+                console.log('🔄 Kontekt pervonachalnogo indikatora obnovlen!');
+            }
+        }, 3000);
+    </script>
+
+    <!-- Подключить CSS -->
+    <link rel="stylesheet" href="/crm/indicator/indicator.css">
+
+    <!-- Добавить индикатор -->
+    <div class="crm-indicator animated" data-action="your_action" data-href="/your-page">
+        <div class="indicator-content">
+            <span class="icon">⭐</span>
+            <span class="label">Текст</span>
+        </div>
+    </div>
+
+    <!-- Подключить JS -->
+    <script src="/crm/indicator/indicator.js"></script>
+
+</body>
+</html>

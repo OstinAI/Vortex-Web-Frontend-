@@ -1088,21 +1088,48 @@ function loadUserName() {
     const avatarEl = document.getElementById('header-avatar');
     if (!nameSpan) return;
 
-    let fullName = localStorage.getItem('vortex_user_name');
+    // ⭐ ИСПРАВЛЕНО: Приоритет - сначала username, потом vortex_user_name
+    let fullName = localStorage.getItem('username') ||
+        localStorage.getItem('vortex_user_name') ||
+        localStorage.getItem('full_name') ||
+        'Пользователь';
 
-    if (!fullName) {
+    // Если имя "Никита" - заменяем на правильное из username
+    if (fullName === 'Никита') {
+        const username = localStorage.getItem('username');
+        if (username && username !== 'Никита') {
+            fullName = username;
+            // Сохраняем правильное имя обратно в localStorage
+            localStorage.setItem('vortex_user_name', fullName);
+            localStorage.setItem('full_name', fullName);
+        }
+    }
+
+    // Если всё еще "Никита" - пробуем получить из токена
+    if (fullName === 'Никита') {
         try {
             const token = localStorage.getItem('vortex_token');
             if (token) {
                 const payload = JSON.parse(atob(token.split('.')[1]));
-                fullName = payload.full_name || payload.name || payload.username || 'Пользователь';
+                if (payload.username && payload.username !== 'Никита') {
+                    fullName = payload.username;
+                } else if (payload.full_name && payload.full_name !== 'Никита') {
+                    fullName = payload.full_name;
+                } else if (payload.name && payload.name !== 'Никита') {
+                    fullName = payload.name;
+                }
             }
         } catch (e) {
             console.error("Ошибка получения имени из токена:", e);
         }
     }
 
-    fullName = fullName || 'Пользователь';
+    // Если всё еще "Никита" - заменяем на "Пользователь"
+    if (fullName === 'Никита') {
+        fullName = 'Пользователь';
+    }
+
+    console.log('🔍 tasks.js - Имя пользователя:', fullName);
 
     // --- ФОРМАТИРОВАНИЕ: Имя Фамилия Отчество -> Фамилия И.О. ---
     const parts = fullName.trim().split(/\s+/);
@@ -1123,7 +1150,7 @@ function loadUserName() {
         displayName = `${surname} ${firstName.charAt(0)}.`;
         avatarLetter = surname.charAt(0).toUpperCase();
     } else {
-        // Только одно слово
+        // Только одно слово (логин)
         displayName = parts[0];
         avatarLetter = parts[0].charAt(0).toUpperCase();
     }

@@ -1,3 +1,5 @@
+п»ї// auth.js
+
 function toggleAuth() {
     const form = document.getElementById('auth-form');
     const landing = document.getElementById('landing-text');
@@ -10,29 +12,32 @@ function toggleAuth() {
     }
 }
 
-// Используем тот же метод, что сработал при регистрации
 async function hashSHA256(input) {
     const msgUint8 = new TextEncoder().encode(input || "");
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    // Тот самый метод конвертации, который подошел серверу при регистрации
     return btoa(hashArray.map(b => String.fromCharCode(b)).join(''));
 }
 
 async function handleLogin() {
+    console.log("рџљЂрџљЂрџљЂ handleLogin() Р’Р«Р—Р’РђРќРђ! рџљЂрџљЂрџљЂ");
+    console.log("API_BASE_URL =", API_BASE_URL);
+
     const company = document.getElementById('company').value.trim();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
     const errorBox = document.getElementById('error-box');
 
     if (!company || !username || !password) {
-        errorBox.innerText = "Заполните все поля!";
+        errorBox.innerText = "Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ!";
         return;
     }
 
     try {
         const passwordHash = await hashSHA256(password);
-        const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        const url = `${API_BASE_URL}/api/auth/login`;
+
+        const response = await fetch(url, {
             method: 'POST',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
@@ -42,64 +47,82 @@ async function handleLogin() {
         const result = await response.json();
 
         if (response.ok && result.status === "ok") {
-            // 1. Сохраняем токен и роль
+            // РЎРѕС…СЂР°РЅСЏРµРј С‚РѕРєРµРЅ Рё СЂРѕР»СЊ
             localStorage.setItem('vortex_token', result.token);
             localStorage.setItem('role', result.role);
+            localStorage.setItem('company_name', company);
             localStorage.setItem('username', username);
 
-            // --- НОВОЕ: ЗАПРОС ФИО С СЕРВЕРА ---
-            try {
-                // Идем в эндпоинт сотрудников, чтобы найти себя
-                const empRes = await fetch(`${API_BASE_URL}/api/employees/list`, {
-                    headers: { 'Authorization': `Bearer ${result.token}` }
-                });
-                const empData = await empRes.json();
+            if (result.companyId) {
+                localStorage.setItem('company_id', String(result.companyId));
+                localStorage.setItem('vortex_company_id', String(result.companyId));
+            }
 
-                if (empData.status === "ok" && empData.employees) {
-                    // Ищем в списке сотрудника с нашим логином
-                    const me = empData.employees.find(e => e.username === username);
-                    if (me && me.full_name) {
-                        localStorage.setItem('vortex_user_name', me.full_name);
-                        console.log("ФИО получено с сервера:", me.full_name);
+            // вњ… РџРћР›РЈР§РђР•Рњ Р¤РРћ РЎ Р‘Р•РљР•РќР”Рђ
+            try {
+                console.log('[Auth] Р—Р°РїСЂР°С€РёРІР°СЋ Р¤РРћ...');
+                const fioResponse = await fetch(`${API_BASE_URL}/api/employees/list`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${result.token}`
+                    }
+                });
+
+                if (fioResponse.ok) {
+                    const fioData = await fioResponse.json();
+                    console.log('[Auth] Р”Р°РЅРЅС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ:', fioData);
+
+                    const employees = fioData.employees || fioData.data || [];
+                    // РС‰РµРј С‚РµРєСѓС‰РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ username
+                    const currentUser = employees.find(u => u.username === username);
+
+                    if (currentUser && currentUser.full_name && currentUser.full_name !== '') {
+                        console.log('[Auth] РќР°Р№РґРµРЅРѕ Р¤РРћ:', currentUser.full_name);
+                        localStorage.setItem('full_name', currentUser.full_name);
+                        localStorage.setItem('vortex_user_name', currentUser.full_name);
                     } else {
+                        console.log('[Auth] Р¤РРћ РЅРµ РЅР°Р№РґРµРЅРѕ, РёСЃРїРѕР»СЊР·СѓСЋ username');
+                        localStorage.setItem('full_name', username);
                         localStorage.setItem('vortex_user_name', username);
                     }
+                } else {
+                    console.warn('[Auth] РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ Р¤РРћ:', fioResponse.status);
+                    localStorage.setItem('full_name', username);
+                    localStorage.setItem('vortex_user_name', username);
                 }
-            } catch (e) {
-                console.error("Не удалось подтянуть ФИО:", e);
+            } catch (err) {
+                console.warn('[Auth] РћС€РёР±РєР° Р·Р°РїСЂРѕСЃР° Р¤РРћ:', err);
+                localStorage.setItem('full_name', username);
                 localStorage.setItem('vortex_user_name', username);
             }
 
-            window.location.href = '/dashboard';
+            errorBox.innerText = "";
+            errorBox.style.color = "#28a745";
+            errorBox.innerText = "вњ… Р’С…РѕРґ РІС‹РїРѕР»РЅРµРЅ! РџРµСЂРµРЅР°РїСЂР°РІР»РµРЅРёРµ...";
+
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 1000);
         } else {
-            errorBox.innerText = result.message || "Ошибка входа";
+            errorBox.innerText = result.message || "РћС€РёР±РєР° РІС…РѕРґР°";
         }
     } catch (err) {
-        errorBox.innerText = "Сервер недоступен";
+        console.error("РћС€РёР±РєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё:", err);
+        errorBox.innerText = "РЎРµСЂРІРµСЂ РЅРµРґРѕСЃС‚СѓРїРµРЅ";
     }
 }
 
-// Слушаем клики по всему документу
 document.addEventListener('mousedown', (event) => {
     const form = document.getElementById('auth-form');
     const landing = document.getElementById('landing-text');
     const authCard = document.querySelector('.auth-card');
-    const loginBtn = document.getElementById('login-nav'); // Кнопка "Вход" в меню
+    const loginBtn = document.getElementById('login-nav');
 
-    // Если форма скрыта — ничего не делаем
     if (!form || form.style.display === 'none') return;
 
-    // ПРОВЕРКА: 
-    // 1. Клик был НЕ внутри карточки (.auth-card)
-    // 2. Клик был НЕ по кнопке "Вход" (чтобы она не закрывала форму сразу после открытия)
     if (!authCard.contains(event.target) && event.target !== loginBtn) {
-
-        console.log("Клик за пределами окна! Закрываю...");
-
         form.style.display = 'none';
-
-        if (landing) {
-            landing.style.opacity = '1';
-        }
+        if (landing) landing.style.opacity = '1';
     }
 });

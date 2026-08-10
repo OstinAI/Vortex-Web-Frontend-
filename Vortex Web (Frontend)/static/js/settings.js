@@ -1,4 +1,4 @@
-﻿// settings.js - ПОЛНОСТЬЮ ОБНОВЛЁННЫЙ ФАЙЛ
+﻿// settings.js - Исправленная версия (ПУСТАЯ СТРАНИЦА)
 
 async function openIntegrations() {
     const contentArea = document.getElementById('settings-content-area');
@@ -77,11 +77,11 @@ function openAutomation() {
     const contentArea = document.getElementById('settings-content-area');
     if (!contentArea) return;
 
-    contentArea.innerHTML = `
-        <div style="margin-top: 20px; color: var(--vortex-accent); letter-spacing: 2px;">
-            МОДУЛЬ АВТОМАТИЗАЦИИ ГОТОВ К НАСТРОЙКЕ
-        </div>
-    `;
-
-    console.log("Автоматизация открыта");
+    // ПУСТО - ничего не отображаем
+    contentArea.innerHTML = '';
+    console.log('[SETTINGS] Автоматизация открыта (пусто)');
 }
+
+// Экспорт
+window.openIntegrations = openIntegrations;
+window.openAutomation = openAutomation;

@@ -1,0 +1,326 @@
+﻿/* ============================================
+   TOOLS - Стили панели инструментов
+   Папка: /crm/tools/
+   ============================================ */
+
+/* ----- КОНТЕЙНЕР ИНСТРУМЕНТОВ ----- */
+.vortex-tools-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ----- КНОПКА "ИНСТРУМЕНТЫ" (ТРИГГЕР) ----- */
+.vortex-trigger-cell {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .vortex-trigger-cell:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    .vortex-trigger-cell img {
+        width: 46px;
+        height: 46px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-trigger-cell:hover img {
+        transform: scale(1.1);
+    }
+
+/* ----- СЕТКА ИНСТРУМЕНТОВ ----- */
+.vortex-tools-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-40px);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+    .vortex-tools-grid.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+/* ----- ЯЧЕЙКИ ИНСТРУМЕНТОВ (60x60) ----- */
+.vortex-tool-cell {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: grab;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+    .vortex-tool-cell img {
+        width: 34px;
+        height: 34px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-tool-cell:hover img {
+        transform: scale(1.15);
+    }
+
+    .vortex-tool-cell:active {
+        cursor: grabbing;
+    }
+
+/* ----- АКТИВАЦИЯ ПОЯВЛЕНИЯ ----- */
+.vortex-tools-grid.active .vortex-tool-cell {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+    /* ОЧЕРЕДНОСТЬ ВЫЛЕТА (открытие) */
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(1) {
+        transition-delay: 0.05s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(2) {
+        transition-delay: 0.10s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(3) {
+        transition-delay: 0.15s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(4) {
+        transition-delay: 0.20s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(5) {
+        transition-delay: 0.25s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(6) {
+        transition-delay: 0.30s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(7) {
+        transition-delay: 0.35s;
+    }
+
+    .vortex-tools-grid.active .vortex-tool-cell:nth-child(8) {
+        transition-delay: 0.40s;
+    }
+
+/* ОЧЕРЕДНОСТЬ ИСЧЕЗНОВЕНИЯ (закрытие) */
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(8) {
+    transition-delay: 0.05s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(7) {
+    transition-delay: 0.10s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(6) {
+    transition-delay: 0.15s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(5) {
+    transition-delay: 0.20s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(4) {
+    transition-delay: 0.25s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(3) {
+    transition-delay: 0.30s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(2) {
+    transition-delay: 0.35s;
+}
+
+.vortex-tools-grid:not(.active) .vortex-tool-cell:nth-child(1) {
+    transition-delay: 0.40s;
+}
+
+/* ----- КНОПКА "ВЫХОД" (70x70) ----- */
+.vortex-exit-zone {
+    display: flex;
+    align-items: center;
+}
+
+.vortex-exit-cell {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .vortex-exit-cell:hover {
+        background: rgba(255, 70, 70, 0.15);
+        border-color: rgba(255, 70, 70, 0.4);
+        transform: scale(1.05);
+    }
+
+    .vortex-exit-cell img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .vortex-exit-cell:hover img {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 70, 70, 0.5));
+    }
+
+/* ----- БОКОВАЯ ПАНЕЛЬ ЗАДАЧ ----- */
+.vortex-side-panel {
+    position: fixed;
+    right: 50px;
+    top: 95px;
+    width: 300px;
+    z-index: 100;
+    max-height: 600px;
+    min-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 5px;
+    padding-right: 5px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+    .vortex-side-panel::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+.side-panel-header {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #00E5FF;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.side-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.mini-task-card {
+    width: 100%;
+    min-height: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #00E5FF;
+    padding: 8px 12px;
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+}
+
+    .mini-task-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+.mini-task-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff !important;
+    margin-bottom: 4px;
+}
+
+.mini-task-desc {
+    font-size: 11px;
+    color: #888888;
+    line-height: 1.3;
+}
+
+/* ----- ПОДСКАЗКА В СТИЛЕ СТЕКЛА (ПРОЗРАЧНАЯ) ----- */
+#vortex-hint {
+    position: fixed !important;
+    display: none !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 10px 20px !important;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+    font-family: var(--vortex-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 13px !important;
+    z-index: 10000 !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.3px !important;
+    transition: opacity 0.2s ease !important;
+}
+
+    #vortex-hint kbd {
+        display: inline-block !important;
+        background: rgba(0, 229, 255, 0.12) !important;
+        padding: 0 8px !important;
+        border-radius: 4px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        color: #00E5FF !important;
+        font-family: inherit !important;
+        border: 1px solid rgba(0, 229, 255, 0.15) !important;
+    }
+
+    #vortex-hint[style*="display: block"] {
+        display: block !important;
+    }
+
+/* Скрываем настройки по умолчанию */
+#tool-settings {
+    display: none !important;
+}
+
+/* Скрываем компанию по умолчанию */
+#tool-company {
+    display: none !important;
+}

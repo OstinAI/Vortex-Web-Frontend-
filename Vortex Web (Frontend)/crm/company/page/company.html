@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company</title>
+
+    <!-- ШРИФТЫ -->
+    <link rel="stylesheet" href="/styles/font/fonts.css">
+
+    <!-- СТИЛИ ШАПКИ -->
+    <link rel="stylesheet" href="/styles/cap/header.css">
+
+    <!-- СТИЛИ ИНДИКАТОРОВ -->
+    <link rel="stylesheet" href="/crm/indicator/sample/indicator.css">
+    <link rel="stylesheet" href="/crm/indicator/company/company.css">
+    <link rel="stylesheet" href="/crm/indicator/employee/employee.css">
+    <link rel="stylesheet" href="/crm/indicator/rates/rates.css">
+    <link rel="stylesheet" href="/crm/indicator/calendar/calendar.css">
+    <link rel="stylesheet" href="/crm/indicator/back/back.css">
+
+    <!-- СТИЛИ КАПЕЛЬ -->
+    <link rel="stylesheet" href="/drop/drop.css">
+
+    <!-- СТИЛИ СТРАНИЦЫ -->
+    <link rel="stylesheet" href="/crm/company/page/company.css">
+    <link rel="stylesheet" href="/crm/company/page/distributor.css">
+    <link rel="stylesheet" href="/crm/company/window/separation/separation.css">
+    <link rel="stylesheet" href="/crm/company/left/left.css">
+
+    <!-- СТИЛИ ИНСТРУМЕНТОВ КОМПАНИИ -->
+    <link rel="stylesheet" href="/crm/company/tool/tool.css">
+
+    <!-- СТИЛИ ИНСТРУМЕНТОВ (ОБЩИЕ) -->
+    <link rel="stylesheet" href="/crm/tools/tools.css">
+
+    <link rel="stylesheet" href="/crm/indicator/number%20of%20employees/employees-count.css">
+
+    <!-- УНИВЕРСАЛЬНЫЕ КНОПКИ -->
+    <link rel="stylesheet" href="/styles/button/buttons/buttons.css">
+
+    <!-- МОДАЛЬНОЕ ОКНО КОМПАНИИ -->
+    <link rel="stylesheet" href="/crm/company/window/modal/modal.css">
+
+    <!-- РЕКВИЗИТЫ КОМПАНИИ -->
+    <link rel="stylesheet" href="/crm/company/requisite/requisite.css">
+
+    <!-- КОНТРАГЕНТЫ -->
+    <link rel="stylesheet" href="/crm/company/right/counterparty/counterparty.css">
+
+    <!-- ДИСТРИБЬЮТОР (МОДАЛЬНОЕ ОКНО) -->
+    <link rel="stylesheet" href="/crm/company/window/modal/distributor/distributor.css">
+
+</head>
+<body>
+
+    <!-- ====== ШАПКА ====== -->
+    <header class="glass-header"
+            data-neon-drops
+            data-drops-count="8"
+            data-drops-speed="5000"
+            data-drops-delay="250"
+            data-drops-color="#00FFFF">
+
+        <div class="header-indicators">
+
+            <!-- КАЛЕНДАРЬ (теперь первый) -->
+            <div class="crm-indicator calendar-button animated vortex-style"
+                 style="margin-left: auto !important;"
+                 data-action="calendar"
+                 data-href="/calendar"
+                 title="Календарь">
+                <div class="indicator-content">
+                    <span class="date-label">03.03.1993</span>
+                    <span class="time-label">21:21</span>
+                </div>
+            </div>
+
+            <!-- КОЛИЧЕСТВО СОТРУДНИКОВ -->
+            <div class="crm-indicator employees-count-button animated vortex-style"
+                 data-action="employees-count"
+                 data-href="/employees"
+                 title="Количество сотрудников">
+                <div class="indicator-content">
+                    <span class="employees-icon">
+                        <img src="/crm/company/images/twopeople.png"
+                             alt="Сотрудники"
+                             loading="lazy"
+                             data-gif="true"
+                             draggable="false">
+                    </span>
+                    <span class="count-number">42</span>
+                </div>
+            </div>
+
+            <!-- ТАРИФЫ -->
+            <div class="crm-indicator rates-button animated vortex-style"
+                 data-action="rates"
+                 data-href="/tariffs"
+                 title="Тарифы">
+                <div class="indicator-content">
+                    <span class="label">Тарифы</span>
+                </div>
+            </div>
+
+            <!-- СОТРУДНИК -->
+            <div class="crm-indicator employee-button animated vortex-style"
+                 data-action="employee"
+                 data-href="/profile">
+                <div class="indicator-content">
+                    <span class="label">Нурсултан С. Д.</span>
+                </div>
+            </div>
+
+            <!-- КОМПАНИЯ -->
+            <div class="crm-indicator company-button animated vortex-style"
+                 data-action="company"
+                 data-href="/company">
+                <div class="indicator-content">
+                    <span class="label">Автосалон</span>
+                </div>
+            </div>
+
+            <!-- ДИСТРИБЬЮТОР -->
+            <div class="crm-indicator distributor-button animated vortex-style"
+                 data-action="distributor"
+                 data-href="/distributor"
+                 title="Стать дистрибьютором">
+                <div class="indicator-content">
+                    <span class="label distributor-label">Стать дистрибьютором</span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ====== СТРАНИЦА ====== -->
+    <main class="page-content">
+
+        <!-- ВИДЕОФОН -->
+        <video class="background-video" autoplay muted loop playsinline>
+            <source src="/styles/background/video/background.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+
+        <!-- ========================================== -->
+        <!-- КОНТЕНТ СТРАНИЦЫ (без футера)             -->
+        <!-- ========================================== -->
+        <div class="content-overlay">
+            <!-- Здесь будет основной контент страницы компании -->
+        </div>
+
+        <!-- ========================================== -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ С ИНСТРУМЕНТАМИ -->
+        <!-- ========================================== -->
+        <footer class="vortex-bottom-bar">
+            <div class="vortex-tools-container">
+                <div class="vortex-trigger-cell" onclick="vortexToggleTools()">
+                    <img src="/static/images/tools.gif" alt="Инструменты">
+                </div>
+                <div class="vortex-tools-grid" id="tools-menu">
+                    <div class="vortex-tool-cell" data-label="Статистика" ondblclick="openStat()">
+                        <img src="/static/images/bars.gif" alt="Статистика">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Задачи" ondblclick="openTasks()">
+                        <img src="/static/images/task.gif" alt="Задачи">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Склад" ondblclick="openWH()">
+                        <img src="/static/images/crane.gif" alt="Склад">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="CRM" ondblclick="openCRM()">
+                        <img src="/static/images/crm.gif" alt="CRM">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Контакт-центр" ondblclick="openContact()">
+                        <img src="/static/images/24-hour-service.gif" alt="Контакт-центр">
+                    </div>
+                    <div class="vortex-tool-cell" data-label="Сотрудники" ondblclick="openEmpl()">
+                        <img src="/static/images/user.gif" alt="Сотрудники">
+                    </div>
+                    <div id="tool-company" class="vortex-tool-cell" data-label="Компания" ondblclick="openCompany()">
+                        <img src="/static/images/building.gif" alt="Компания">
+                    </div>
+                    <div id="tool-settings" class="vortex-tool-cell" data-label="Настройки" ondblclick="openSettings()">
+                        <img src="/static/images/technology.gif" alt="Настройки">
+                    </div>
+                </div>
+            </div>
+
+            <div class="vortex-exit-zone">
+                <div class="vortex-exit-cell" onclick="vortexLogout()">
+                    <img src="/static/images/import.gif" alt="Выход">
+                </div>
+            </div>
+
+            <div id="vortex-side-tasks" class="vortex-side-panel"></div>
+        </footer>
+
+        <div id="vortex-hint" class="vortex-ui-hint"></div>
+
+    </main>
+
+    <!-- ====== ПОДКЛЮЧАЕМ JS ====== -->
+    <!-- Конфигурация -->
+    <script src="/static/js/config.js"></script>
+
+    <!-- Универсальные кнопки -->
+    <script src="/styles/button/buttons/buttons.js"></script>
+
+    <!-- Основные скрипты -->
+    <script src="/crm/company/window/separation/separation.js"></script>
+    <script src="/crm/company/left/left.js"></script>
+    <script src="/crm/company/right/buttons/company-buttons.js"></script>
+
+    <!-- Индикаторы -->
+    <script src="/crm/indicator/sample/indicator.js"></script>
+    <script src="/crm/indicator/company/company.js"></script>
+    <script src="/crm/indicator/employee/employee.js"></script>
+    <script src="/crm/indicator/rates/rates.js"></script>
+    <script src="/crm/indicator/calendar/calendar.js"></script>
+    <script src="/crm/indicator/number%20of%20employees/employees-count.js"></script>
+
+    <!-- КНОПКА НАЗАД - ДОЛЖНА БЫТЬ ПОСЛЕ ВСЕХ ИНДИКАТОРОВ -->
+    <script src="/crm/indicator/back/back.js"></script>
+
+    <!-- Остальные скрипты -->
+    <script src="/drop/drop.js"></script>
+    <script src="/crm/company/page/company.js"></script>
+    <script src="/crm/tools/tools.js"></script>
+
+    <!-- РЕКВИЗИТЫ КОМПАНИИ -->
+    <script src="/crm/company/requisite/requisite.js"></script>
+
+    <!-- КОНТРАГЕНТЫ -->
+    <script src="/crm/company/right/counterparty/counterparty.js"></script>
+
+    <!-- ДИСТРИБЬЮТОР (МОДАЛЬНОЕ ОКНО) -->
+    <script src="/crm/company/distributor/distributor.js"></script>
+
+    <!-- МОДАЛЬНОЕ ОКНО - ДОБАВЛЯЕМ ЯВНО -->
+    <script src="/crm/company/window/modal/distributor/distributor.js"></script>
+
+
+
+</body>
+</html>
