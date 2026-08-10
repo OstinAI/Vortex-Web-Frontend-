@@ -11,7 +11,14 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # И замените сам маршрут /:
 @app.route('/')
 def index():
-    return send_from_directory(os.path.join(BASE_DIR, 'home', 'home'), 'home.html')
+    # Если app.py лежит в первой папке "Vortex Web (Frontend)":
+    target_dir = os.path.join(BASE_DIR, 'Vortex Web (Frontend)', 'home', 'home')
+    
+    # Если файл не там, проверяем прямую папку home/home
+    if not os.path.exists(os.path.join(target_dir, 'home.html')):
+        target_dir = os.path.join(BASE_DIR, 'home', 'home')
+
+    return send_from_directory(target_dir, 'home.html')
 
 @app.route('/home/home/<path:filename>')
 def home_style(filename):
