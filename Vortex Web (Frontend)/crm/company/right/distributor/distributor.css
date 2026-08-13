@@ -1,0 +1,982 @@
+﻿/* ========================================
+   ДИСТРИБЬЮТОРЫ - СТИЛИ ДЛЯ ПРАВОЙ СЕКЦИИ
+   Путь: /crm/company/right/distributor/distributor.css
+   ======================================== */
+
+/* Контейнер */
+.distributor-container {
+    width: 100%;
+    height: 100%;
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+    .distributor-container::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .distributor-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .distributor-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+/* ===== ЗАГОЛОВОК ===== */
+.distributor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+    margin-bottom: 20px;
+}
+
+.distributor-title {
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+    .distributor-title .title-icon {
+        margin-right: 10px;
+    }
+
+.distributor-close-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+    .distributor-close-btn:hover {
+        background: rgba(255, 70, 70, 0.15);
+        border-color: rgba(255, 70, 70, 0.3);
+        color: #ff6b6b;
+        transform: rotate(90deg);
+    }
+
+/* ===== КОНТЕНТ ===== */
+.distributor-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ===== СЕКЦИИ ===== */
+.distributor-section {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+    .distributor-section:last-child {
+        margin-bottom: 0;
+    }
+
+.distributor-section-title {
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ===== ВКЛАДКИ ===== */
+.distributor-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.distributor-tab {
+    flex: 1;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+    .distributor-tab:hover {
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .distributor-tab.active {
+        color: #00E5FF;
+        background: rgba(0, 229, 255, 0.08);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.05);
+    }
+
+/* ===== СТАТИСТИКА ===== */
+.distributor-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.distributor-stat-item {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    text-align: center;
+}
+
+.distributor-stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.distributor-stat-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 2px;
+}
+
+.distributor-stat-value .highlight {
+    color: #00E5FF;
+}
+
+/* ===== КОНТРОЛЫ (ПОИСК) ===== */
+.distributor-controls-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+    .distributor-controls-row .search-container {
+        flex: 1;
+        position: relative;
+    }
+
+        .distributor-controls-row .search-container .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 14px;
+        }
+
+        .distributor-controls-row .search-container input {
+            width: 100%;
+            padding: 8px 16px 8px 38px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+            .distributor-controls-row .search-container input:focus {
+                border-color: rgba(255, 255, 255, 0.08);
+                background: rgba(255, 255, 255, 0.03);
+            }
+
+            .distributor-controls-row .search-container input::placeholder {
+                color: rgba(255, 255, 255, 0.15);
+            }
+
+    .distributor-controls-row .distributor-count {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.3);
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+/* ===== КАРТОЧКА ДИСТРИБЬЮТОРА ===== */
+.distributor-list-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.distributor-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .distributor-card:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .distributor-card.expanded {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(0, 229, 255, 0.08);
+    }
+
+.distributor-card-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 12px;
+}
+
+/* ===== КРАТКАЯ ИНФОРМАЦИЯ ===== */
+.distributor-card-short {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 0.8fr;
+    gap: 4px 16px;
+}
+
+.short-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+    .short-row .short-label {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+
+    .short-row .short-value {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 400;
+        word-break: break-word;
+    }
+
+/* ===== СТРЕЛКА ===== */
+.distributor-expand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    flex-shrink: 0;
+    padding-top: 4px;
+    transition: transform 0.3s ease;
+}
+
+.distributor-card.expanded .distributor-expand-icon {
+    transform: rotate(180deg);
+}
+
+/* ===== РАСКРЫТЫЙ КОНТЕНТ ===== */
+.distributor-expand-content {
+    padding: 0 16px 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== ДЕТАЛИ ДИСТРИБЬЮТОРА ===== */
+.distributor-detail-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+    padding: 12px 0 8px 0;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
+}
+
+    .detail-row .detail-label {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+
+    .detail-row .detail-value {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+        word-break: break-word;
+    }
+
+/* ===== КОМПАНИИ ===== */
+.distributor-companies {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.companies-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0, 229, 255, 0.7);
+    padding: 4px 0 8px 0;
+}
+
+.company-item {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+    .company-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .company-item.expanded {
+        background: rgba(0, 229, 255, 0.03);
+        border-color: rgba(0, 229, 255, 0.08);
+    }
+
+.company-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company-name {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.company-expand-icon {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== РЕКВИЗИТЫ КОМПАНИИ ===== */
+.company-requisites {
+    padding: 8px 0 4px 12px;
+    border-left: 2px solid rgba(0, 229, 255, 0.1);
+    margin-top: 6px;
+}
+
+.req-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 3px 0;
+}
+
+    .req-row .req-label {
+        font-size: 8px;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .req-row .req-value {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+        word-break: break-word;
+    }
+
+.no-companies {
+    padding: 12px 0;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+    text-align: center;
+}
+
+.loading-details {
+    padding: 16px 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+}
+
+.error-loading {
+    padding: 16px 0;
+    text-align: center;
+    color: rgba(255, 70, 70, 0.7);
+    font-size: 13px;
+}
+
+/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+.distributor-empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.2);
+    text-align: center;
+    gap: 8px;
+}
+
+    .distributor-empty-state .empty-icon {
+        font-size: 40px;
+    }
+
+    .distributor-empty-state p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .distributor-empty-state .hint {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.15);
+    }
+
+/* ===== ПОДСВЕТКА ПОИСКА ===== */
+.highlight-match {
+    background: rgba(0, 229, 255, 0.15);
+    color: #00E5FF;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* ===== ЗАЯВКИ ===== */
+.application-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 4px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .filter-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .filter-btn.active {
+        border-color: rgba(0, 229, 255, 0.3);
+        background: rgba(0, 229, 255, 0.08);
+        color: #00E5FF;
+    }
+
+    .filter-btn.pending.active {
+        border-color: rgba(255, 217, 61, 0.3);
+        background: rgba(255, 217, 61, 0.08);
+        color: #ffd93d;
+    }
+
+    .filter-btn.approved.active {
+        border-color: rgba(0, 229, 255, 0.3);
+        background: rgba(0, 229, 255, 0.08);
+        color: #00E5FF;
+    }
+
+    .filter-btn.rejected.active {
+        border-color: rgba(255, 70, 70, 0.3);
+        background: rgba(255, 70, 70, 0.08);
+        color: #ff6b6b;
+    }
+
+.application-card {
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+    .application-card:last-child {
+        margin-bottom: 0;
+    }
+
+    .application-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 229, 255, 0.08);
+    }
+
+    .application-card.pending {
+        border-left: 3px solid #ffd93d;
+    }
+
+    .application-card.approved {
+        border-left: 3px solid #00E5FF;
+    }
+
+    .application-card.rejected {
+        border-left: 3px solid #ff6b6b;
+    }
+
+.application-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.application-company {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.application-status {
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+    .application-status.pending {
+        background: rgba(255, 217, 61, 0.12);
+        color: #ffd93d;
+        border: 1px solid rgba(255, 217, 61, 0.15);
+    }
+
+    .application-status.approved {
+        background: rgba(0, 229, 255, 0.12);
+        color: #00E5FF;
+        border: 1px solid rgba(0, 229, 255, 0.15);
+    }
+
+    .application-status.rejected {
+        background: rgba(255, 70, 70, 0.12);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 70, 70, 0.15);
+    }
+
+.application-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+    .application-details span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .application-details .review-comment {
+        color: rgba(255, 255, 255, 0.6);
+        width: 100%;
+        padding: 4px 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 4px;
+    }
+
+    .application-details .app-date {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 11px;
+    }
+
+.application-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.app-btn {
+    padding: 4px 16px;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .app-btn.approve {
+        background: rgba(0, 229, 255, 0.12);
+        color: #00E5FF;
+        border: 1px solid rgba(0, 229, 255, 0.15);
+    }
+
+        .app-btn.approve:hover {
+            background: rgba(0, 229, 255, 0.2);
+            transform: scale(1.02);
+        }
+
+    .app-btn.reject {
+        background: rgba(255, 70, 70, 0.12);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 70, 70, 0.15);
+    }
+
+        .app-btn.reject:hover {
+            background: rgba(255, 70, 70, 0.2);
+            transform: scale(1.02);
+        }
+
+    .app-btn.revoke {
+        background: rgba(255, 217, 61, 0.12);
+        color: #ffd93d;
+        border: 1px solid rgba(255, 217, 61, 0.15);
+    }
+
+        .app-btn.revoke:hover {
+            background: rgba(255, 217, 61, 0.2);
+            transform: scale(1.02);
+        }
+
+.app-info {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 4px 0;
+}
+
+/* ===== ЛОАДЕР ===== */
+.distributor-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0;
+    gap: 16px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+}
+
+    .distributor-loader .spinner {
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(255, 255, 255, 0.05);
+        border-top: 2px solid #00E5FF;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== ОШИБКА ===== */
+.distributor-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+    .distributor-error p {
+        margin: 12px 0 20px 0;
+        font-size: 15px;
+    }
+
+.distributor-retry-btn {
+    padding: 8px 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+    .distributor-retry-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 1024px) {
+    .distributor-card-short {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+        .distributor-card-short .short-row:nth-child(4) {
+            display: none;
+        }
+}
+
+@media (max-width: 768px) {
+    .distributor-container {
+        padding: 16px 18px;
+    }
+
+    .distributor-title {
+        font-size: 16px;
+    }
+
+    .distributor-card-short {
+        grid-template-columns: 1fr 1fr;
+        gap: 4px 12px;
+    }
+
+        .distributor-card-short .short-row:nth-child(3) {
+            display: none;
+        }
+
+    .distributor-detail-section {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .distributor-card-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .distributor-expand-icon {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .distributor-container {
+        padding: 12px 14px;
+    }
+
+    .distributor-section {
+        padding: 12px 14px;
+    }
+
+    .distributor-card-short {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+        .distributor-card-short .short-row:nth-child(2) {
+            display: none;
+        }
+}
+
+/* ===== ВЫПАДАЮЩИЙ СПИСОК ===== */
+.distributor-search-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.distributor-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.distributor-search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+    .distributor-search-input-wrapper:focus-within {
+        border-color: rgba(0, 229, 255, 0.3);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.03);
+    }
+
+.distributor-search-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--vortex-font-family, 'Segoe UI', system-ui, sans-serif);
+    font-size: 13px;
+}
+
+    .distributor-search-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+.distributor-search-toggle {
+    padding: 8px 14px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+    .distributor-search-toggle:hover {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+.distributor-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: rgba(20, 20, 30, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.25s ease;
+}
+
+    .distributor-dropdown::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .distributor-dropdown::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .distributor-dropdown::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+.distributor-list {
+    padding: 6px 0;
+}
+
+.distributor-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    gap: 2px;
+}
+
+    .distributor-item:last-child {
+        border-bottom: none;
+    }
+
+    .distributor-item:hover {
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+    .distributor-item:active {
+        transform: scale(0.98);
+    }
+
+.distributor-item-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.distributor-item-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.distributor-item-clients {
+    font-size: 11px;
+    color: rgba(0, 229, 255, 0.6);
+    margin-top: 2px;
+}
+
+.distributor-empty {
+    padding: 20px 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+}
+
+.distributor-no-results {
+    padding: 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 13px;
+}
+
+.distributor-hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.25);
+    text-align: center;
+    padding: 4px 0;
+}
+
+.distributor-search-wrapper.open .distributor-search-input-wrapper {
+    border-color: rgba(0, 229, 255, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.distributor-search-wrapper.open .distributor-search-toggle {
+    color: rgba(0, 229, 255, 0.6);
+}

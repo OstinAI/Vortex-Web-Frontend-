@@ -26,6 +26,14 @@
     }
 
     // ============================================
+    // ПОЛУЧЕНИЕ ID КОМПАНИИ ИЗ LOCALSTORAGE
+    // ============================================
+    function getCompanyId() {
+        const companyId = localStorage.getItem('company_id') || localStorage.getItem('vortex_company_id');
+        return companyId ? parseInt(companyId, 10) : null;
+    }
+
+    // ============================================
     // ФУНКЦИЯ СОЗДАНИЯ КНОПОК В ПРАВОЙ ЧАСТИ
     // ============================================
     function createCompanyButtons() {
@@ -69,6 +77,10 @@
             margin-top: -10px;
         `;
 
+        // Получаем ID компании
+        const companyId = getCompanyId();
+        console.log('🏢 ID компании:', companyId);
+
         // ---- КНОПКА 1: "Контрагент" ----
         const btn1 = createVortexButton({
             text: 'Контрагент',
@@ -88,10 +100,26 @@
         buttonsContainer.appendChild(btn1);
         buttonsContainer.appendChild(btn2);
 
+        // ---- КНОПКА 3: "Дистрибьютор" (только для компании с ID = 1) ----
+        if (companyId === 1) {
+            console.log('✅ Компания ID=1: показываем кнопку "Дистрибьютор"');
+
+            const btn3 = createVortexButton({
+                text: 'Дистрибьютор',
+                action: 'onDistributor2',  // ← ИЗМЕНЕНО на onDistributor2
+                glass: true,
+                shape: 'rounded'
+            });
+
+            buttonsContainer.appendChild(btn3);
+        } else {
+            console.log(`ℹ️ Компания ID=${companyId}: кнопка "Дистрибьютор" скрыта`);
+        }
+
         wrapper.appendChild(buttonsContainer);
         rightContent.appendChild(wrapper);
 
-        console.log('✅ Компания: 2 кнопки добавлены в правую часть');
+        console.log('✅ Компания: кнопки добавлены в правую часть');
     }
 
     // ============================================
@@ -231,20 +259,16 @@
      */
     window.onCounterparty = function () {
         console.log('📄 Контрагент...');
-        // Вызываем функцию открытия контрагентов из counterparty.js
         if (typeof window.openCounterparty === 'function') {
             window.openCounterparty();
         } else {
-            // Если модуль еще не загружен - подгружаем
             console.warn('⚠️ Модуль контрагентов не загружен, подгружаем...');
 
-            // Загружаем CSS
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/right/counterparty/counterparty.css';
             document.head.appendChild(cssLink);
 
-            // Загружаем JS
             const script = document.createElement('script');
             script.src = '/crm/company/right/counterparty/counterparty.js';
             script.onload = function () {
@@ -267,19 +291,16 @@
     window.onRequisites = function () {
         console.log('📋 Реквизиты...');
 
-        // Проверяем, загружен ли модуль реквизитов
         if (typeof window.openRequisite === 'function') {
             window.openRequisite();
         } else {
             console.warn('⚠️ Модуль реквизитов не загружен, подгружаем...');
 
-            // Загружаем CSS
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/requisite/requisite.css';
             document.head.appendChild(cssLink);
 
-            // Загружаем JS
             const script = document.createElement('script');
             script.src = '/crm/company/requisite/requisite.js';
             script.onload = function () {
@@ -288,6 +309,55 @@
                         window.openRequisite();
                     }
                 }, 100);
+            };
+            document.body.appendChild(script);
+        }
+    };
+
+    /**
+     * Обработчик кнопки "Дистрибьютор" (новая версия)
+     * Открывает модуль управления дистрибьюторами в правой секции
+     * Доступен только для компании с ID = 1
+     */
+    window.onDistributor2 = function () {
+        console.log('📦 Дистрибьютор (onDistributor2)...');
+
+        const companyId = getCompanyId();
+        if (companyId !== 1) {
+            console.warn('⚠️ Доступ к модулю "Дистрибьютор" запрещен для этой компании');
+            alert('Доступ запрещен');
+            return;
+        }
+
+        // Проверяем, загружен ли модуль дистрибьюторов в правой секции
+        if (typeof window.openDistributor === 'function') {
+            // Открываем в правой секции
+            window.openDistributor();
+        } else {
+            console.warn('⚠️ Модуль дистрибьюторов не загружен, подгружаем...');
+
+            // Загружаем CSS для правой секции
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = '/crm/company/right/distributor/distributor.css';
+            document.head.appendChild(cssLink);
+
+            // Загружаем JS для правой секции
+            const script = document.createElement('script');
+            script.src = '/crm/company/right/distributor/distributor.js';
+            script.onload = function () {
+                setTimeout(function () {
+                    if (typeof window.openDistributor === 'function') {
+                        window.openDistributor();
+                    } else {
+                        console.error('❌ Функция openDistributor не найдена после загрузки');
+                        alert('Ошибка загрузки модуля дистрибьюторов');
+                    }
+                }, 300);
+            };
+            script.onerror = function () {
+                console.error('❌ Ошибка загрузки скрипта дистрибьюторов');
+                alert('Ошибка загрузки модуля дистрибьюторов');
             };
             document.body.appendChild(script);
         }
