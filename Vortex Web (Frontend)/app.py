@@ -255,9 +255,28 @@ def serve_company_requisite(filename):
 def serve_company_counterparty(filename):
     return send_from_directory(get_path('crm', 'company', 'right', 'counterparty'), filename)
 
-@app.route('/crm/company/right/distributor/<path:filename>')
-def serve_company_distributor(filename):
-    return send_from_directory(get_path('crm', 'company', 'right', 'distributor'), filename)
+@app.route('/crm/company/right/distributor/distributor.css')
+def distributor_css():
+    return send_from_directory(
+        get_path('crm', 'company', 'right', 'distributor'),
+        'distributor.css'
+    )
+
+@app.route('/crm/company/right/distributor/distributor.js')
+def distributor_js():
+    return send_from_directory(
+        get_path('crm', 'company', 'right', 'distributor'),
+        'distributor.js'
+    )
+
+@app.route('/crm/company/right/List_of_companies/<path:filename>')
+def list_of_companies_files(filename):
+    return send_from_directory(
+        get_path('crm', 'company', 'right', 'List_of_companies'),
+        filename
+    )
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))

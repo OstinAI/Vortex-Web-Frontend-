@@ -828,12 +828,12 @@
 
         if (!data) {
             return `
-                <div class="distributor-error">
-                    <span style="font-size: 40px;">⚠</span>
-                    <p>Не удалось загрузить данные</p>
-                    <button onclick="window.distributorLoad()" class="distributor-retry-btn">Повторить</button>
-                </div>
-            `;
+            <div class="distributor-error">
+                <span style="font-size: 40px;">⚠</span>
+                <p>Не удалось загрузить данные</p>
+                <button onclick="window.distributorLoad()" class="distributor-retry-btn">Повторить</button>
+            </div>
+        `;
         }
 
         var distributors = data.data || [];
@@ -868,37 +868,37 @@
         }
 
         var tabsHTML = `
-            <div class="distributor-tabs">
-                <button class="distributor-tab ${activeTab === 'distributors' ? 'active' : ''}" 
-                        onclick="window.switchDistributorTab('distributors')">
-                    Дистрибьюторы (${filteredDistributors.length})
-                </button>
-                <button class="distributor-tab ${activeTab === 'applications' ? 'active' : ''}" 
-                        onclick="window.switchDistributorTab('applications')">
-                    Заявки (${totalApps})
-                </button>
-            </div>
-        `;
+        <div class="distributor-tabs">
+            <button class="distributor-tab ${activeTab === 'distributors' ? 'active' : ''}" 
+                    onclick="window.switchDistributorTab('distributors')">
+                Дистрибьюторы (${filteredDistributors.length})
+            </button>
+            <button class="distributor-tab ${activeTab === 'applications' ? 'active' : ''}" 
+                    onclick="window.switchDistributorTab('applications')">
+                Заявки (${totalApps})
+            </button>
+        </div>
+    `;
 
         // ============================================
         // КОНТРОЛЫ
         // ============================================
         var controlsHTML = `
-            <div class="distributor-controls-row">
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" 
-                           id="distributorSearch"
-                           class="distributor-search-input" 
-                           placeholder="Поиск дистрибьютора..."
-                           value="${escapeHtml(search)}"
-                           oninput="window.filterDistributors()">
-                </div>
-                <div class="distributor-count">
-                    ${filteredDistributors.length} из ${totalDistributors}
-                </div>
+        <div class="distributor-controls-row">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" 
+                       id="distributorSearch"
+                       class="distributor-search-input" 
+                       placeholder="Поиск дистрибьютора..."
+                       value="${escapeHtml(search)}"
+                       oninput="window.filterDistributors()">
             </div>
-        `;
+            <div class="distributor-count">
+                ${filteredDistributors.length} из ${totalDistributors}
+            </div>
+        </div>
+    `;
 
         // ============================================
         // СПИСОК ДИСТРИБЬЮТОРОВ
@@ -906,8 +906,8 @@
         var allDistributorsHTML = '';
         if (filteredDistributors.length > 0) {
             allDistributorsHTML = `
-                <div class="distributor-list-grid">
-                    ${filteredDistributors.map(function (d) {
+            <div class="distributor-list-grid">
+                ${filteredDistributors.map(function (d) {
                 var isExpanded = expandedDistributorId === d.id;
                 var details = d._details || distributorDetailsCache[d.id] || null;
 
@@ -918,45 +918,45 @@
                         // ДЕТАЛЬНАЯ ИНФОРМАЦИЯ (под краткой)
                         // ==========================================
                         var detailInfoHTML = `
-                            <div class="distributor-detail-section">
-                                <div class="detail-row">
-                                    <span class="detail-label">Название</span>
-                                    <span class="detail-value">${highlightText(details.company_name || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Президент</span>
-                                    <span class="detail-value">${highlightText(details.president || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Телефон</span>
-                                    <span class="detail-value">${highlightText(details.phone || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Email</span>
-                                    <span class="detail-value">${highlightText(details.email || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Адрес</span>
-                                    <span class="detail-value">${highlightText(details.address || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Сайт</span>
-                                    <span class="detail-value">${highlightText(details.website || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Форма собственности</span>
-                                    <span class="detail-value">${highlightText(details.ownership_form || '', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">PayPal Email</span>
-                                    <span class="detail-value" style="color: #00E5FF;">${highlightText(details.paypal_email || '—', search)}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Всего клиентов</span>
-                                    <span class="detail-value">${details.total_clients || 0}</span>
-                                </div>
+                        <div class="distributor-detail-section">
+                            <div class="detail-row">
+                                <span class="detail-label">Название</span>
+                                <span class="detail-value">${highlightText(details.company_name || '', search)}</span>
                             </div>
-                        `;
+                            <div class="detail-row">
+                                <span class="detail-label">Президент</span>
+                                <span class="detail-value">${highlightText(details.president || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Телефон</span>
+                                <span class="detail-value">${highlightText(details.phone || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Email</span>
+                                <span class="detail-value">${highlightText(details.email || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Адрес</span>
+                                <span class="detail-value">${highlightText(details.address || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Сайт</span>
+                                <span class="detail-value">${highlightText(details.website || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Форма собственности</span>
+                                <span class="detail-value">${highlightText(details.ownership_form || '', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">PayPal Email</span>
+                                <span class="detail-value" style="color: #00E5FF;">${highlightText(details.paypal_email || '—', search)}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Всего клиентов</span>
+                                <span class="detail-value">${details.total_clients || 0}</span>
+                            </div>
+                        </div>
+                    `;
 
                         // ==========================================
                         // ЗАКРЕПЛЕННЫЕ КОМПАНИИ
@@ -964,9 +964,9 @@
                         var companiesHTML = '';
                         if (details.linked_companies && details.linked_companies.length > 0) {
                             companiesHTML = `
-                                <div class="distributor-companies">
-                                    <div class="companies-title">Закрепленные компании (${details.linked_companies.length})</div>
-                                    ${details.linked_companies.map(function (comp) {
+                            <div class="distributor-companies">
+                                <div class="companies-title">Закрепленные компании (${details.linked_companies.length})</div>
+                                ${details.linked_companies.map(function (comp) {
                                 var isCompanyExpanded = expandedCompanyId === comp.id;
                                 var companyRequisites = window._companyRequisites || null;
 
@@ -984,61 +984,61 @@
                                     ];
 
                                     companyRequisitesHTML = `
-                                                <div class="company-requisites">
-                                                    ${reqFields.map(function (f) {
+                                            <div class="company-requisites">
+                                                ${reqFields.map(function (f) {
                                         var val = companyRequisites[f.key] || '';
                                         if (!val) return '';
                                         return `
-                                                            <div class="req-row">
-                                                                <span class="req-label">${f.label}</span>
-                                                                <span class="req-value">${escapeHtml(val)}</span>
-                                                            </div>
-                                                        `;
+                                                        <div class="req-row">
+                                                            <span class="req-label">${f.label}</span>
+                                                            <span class="req-value">${escapeHtml(val)}</span>
+                                                        </div>
+                                                    `;
                                     }).join('')}
-                                                </div>
-                                            `;
+                                            </div>
+                                        `;
                                 }
 
                                 return `
-                                            <div class="company-item ${isCompanyExpanded ? 'expanded' : ''}" 
-                                                 onclick="event.stopPropagation(); window.toggleCompanyExpand(${comp.id})">
-                                                <div class="company-item-header">
-                                                    <span class="company-name"> ${escapeHtml(comp.name)}</span>
-                                                    <span class="company-expand-icon">${isCompanyExpanded ? '▼' : '▶'}</span>
-                                                </div>
-                                                ${isCompanyExpanded ? companyRequisitesHTML : ''}
+                                        <div class="company-item ${isCompanyExpanded ? 'expanded' : ''}" 
+                                             onclick="event.stopPropagation(); window.toggleCompanyExpand(${comp.id})">
+                                            <div class="company-item-header">
+                                                <span class="company-name"> ${escapeHtml(comp.name)}</span>
+                                                <span class="company-expand-icon">${isCompanyExpanded ? '▼' : '▶'}</span>
                                             </div>
-                                        `;
+                                            ${isCompanyExpanded ? companyRequisitesHTML : ''}
+                                        </div>
+                                    `;
                             }).join('')}
-                                </div>
-                            `;
+                            </div>
+                        `;
                         } else {
                             companiesHTML = `
-                                <div class="distributor-companies">
-                                    <div class="companies-title">Закрепленные компании: 0</div>
-                                    <div class="no-companies">Нет закрепленных компаний</div>
-                                </div>
-                            `;
+                            <div class="distributor-companies">
+                                <div class="companies-title">Закрепленные компании: 0</div>
+                                <div class="no-companies">Нет закрепленных компаний</div>
+                            </div>
+                        `;
                         }
 
                         expandContent = `
-                            <div class="distributor-expand-content">
-                                ${detailInfoHTML}
-                                ${companiesHTML}
-                            </div>
-                        `;
+                        <div class="distributor-expand-content">
+                            ${detailInfoHTML}
+                            ${companiesHTML}
+                        </div>
+                    `;
                     } else if (details && details.error) {
                         expandContent = `
-                            <div class="distributor-expand-content">
-                                <div class="error-loading">Ошибка загрузки данных</div>
-                            </div>
-                        `;
+                        <div class="distributor-expand-content">
+                            <div class="error-loading">Ошибка загрузки данных</div>
+                        </div>
+                    `;
                     } else {
                         expandContent = `
-                            <div class="distributor-expand-content">
-                                <div class="loading-details">Загрузка данных...</div>
-                            </div>
-                        `;
+                        <div class="distributor-expand-content">
+                            <div class="loading-details">Загрузка данных...</div>
+                        </div>
+                    `;
                     }
                 }
 
@@ -1046,54 +1046,54 @@
                 // КРАТКАЯ ИНФОРМАЦИЯ (всегда видна)
                 // ==========================================
                 var shortInfoHTML = `
-                    <div class="distributor-card-short">
-                        <div class="short-row">
-                            <span class="short-label">Название</span>
-                            <span class="short-value">${highlightText(d.company_name || '—', search)}</span>
-                        </div>
-                        <div class="short-row">
-                            <span class="short-label">Президент</span>
-                            <span class="short-value">${highlightText(d.president || '—', search)}</span>
-                        </div>
-                        <div class="short-row">
-                            <span class="short-label">Телефон</span>
-                            <span class="short-value">${highlightText(d.phone || '—', search)}</span>
-                        </div>
-                        <div class="short-row">
-                            <span class="short-label">Email</span>
-                            <span class="short-value">${highlightText(d.email || '—', search)}</span>
-                        </div>
-                        <div class="short-row">
-                            <span class="short-label">Клиентов</span>
-                            <span class="short-value">${d.total_clients || 0}</span>
-                        </div>
+                <div class="distributor-card-short">
+                    <div class="short-row">
+                        <span class="short-label">Название</span>
+                        <span class="short-value">${highlightText(d.company_name || '—', search)}</span>
                     </div>
-                `;
-
-                return `
-                    <div class="distributor-card ${isExpanded ? 'expanded' : ''}" data-id="${d.id}" onclick="window.toggleDistributorExpand(${d.id})">
-                        <div class="distributor-card-main">
-                            ${shortInfoHTML}
-                            <div class="distributor-expand-icon">${isExpanded ? '▲' : '▼'}</div>
-                        </div>
-                        ${expandContent}
+                    <div class="short-row">
+                        <span class="short-label">Президент</span>
+                        <span class="short-value">${highlightText(d.president || '—', search)}</span>
                     </div>
-                `;
-            }).join('')}
+                    <div class="short-row">
+                        <span class="short-label">Телефон</span>
+                        <span class="short-value">${highlightText(d.phone || '—', search)}</span>
+                    </div>
+                    <div class="short-row">
+                        <span class="short-label">Email</span>
+                        <span class="short-value">${highlightText(d.email || '—', search)}</span>
+                    </div>
+                    <div class="short-row">
+                        <span class="short-label">Клиентов</span>
+                        <span class="short-value">${d.total_clients || 0}</span>
+                    </div>
                 </div>
             `;
+
+                return `
+                <div class="distributor-card ${isExpanded ? 'expanded' : ''}" data-id="${d.id}" onclick="window.toggleDistributorExpand(${d.id})">
+                    <div class="distributor-card-main">
+                        ${shortInfoHTML}
+                        <div class="distributor-expand-icon">${isExpanded ? '▲' : '▼'}</div>
+                    </div>
+                    ${expandContent}
+                </div>
+            `;
+            }).join('')}
+            </div>
+        `;
         } else {
             var emptyMessage = 'Нет дистрибьюторов';
             if (search) {
                 emptyMessage = 'Ничего не найдено по запросу "' + search + '"';
             }
             allDistributorsHTML = `
-                <div class="distributor-empty-state">
-                    <span class="empty-icon">📦</span>
-                    <p>${emptyMessage}</p>
-                    ${search ? '<p class="hint">Попробуйте изменить запрос</p>' : ''}
-                </div>
-            `;
+            <div class="distributor-empty-state">
+                <span class="empty-icon">📦</span>
+                <p>${emptyMessage}</p>
+                ${search ? '<p class="hint">Попробуйте изменить запрос</p>' : ''}
+            </div>
+        `;
         }
 
         // ============================================
@@ -1102,31 +1102,31 @@
         var applicationsHTML = '';
 
         var filterButtonsHTML = `
-            <div class="application-filters">
-                <button class="filter-btn ${applicationFilter === 'all' ? 'active' : ''}" 
-                        onclick="window.filterApplications('all')">
-                    Все (${totalApps})
-                </button>
-                <button class="filter-btn pending ${applicationFilter === 'pending' ? 'active' : ''}" 
-                        onclick="window.filterApplications('pending')">
-                    Ожидают (${pendingApps.length})
-                </button>
-                <button class="filter-btn approved ${applicationFilter === 'approved' ? 'active' : ''}" 
-                        onclick="window.filterApplications('approved')">
-                    Одобрены (${approvedApps.length})
-                </button>
-                <button class="filter-btn rejected ${applicationFilter === 'rejected' ? 'active' : ''}" 
-                        onclick="window.filterApplications('rejected')">
-                    Отклонены (${rejectedApps.length})
-                </button>
-            </div>
-        `;
+        <div class="application-filters">
+            <button class="filter-btn ${applicationFilter === 'all' ? 'active' : ''}" 
+                    onclick="window.filterApplications('all')">
+                Все (${totalApps})
+            </button>
+            <button class="filter-btn pending ${applicationFilter === 'pending' ? 'active' : ''}" 
+                    onclick="window.filterApplications('pending')">
+                Ожидают (${pendingApps.length})
+            </button>
+            <button class="filter-btn approved ${applicationFilter === 'approved' ? 'active' : ''}" 
+                    onclick="window.filterApplications('approved')">
+                Одобрены (${approvedApps.length})
+            </button>
+            <button class="filter-btn rejected ${applicationFilter === 'rejected' ? 'active' : ''}" 
+                    onclick="window.filterApplications('rejected')">
+                Отклонены (${rejectedApps.length})
+            </button>
+        </div>
+    `;
 
         if (filteredApps && filteredApps.length > 0) {
             applicationsHTML = `
-                ${filterButtonsHTML}
-                <div class="applications-list">
-                    ${filteredApps.map(function (app) {
+            ${filterButtonsHTML}
+            <div class="applications-list">
+                ${filteredApps.map(function (app) {
                 var statusClass = app.status;
                 var statusLabel = app.status === 'pending' ? 'Ожидает' :
                     app.status === 'approved' ? 'Одобрена' : 'Отклонена';
@@ -1134,59 +1134,59 @@
                 var actionsHTML = '';
                 if (app.status === 'pending') {
                     actionsHTML = `
-                        <div class="application-actions">
-                            <button class="app-btn approve" onclick="window.approveApplication(${app.id})">
-                                Одобрить
-                            </button>
-                            <button class="app-btn reject" onclick="window.rejectApplication(${app.id})">
-                                Отклонить
-                            </button>
-                        </div>
-                    `;
+                    <div class="application-actions">
+                        <button class="app-btn approve" onclick="window.approveApplication(${app.id})">
+                            Одобрить
+                        </button>
+                        <button class="app-btn reject" onclick="window.rejectApplication(${app.id})">
+                            Отклонить
+                        </button>
+                    </div>
+                `;
                 } else if (app.status === 'approved') {
                     actionsHTML = `
-                        <div class="application-actions">
-                            <span class="app-info">👥 Привязано клиентов: ${app.linked_count || 0}</span>
-                            <button class="app-btn revoke" onclick="window.revokeApproval(${app.id})">
-                                Отозвать одобрение
-                            </button>
-                        </div>
-                    `;
+                    <div class="application-actions">
+                        <span class="app-info">👥 Привязано клиентов: ${app.linked_count || 0}</span>
+                        <button class="app-btn revoke" onclick="window.revokeApproval(${app.id})">
+                            Отозвать одобрение
+                        </button>
+                    </div>
+                `;
                 } else if (app.status === 'rejected') {
                     actionsHTML = `
-                        <div class="application-actions">
-                            <span class="app-info">Заявка отклонена</span>
-                            <button class="app-btn approve" onclick="window.approveApplication(${app.id})">
-                                Одобрить повторно
-                            </button>
-                        </div>
-                    `;
+                    <div class="application-actions">
+                        <span class="app-info">Заявка отклонена</span>
+                        <button class="app-btn approve" onclick="window.approveApplication(${app.id})">
+                            Одобрить повторно
+                        </button>
+                    </div>
+                `;
                 }
 
                 return `
-                            <div class="application-card ${statusClass}">
-                                <div class="application-header">
-                                    <div class="application-company"> ${escapeHtml(app.company_name)}</div>
-                                    <span class="application-status ${statusClass}">${statusLabel}</span>
-                                </div>
-                                <div class="application-details">
-                                    <span>👤 ${escapeHtml(app.president)}</span>
-                                    <span>📞 ${escapeHtml(app.phone)}</span>
-                                    <span>✉️ ${escapeHtml(app.email)}</span>
-                                    <span>📋 БИН: ${escapeHtml(app.bin)}</span>
-                                    <span>💳 PayPal: ${escapeHtml(app.paypal_email || '—')}</span>
-                                    ${app.website ? '<span>🌐 ' + escapeHtml(app.website) + '</span>' : ''}
-                                    ${app.address ? '<span>📍 ' + escapeHtml(app.address) + '</span>' : ''}
-                                    ${app.notes ? '<span>📝 ' + escapeHtml(app.notes) + '</span>' : ''}
-                                    ${app.review_comment ? '<span class="review-comment">💬 ' + escapeHtml(app.review_comment) + '</span>' : ''}
-                                    <span class="app-date">📅 ${new Date(app.created_ts_ms).toLocaleDateString()}</span>
-                                </div>
-                                ${actionsHTML}
+                        <div class="application-card ${statusClass}">
+                            <div class="application-header">
+                                <div class="application-company"> ${escapeHtml(app.company_name)}</div>
+                                <span class="application-status ${statusClass}">${statusLabel}</span>
                             </div>
-                        `;
+                            <div class="application-details">
+                                <span>👤 ${escapeHtml(app.president)}</span>
+                                <span>📞 ${escapeHtml(app.phone)}</span>
+                                <span>✉️ ${escapeHtml(app.email)}</span>
+                                <span>📋 БИН: ${escapeHtml(app.bin)}</span>
+                                <span>💳 PayPal: ${escapeHtml(app.paypal_email || '—')}</span>
+                                ${app.website ? '<span>🌐 ' + escapeHtml(app.website) + '</span>' : ''}
+                                ${app.address ? '<span>📍 ' + escapeHtml(app.address) + '</span>' : ''}
+                                ${app.notes ? '<span>📝 ' + escapeHtml(app.notes) + '</span>' : ''}
+                                ${app.review_comment ? '<span class="review-comment">💬 ' + escapeHtml(app.review_comment) + '</span>' : ''}
+                                <span class="app-date">📅 ${new Date(app.created_ts_ms).toLocaleDateString()}</span>
+                            </div>
+                            ${actionsHTML}
+                        </div>
+                    `;
             }).join('')}
-                </div>
-            `;
+            </div>
+        `;
         } else {
             var emptyMessage = 'Нет заявок';
             if (applicationFilter === 'pending') emptyMessage = 'Нет заявок в ожидании';
@@ -1194,69 +1194,55 @@
             else if (applicationFilter === 'rejected') emptyMessage = 'Нет отклоненных заявок';
 
             applicationsHTML = `
-                ${filterButtonsHTML}
-                <div class="distributor-empty-state">
-                    <span class="empty-icon"></span>
-                    <p>${emptyMessage}</p>
-                </div>
-            `;
-        }
-
-        // Статистика
-        var statsHTML = `
-            <div class="distributor-stats">
-                <div class="distributor-stat-item">
-                    <div class="distributor-stat-value">${totalDistributors}</div>
-                    <div class="distributor-stat-label">Всего дистрибьюторов</div>
-                </div>
-                <div class="distributor-stat-item">
-                    <div class="distributor-stat-value">${filteredDistributors.length}</div>
-                    <div class="distributor-stat-label">Показано</div>
-                </div>
-                <div class="distributor-stat-item">
-                    <div class="distributor-stat-value">${activeTab === 'distributors' ? '📦' : '📋'}</div>
-                    <div class="distributor-stat-label">${activeTab === 'distributors' ? 'Дистрибьюторы' : 'Заявки'}</div>
-                </div>
+            ${filterButtonsHTML}
+            <div class="distributor-empty-state">
+                <span class="empty-icon"></span>
+                <p>${emptyMessage}</p>
             </div>
         `;
+        }
+
+        // ============================================
+        // СТАТИСТИКА - УДАЛЕНА
+        // ============================================
+        var statsHTML = '';
 
         // Контент в зависимости от вкладки
         var contentHTML = '';
         if (activeTab === 'distributors') {
             contentHTML = `
-                <div class="distributor-section">
-                    <h3 class="distributor-section-title">Все дистрибьюторы (${filteredDistributors.length})</h3>
-                    ${controlsHTML}
-                    ${allDistributorsHTML}
-                </div>
-            `;
+            <div class="distributor-section">
+                <h3 class="distributor-section-title">Все дистрибьюторы (${filteredDistributors.length})</h3>
+                ${controlsHTML}
+                ${allDistributorsHTML}
+            </div>
+        `;
         } else {
             contentHTML = `
-                <div class="distributor-section">
-                    <h3 class="distributor-section-title">Заявки на дистрибьюторов</h3>
-                    ${applicationsHTML}
-                </div>
-            `;
+            <div class="distributor-section">
+                <h3 class="distributor-section-title">Заявки на дистрибьюторов</h3>
+                ${applicationsHTML}
+            </div>
+        `;
         }
 
         return `
-            <div class="distributor-container" id="distributorApp">
-                <div class="distributor-header">
-                    <h2 class="distributor-title">
-                        <span class="title-icon"></span>
-                        Дистрибьюторы
-                    </h2>
-                    <button class="distributor-close-btn" onclick="window.closeDistributor()">✕</button>
-                </div>
-
-                <div class="distributor-content">
-                    <div class="distributor-section">${statsHTML}</div>
-                    ${tabsHTML}
-                    ${contentHTML}
-                    <div style="height: 80px; width: 100%; flex-shrink: 0;"></div>
-                </div>
+        <div class="distributor-container" id="distributorApp">
+            <div class="distributor-header">
+                <h2 class="distributor-title">
+                    <span class="title-icon"></span>
+                    Дистрибьюторы
+                </h2>
+                <button class="distributor-close-btn" onclick="window.closeDistributor()">✕</button>
             </div>
-        `;
+
+            <div class="distributor-content">
+                ${tabsHTML}
+                ${contentHTML}
+                <div style="height: 80px; width: 100%; flex-shrink: 0;"></div>
+            </div>
+        </div>
+    `;
     }
 
     // ============================================

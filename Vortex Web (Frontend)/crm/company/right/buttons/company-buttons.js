@@ -106,14 +106,26 @@
 
             const btn3 = createVortexButton({
                 text: 'Дистрибьютор',
-                action: 'onDistributor2',  // ← ИЗМЕНЕНО на onDistributor2
+                action: 'onDistributor2',
                 glass: true,
                 shape: 'rounded'
             });
 
             buttonsContainer.appendChild(btn3);
+
+            // ---- КНОПКА 4: "Компании" (только для компании с ID = 1) ----
+            console.log('✅ Компания ID=1: показываем кнопку "Компании"');
+
+            const btn4 = createVortexButton({
+                text: 'Компании',
+                action: 'onCompanies',
+                glass: true,
+                shape: 'rounded'
+            });
+
+            buttonsContainer.appendChild(btn4);
         } else {
-            console.log(`ℹ️ Компания ID=${companyId}: кнопка "Дистрибьютор" скрыта`);
+            console.log(`ℹ️ Компания ID=${companyId}: кнопки "Дистрибьютор" и "Компании" скрыты`);
         }
 
         wrapper.appendChild(buttonsContainer);
@@ -358,6 +370,55 @@
             script.onerror = function () {
                 console.error('❌ Ошибка загрузки скрипта дистрибьюторов');
                 alert('Ошибка загрузки модуля дистрибьюторов');
+            };
+            document.body.appendChild(script);
+        }
+    };
+
+    /**
+     * Обработчик кнопки "Компании" (новая версия)
+     * Открывает модуль списка всех компаний в правой секции
+     * Доступен только для компании с ID = 1
+     */
+    window.onCompanies = function () {
+        console.log('🏢 Компании (onCompanies)...');
+
+        const companyId = getCompanyId();
+        if (companyId !== 1) {
+            console.warn('⚠️ Доступ к модулю "Компании" запрещен для этой компании');
+            alert('Доступ запрещен');
+            return;
+        }
+
+        // Проверяем, загружен ли модуль списка компаний
+        if (typeof window.openCompanies === 'function') {
+            // Открываем в правой секции
+            window.openCompanies();
+        } else {
+            console.warn('⚠️ Модуль списка компаний не загружен, подгружаем...');
+
+            // Загружаем CSS
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = '/crm/company/right/List_of_companies/list_of_companies.css';
+            document.head.appendChild(cssLink);
+
+            // Загружаем JS
+            const script = document.createElement('script');
+            script.src = '/crm/company/right/List_of_companies/list_of_companies.js';
+            script.onload = function () {
+                setTimeout(function () {
+                    if (typeof window.openCompanies === 'function') {
+                        window.openCompanies();
+                    } else {
+                        console.error('❌ Функция openCompanies не найдена после загрузки');
+                        alert('Ошибка загрузки модуля списка компаний');
+                    }
+                }, 300);
+            };
+            script.onerror = function () {
+                console.error('❌ Ошибка загрузки скрипта списка компаний');
+                alert('Ошибка загрузки модуля списка компаний');
             };
             document.body.appendChild(script);
         }

@@ -38,6 +38,8 @@
     <Content Include="crm\company\images\verified.gif" />
     <Content Include="crm\company\right\distributor\distributor.css" />
     <Content Include="crm\company\right\distributor\distributor.js" />
+    <Content Include="crm\company\right\List_of_companies\list_of_companies.css" />
+    <Content Include="crm\company\right\List_of_companies\list_of_companies.js" />
     <Content Include="crm\company\window\modal\distributor\distributor.css" />
     <Content Include="crm\company\window\modal\distributor\distributor.html" />
     <Content Include="crm\company\window\modal\distributor\distributor.js" />
@@ -277,6 +279,7 @@
     <Folder Include="crm\company\left\" />
     <Folder Include="crm\company\images\" />
     <Folder Include="crm\company\right\distributor\" />
+    <Folder Include="crm\company\right\List_of_companies\" />
     <Folder Include="crm\company\window\modal\distributor\" />
     <Folder Include="crm\company\requisite\" />
     <Folder Include="crm\company\right\" />
