@@ -276,7 +276,12 @@ def list_of_companies_files(filename):
         filename
     )
 
-
+@app.route('/crm/company/right/cabinet/<path:filename>')
+def serve_cabinet(filename):
+    return send_from_directory(
+        get_path('crm', 'company', 'right', 'cabinet'),
+        filename
+    )
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))

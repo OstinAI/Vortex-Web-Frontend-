@@ -427,8 +427,6 @@
     // ОДОБРИТЬ ЗАЯВКУ
     // ============================================
     window.approveApplication = async function (applicationId) {
-        if (!confirm('Одобрить заявку?')) return;
-
         try {
             const token = localStorage.getItem('vortex_token');
             if (!token) {
@@ -451,10 +449,11 @@
                 distributorDetailsCache = {};
                 setTimeout(() => {
                     distributorDetailsCache = {};
-                    // Если есть раскрытый дистрибьютор - обновляем его
                     if (expandedDistributorId) {
                         window.toggleDistributorExpand(expandedDistributorId);
                     }
+                    // Перезагружаем интерфейс для обновления статуса
+                    window.distributorLoad();
                 }, 500);
             } else {
                 showNotification('Ошибка: ' + (result.message || 'Неизвестная ошибка'), 'error');
@@ -469,8 +468,6 @@
     // ОТКЛОНИТЬ ЗАЯВКУ
     // ============================================
     window.rejectApplication = async function (applicationId) {
-        if (!confirm('Отклонить заявку?')) return;
-
         try {
             const token = localStorage.getItem('vortex_token');
             if (!token) {
@@ -493,10 +490,11 @@
                 distributorDetailsCache = {};
                 setTimeout(() => {
                     distributorDetailsCache = {};
-                    // Если есть раскрытый дистрибьютор - обновляем его
                     if (expandedDistributorId) {
                         window.toggleDistributorExpand(expandedDistributorId);
                     }
+                    // Перезагружаем интерфейс для обновления статуса
+                    window.distributorLoad();
                 }, 500);
             } else {
                 showNotification('Ошибка: ' + (result.message || 'Неизвестная ошибка'), 'error');
@@ -511,8 +509,6 @@
     // ОТОЗВАТЬ ОДОБРЕНИЕ
     // ============================================
     window.revokeApproval = async function (applicationId) {
-        if (!confirm('Отозвать одобрение заявки?')) return;
-
         try {
             const token = localStorage.getItem('vortex_token');
             if (!token) {
@@ -535,10 +531,11 @@
                 distributorDetailsCache = {};
                 setTimeout(() => {
                     distributorDetailsCache = {};
-                    // Если есть раскрытый дистрибьютор - обновляем его
                     if (expandedDistributorId) {
                         window.toggleDistributorExpand(expandedDistributorId);
                     }
+                    // Перезагружаем интерфейс для обновления статуса
+                    window.distributorLoad();
                 }, 500);
             } else {
                 showNotification('Ошибка: ' + (result.message || 'Неизвестная ошибка'), 'error');

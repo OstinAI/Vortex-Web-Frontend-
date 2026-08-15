@@ -36,6 +36,8 @@
     <Content Include="crm\company\images\letter-x.gif" />
     <Content Include="crm\company\images\twopeople.png" />
     <Content Include="crm\company\images\verified.gif" />
+    <Content Include="crm\company\right\cabinet\cabinet.css" />
+    <Content Include="crm\company\right\cabinet\cabinet.js" />
     <Content Include="crm\company\right\distributor\distributor.css" />
     <Content Include="crm\company\right\distributor\distributor.js" />
     <Content Include="crm\company\right\List_of_companies\list_of_companies.css" />
@@ -280,6 +282,7 @@
     <Folder Include="crm\company\images\" />
     <Folder Include="crm\company\right\distributor\" />
     <Folder Include="crm\company\right\List_of_companies\" />
+    <Folder Include="crm\company\right\cabinet\" />
     <Folder Include="crm\company\window\modal\distributor\" />
     <Folder Include="crm\company\requisite\" />
     <Folder Include="crm\company\right\" />

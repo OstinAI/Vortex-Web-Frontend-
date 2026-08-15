@@ -112,8 +112,13 @@
                             <p class="distributor-status-hint">Ваша заявка рассматривается. Мы свяжемся с вами в ближайшее время.</p>
                         ` : ''}
                         ${statusData.status === 'approved' ? `
-                            <p class="distributor-status-hint success">Поздравляем! Вы стали дистрибьютором Vortex.</p>
-                        ` : ''}
+    <div class="distributor-status-hint success">
+        <p>Поздравляем! Вы стали дистрибьютором Vortex.</p>
+        <p style="margin-top: 6px; color: #4b5563;">
+            В странице компаний можете перейти в кабинет.
+        </p>
+    </div>
+` : ''}
                         ${statusData.status === 'rejected' ? `
                             <p class="distributor-status-hint error">Вы можете подать новую заявку позже.</p>
                         ` : ''}

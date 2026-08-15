@@ -30,14 +30,83 @@
     // ============================================
     function getCompanyId() {
         const companyId = localStorage.getItem('company_id') || localStorage.getItem('vortex_company_id');
+        console.log('[CompanyButtons] 🔍 Получен companyId из localStorage:', companyId);
         return companyId ? parseInt(companyId, 10) : null;
+    }
+
+    // ============================================
+    // ПРОВЕРКА СТАТУСА ДИСТРИБЬЮТОРА
+    // ============================================
+    async function checkDistributorStatus() {
+        try {
+            const token = localStorage.getItem('vortex_token');
+            if (!token) {
+                console.warn('[CompanyButtons] ⚠️ Токен не найден');
+                return false;
+            }
+
+            const url = API_BASE_URL + '/api/company/distributor/application/status';
+            console.log('[CompanyButtons] 🔍 Проверка статуса дистрибьютора:', url);
+
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error('[CompanyButtons] ❌ HTTP ошибка:', response.status);
+                return false;
+            }
+
+            const result = await response.json();
+            console.log('[CompanyButtons] 📦 Ответ статуса:', JSON.stringify(result, null, 2));
+
+            if (result.status === 'ok' && result.data && result.data.has_application) {
+                const isApproved = result.data.status === 'approved';
+                const statusText = result.data.status;
+                console.log(`[CompanyButtons] 📊 Статус заявки: ${statusText}, одобрена: ${isApproved}`);
+                return isApproved;
+            }
+            console.log('[CompanyButtons] ℹ️ Заявка не найдена');
+            return false;
+        } catch (error) {
+            console.error('[CompanyButtons] ❌ Ошибка проверки статуса:', error);
+            return false;
+        }
+    }
+
+    // ============================================
+    // ПОКАЗ/СКРЫТИЕ КНОПКИ КАБИНЕТА
+    // ============================================
+    function updateCabinetButtonVisibility(show) {
+        const cabinetBtn = document.getElementById('cabinetButton');
+        if (cabinetBtn) {
+            if (show) {
+                cabinetBtn.style.display = 'inline-flex';
+                cabinetBtn.style.visibility = 'visible';
+                cabinetBtn.style.opacity = '1';
+                console.log('✅ Кнопка "Кабинет" ПОКАЗАНА');
+            } else {
+                cabinetBtn.style.display = 'none';
+                cabinetBtn.style.visibility = 'hidden';
+                cabinetBtn.style.opacity = '0';
+                console.log('ℹ️ Кнопка "Кабинет" СКРЫТА');
+            }
+        } else {
+            console.warn('⚠️ Кнопка "Кабинет" не найдена в DOM');
+        }
     }
 
     // ============================================
     // ФУНКЦИЯ СОЗДАНИЯ КНОПОК В ПРАВОЙ ЧАСТИ
     // ============================================
-    function createCompanyButtons() {
+    async function createCompanyButtons() {
+        console.log('[CompanyButtons] 🚀 Создание кнопок...');
+
         const rightContent = document.getElementById('rightContent');
+        console.log('[CompanyButtons] 📍 rightContent найден?', !!rightContent);
 
         if (!rightContent) {
             console.warn('⚠️ #rightContent не найден, повторная попытка через 500ms...');
@@ -50,6 +119,10 @@
             console.log('ℹ️ Кнопки уже созданы');
             return;
         }
+
+        // Получаем ID компании
+        const companyId = getCompanyId();
+        console.log('🏢 ID компании:', companyId);
 
         // Создаем обертку для кнопок
         const wrapper = document.createElement('div');
@@ -77,10 +150,6 @@
             margin-top: -10px;
         `;
 
-        // Получаем ID компании
-        const companyId = getCompanyId();
-        console.log('🏢 ID компании:', companyId);
-
         // ---- КНОПКА 1: "Контрагент" ----
         const btn1 = createVortexButton({
             text: 'Контрагент',
@@ -88,6 +157,7 @@
             glass: true,
             shape: 'rounded'
         });
+        buttonsContainer.appendChild(btn1);
 
         // ---- КНОПКА 2: "Реквизиты" ----
         const btn2 = createVortexButton({
@@ -96,8 +166,6 @@
             glass: true,
             shape: 'rounded'
         });
-
-        buttonsContainer.appendChild(btn1);
         buttonsContainer.appendChild(btn2);
 
         // ---- КНОПКА 3: "Дистрибьютор" (только для компании с ID = 1) ----
@@ -110,7 +178,6 @@
                 glass: true,
                 shape: 'rounded'
             });
-
             buttonsContainer.appendChild(btn3);
 
             // ---- КНОПКА 4: "Компании" (только для компании с ID = 1) ----
@@ -122,16 +189,43 @@
                 glass: true,
                 shape: 'rounded'
             });
-
             buttonsContainer.appendChild(btn4);
         } else {
             console.log(`ℹ️ Компания ID=${companyId}: кнопки "Дистрибьютор" и "Компании" скрыты`);
         }
 
+        // ---- КНОПКА 5: "Кабинет" (ДЛЯ ВСЕХ КОМПАНИЙ, но показывается только при одобренной заявке) ----
+        // Создаем кнопку "Кабинет" (по умолчанию скрыта)
+        const btn5 = createVortexButton({
+            text: 'Кабинет',
+            action: 'onCabinet',
+            glass: true,
+            shape: 'rounded'
+        });
+        btn5.id = 'cabinetButton';
+        btn5.style.display = 'none';
+        btn5.style.visibility = 'hidden';
+        btn5.style.opacity = '0';
+        buttonsContainer.appendChild(btn5);
+
+        console.log('ℹ️ Кнопка "Кабинет" создана (скрыта)');
+
         wrapper.appendChild(buttonsContainer);
         rightContent.appendChild(wrapper);
 
         console.log('✅ Компания: кнопки добавлены в правую часть');
+        console.log('📋 Количество кнопок в контейнере:', buttonsContainer.children.length);
+
+        // ✅ Проверяем статус дистрибьютора ДЛЯ ВСЕХ КОМПАНИЙ
+        try {
+            console.log('[CompanyButtons] 🔍 Проверяем статус дистрибьютора для компании ID=' + companyId);
+            const isApproved = await checkDistributorStatus();
+            console.log(`[CompanyButtons] 📊 Результат проверки: isApproved = ${isApproved}`);
+            updateCabinetButtonVisibility(isApproved);
+        } catch (error) {
+            console.error('[CompanyButtons] ❌ Ошибка проверки статуса:', error);
+            updateCabinetButtonVisibility(false);
+        }
     }
 
     // ============================================
@@ -267,7 +361,6 @@
 
     /**
      * Обработчик кнопки "Контрагент"
-     * Открывает модуль управления контрагентами
      */
     window.onCounterparty = function () {
         console.log('📄 Контрагент...');
@@ -275,12 +368,10 @@
             window.openCounterparty();
         } else {
             console.warn('⚠️ Модуль контрагентов не загружен, подгружаем...');
-
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/right/counterparty/counterparty.css';
             document.head.appendChild(cssLink);
-
             const script = document.createElement('script');
             script.src = '/crm/company/right/counterparty/counterparty.js';
             script.onload = function () {
@@ -298,21 +389,17 @@
 
     /**
      * Обработчик кнопки "Реквизиты"
-     * Открывает модуль управления реквизитами компании
      */
     window.onRequisites = function () {
         console.log('📋 Реквизиты...');
-
         if (typeof window.openRequisite === 'function') {
             window.openRequisite();
         } else {
             console.warn('⚠️ Модуль реквизитов не загружен, подгружаем...');
-
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/requisite/requisite.css';
             document.head.appendChild(cssLink);
-
             const script = document.createElement('script');
             script.src = '/crm/company/requisite/requisite.js';
             script.onload = function () {
@@ -327,34 +414,24 @@
     };
 
     /**
-     * Обработчик кнопки "Дистрибьютор" (новая версия)
-     * Открывает модуль управления дистрибьюторами в правой секции
-     * Доступен только для компании с ID = 1
+     * Обработчик кнопки "Дистрибьютор"
      */
     window.onDistributor2 = function () {
         console.log('📦 Дистрибьютор (onDistributor2)...');
-
         const companyId = getCompanyId();
         if (companyId !== 1) {
             console.warn('⚠️ Доступ к модулю "Дистрибьютор" запрещен для этой компании');
             alert('Доступ запрещен');
             return;
         }
-
-        // Проверяем, загружен ли модуль дистрибьюторов в правой секции
         if (typeof window.openDistributor === 'function') {
-            // Открываем в правой секции
             window.openDistributor();
         } else {
             console.warn('⚠️ Модуль дистрибьюторов не загружен, подгружаем...');
-
-            // Загружаем CSS для правой секции
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/right/distributor/distributor.css';
             document.head.appendChild(cssLink);
-
-            // Загружаем JS для правой секции
             const script = document.createElement('script');
             script.src = '/crm/company/right/distributor/distributor.js';
             script.onload = function () {
@@ -362,48 +439,33 @@
                     if (typeof window.openDistributor === 'function') {
                         window.openDistributor();
                     } else {
-                        console.error('❌ Функция openDistributor не найдена после загрузки');
                         alert('Ошибка загрузки модуля дистрибьюторов');
                     }
                 }, 300);
-            };
-            script.onerror = function () {
-                console.error('❌ Ошибка загрузки скрипта дистрибьюторов');
-                alert('Ошибка загрузки модуля дистрибьюторов');
             };
             document.body.appendChild(script);
         }
     };
 
     /**
-     * Обработчик кнопки "Компании" (новая версия)
-     * Открывает модуль списка всех компаний в правой секции
-     * Доступен только для компании с ID = 1
+     * Обработчик кнопки "Компании"
      */
     window.onCompanies = function () {
         console.log('🏢 Компании (onCompanies)...');
-
         const companyId = getCompanyId();
         if (companyId !== 1) {
             console.warn('⚠️ Доступ к модулю "Компании" запрещен для этой компании');
             alert('Доступ запрещен');
             return;
         }
-
-        // Проверяем, загружен ли модуль списка компаний
         if (typeof window.openCompanies === 'function') {
-            // Открываем в правой секции
             window.openCompanies();
         } else {
             console.warn('⚠️ Модуль списка компаний не загружен, подгружаем...');
-
-            // Загружаем CSS
             const cssLink = document.createElement('link');
             cssLink.rel = 'stylesheet';
             cssLink.href = '/crm/company/right/List_of_companies/list_of_companies.css';
             document.head.appendChild(cssLink);
-
-            // Загружаем JS
             const script = document.createElement('script');
             script.src = '/crm/company/right/List_of_companies/list_of_companies.js';
             script.onload = function () {
@@ -411,52 +473,94 @@
                     if (typeof window.openCompanies === 'function') {
                         window.openCompanies();
                     } else {
-                        console.error('❌ Функция openCompanies не найдена после загрузки');
                         alert('Ошибка загрузки модуля списка компаний');
                     }
                 }, 300);
             };
-            script.onerror = function () {
-                console.error('❌ Ошибка загрузки скрипта списка компаний');
-                alert('Ошибка загрузки модуля списка компаний');
-            };
             document.body.appendChild(script);
         }
+    };
+
+    /**
+     * Обработчик кнопки "Кабинет"
+     */
+    window.onCabinet = function () {
+        console.log('🏢 Кабинет (onCabinet)...');
+        // Проверяем статус дистрибьютора перед открытием
+        checkDistributorStatus().then(isApproved => {
+            if (!isApproved) {
+                console.warn('⚠️ Доступ к модулю "Кабинет" запрещен: нет одобренной заявки');
+                alert('Доступ запрещен. Требуется одобренная заявка на дистрибьютора.');
+                return;
+            }
+
+            if (typeof window.openCabinet === 'function') {
+                window.openCabinet();
+            } else {
+                console.warn('⚠️ Модуль кабинета не загружен, подгружаем...');
+                const cssLink = document.createElement('link');
+                cssLink.rel = 'stylesheet';
+                cssLink.href = '/crm/company/right/cabinet/cabinet.css';
+                document.head.appendChild(cssLink);
+                const script = document.createElement('script');
+                script.src = '/crm/company/right/cabinet/cabinet.js';
+                script.onload = function () {
+                    setTimeout(function () {
+                        if (typeof window.openCabinet === 'function') {
+                            window.openCabinet();
+                        } else {
+                            alert('Ошибка загрузки модуля кабинета');
+                        }
+                    }, 300);
+                };
+                document.body.appendChild(script);
+            }
+        });
     };
 
     // ============================================
     // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
     // ============================================
     function init() {
-        console.log('🚀 Инициализация кнопок компании...');
+        console.log('🚀 ИНИЦИАЛИЗАЦИЯ КНОПОК КОМПАНИИ...');
         loadFonts();
+
+        // Принудительно создаем кнопки через 1 секунду после загрузки страницы
+        setTimeout(async function () {
+            console.log('⏰ Принудительное создание кнопок через 1 секунду...');
+            await createCompanyButtons();
+        }, 1000);
 
         if (typeof window.VortexButton === 'undefined') {
             console.warn('⚠️ VortexButton не загружен. Ожидание...');
-
             let attempts = 0;
             const maxAttempts = 20;
-
             const waitForVortex = setInterval(function () {
                 attempts++;
                 if (typeof window.VortexButton !== 'undefined') {
                     clearInterval(waitForVortex);
                     console.log('✅ VortexButton загружен, создаю кнопки...');
-                    setTimeout(createCompanyButtons, 300);
-                    if (window.VortexButton.init) {
-                        setTimeout(window.VortexButton.init, 50);
-                    }
+                    (async function () {
+                        await createCompanyButtons();
+                        if (window.VortexButton.init) {
+                            setTimeout(window.VortexButton.init, 50);
+                        }
+                    })();
                 } else if (attempts >= maxAttempts) {
                     clearInterval(waitForVortex);
                     console.warn('⚠️ VortexButton не загружен, создаю кнопки вручную...');
-                    setTimeout(createCompanyButtons, 300);
+                    (async function () {
+                        await createCompanyButtons();
+                    })();
                 }
             }, 100);
         } else {
-            setTimeout(createCompanyButtons, 300);
-            if (window.VortexButton.init) {
-                setTimeout(window.VortexButton.init, 50);
-            }
+            (async function () {
+                await createCompanyButtons();
+                if (window.VortexButton.init) {
+                    setTimeout(window.VortexButton.init, 50);
+                }
+            })();
         }
     }
 
@@ -466,5 +570,18 @@
     } else {
         init();
     }
+
+    // ✅ Экспортируем функцию обновления кнопки для вызова из других модулей
+    window.updateCabinetButton = function (show) {
+        updateCabinetButtonVisibility(show);
+    };
+
+    // ✅ Функция для принудительного обновления кнопок
+    window.refreshCompanyButtons = async function () {
+        console.log('🔄 Принудительное обновление кнопок...');
+        await createCompanyButtons();
+    };
+
+    console.log('✅ Company Buttons module loaded');
 
 })();
