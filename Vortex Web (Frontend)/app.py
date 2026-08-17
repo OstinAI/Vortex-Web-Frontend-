@@ -324,6 +324,7 @@ def video_bg():
     """Отдает фоновое видео (загружается 1 раз)"""
     return send_from_directory('Home/style/video', 'video-bg.html')
 
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port, debug=False)
