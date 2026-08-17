@@ -17,40 +17,58 @@
     <link rel="stylesheet" href="/home/style/cap/header.css">
 
     <!-- ОБЩИЙ CSS -->
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/home/registration/style.css">
+
+    <!-- Регистрация (модальное окно) -->
+    <link rel="stylesheet" href="/home/registration/registration.css">
 
     <style>
-        /* ВИДЕОФОН */
-        .video-background {
+        /* ВИДЕОФОН ЧЕРЕЗ IFRAME */
+        .video-iframe {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            border: none;
             z-index: 0;
-            overflow: hidden;
+            pointer-events: none;
         }
 
-            .video-background video {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                min-width: 100%;
-                min-height: 100%;
-                width: auto;
-                height: auto;
-                object-fit: cover;
-            }
+        /* ВСЕ КОНТЕНТЫ ПОВЕРХ ВИДЕО */
+        .navbar,
+        .side-panel,
+        #auth-form,
+        #registration-modal,
+        .cookie-banner,
+        #spiralCanvas,
+        #galaxy-overlay,
+        .feature-label,
+        .footer {
+            position: relative;
+            z-index: 1;
+        }
 
-        .video-overlay {
+        /* КАНВАС ПОВЕРХ ВИДЕО */
+        #spiralCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
             z-index: 1;
+            pointer-events: none;
+        }
+
+        #galaxy-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         .feature-label {
@@ -77,14 +95,6 @@
         @media (max-width: 600px) {
             #spiralCanvas, #galaxy-overlay {
                 display: none !important;
-            }
-
-            .video-background {
-                display: block !important;
-            }
-
-            .video-overlay {
-                display: block !important;
             }
         }
 
@@ -209,19 +219,47 @@
                 text-align: center;
             }
         }
+
+        /* ФУТЕР */
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
     </style>
 
 </head>
 <body>
 
-    <!-- ВИДЕОФОН -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline>
-            <source src="/styles/background/video/background.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
-    </div>
-    <div class="video-overlay"></div>
+    <!-- ========================================== -->
+    <!-- ВИДЕОФОН ЧЕРЕЗ IFRAME (ЗАГРУЖАЕТСЯ 1 РАЗ!)-->
+    <!-- ========================================== -->
+    <iframe src="/video-bg.html"
+            class="video-iframe"
+            allow="autoplay; encrypted-media"></iframe>
+
+    <!-- КАНВАС -->
+    <canvas id="spiralCanvas"></canvas>
+
+    <!-- GALAXY OVERLAY -->
+    <div id="galaxy-overlay"></div>
 
     <!-- COOKIE БАННЕР -->
     <div class="cookie-banner" id="cookieBanner">
@@ -235,12 +273,6 @@
             <button class="cookie-btn decline" onclick="declineCookies()">Отказаться</button>
             <button class="cookie-btn accept" onclick="acceptCookies()">Принять</button>
         </div>
-    </div>
-
-    <canvas id="spiralCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none;"></canvas>
-
-    <div id="galaxy-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2; font-family: 'Segoe UI', Roboto, sans-serif;">
-        <!-- Здесь были feature-label плашки -->
     </div>
 
     <!-- ШАПКА -->
@@ -301,34 +333,61 @@
             <button class="login-btn" onclick="handleLogin()">ВХОД</button>
 
             <div class="auth-footer">
-                <a href="/registration" class="reg-link">Зарегистрироваться</a>
+                <a href="#" class="reg-link" onclick="openRegistrationModal(); return false;">Зарегистрироваться</a>
             </div>
         </div>
     </div>
 
-    <!-- ФУТЕР С ИНФОРМАЦИЕЙ О РАЗРАБОТКЕ -->
-    <div style="
-        position: fixed;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;
-        color: rgba(255, 255, 255, 0.4);
-        font-family: 'Inter', sans-serif;
-        font-size: 12px;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-        text-align: center;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        background: rgba(0, 0, 0, 0.25);
-        padding: 6px 20px;
-        border-radius: 20px;
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        pointer-events: none;
-        user-select: none;
-        white-space: nowrap;
-    ">
+    <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ -->
+    <div id="registration-modal" class="modal-overlay">
+        <div class="modal-content glass-modal">
+            <!-- Кнопка закрытия -->
+            <button class="modal-close" onclick="closeRegistrationModal()">✕</button>
+
+            <div class="modal-header">
+                <h1 class="vortex-title">РЕГИСТРАЦИЯ</h1>
+                <p class="vortex-sub">новой компании</p>
+            </div>
+
+            <div class="error-message" id="reg-error-box" style="display: none;"></div>
+
+            <div class="input-field">
+                <input type="text" id="tbCompany" required placeholder=" " autocomplete="off" spellcheck="false">
+                <label>Название компании *</label>
+            </div>
+
+            <div class="input-field">
+                <input type="text" id="tbLogin" required placeholder=" " autocomplete="off" spellcheck="false">
+                <label>Логин *</label>
+            </div>
+
+            <div class="input-field">
+                <input type="password" id="pbPassword" required placeholder=" " autocomplete="new-password">
+                <label>Пароль *</label>
+            </div>
+
+            <div class="input-field">
+                <input type="password" id="pbPassword2" required placeholder=" " autocomplete="new-password">
+                <label>Повторите пароль *</label>
+            </div>
+
+            <button type="button" id="btnRegister" class="login-btn" onclick="handleRegistration()">
+                ЗАРЕГИСТРИРОВАТЬСЯ
+            </button>
+
+            <div class="modal-footer">
+                <span style="color: rgba(255,255,255,0.3); font-size: 13px;">
+                    Уже есть аккаунт?
+                    <a href="#" onclick="closeRegistrationModal(); return false;" style="color: #00d4ff; text-decoration: none;">
+                        Войти
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div class="footer">
         <span>© 2025 <span style="color: rgba(0, 212, 255, 0.7); font-weight: 500;">Vortex</span> Technologies Inc.</span>
         <span style="margin: 0 8px; opacity: 0.3;">|</span>
         <span>Все права защищены</span>
@@ -336,37 +395,31 @@
 
     <script src="/static/js/config.js"></script>
     <script src="/static/js/auth.js"></script>
+    <script src="/home/registration/registration.js"></script>
     <script src="/home/home/home.js"></script>
     <script src="/home/style/menu/menu.js"></script>
 
     <!-- COOKIE СКРИПТ -->
     <script>
-        // Проверяем, было ли уже дано согласие
         function checkCookieConsent() {
             const consent = localStorage.getItem('cookieConsent');
             if (consent === null) {
-                // Показываем баннер, если согласия нет
                 document.getElementById('cookieBanner').classList.add('show');
             }
         }
 
-        // Принять cookies
         function acceptCookies() {
             localStorage.setItem('cookieConsent', 'accepted');
             document.getElementById('cookieBanner').classList.remove('show');
-            // Здесь можно добавить загрузку аналитических скриптов
             console.log('Cookies приняты');
         }
 
-        // Отказаться от cookies
         function declineCookies() {
             localStorage.setItem('cookieConsent', 'declined');
             document.getElementById('cookieBanner').classList.remove('show');
-            // Здесь можно отключить аналитические скрипты
             console.log('Отказ от cookies');
         }
 
-        // Показываем баннер при загрузке
         document.addEventListener('DOMContentLoaded', checkCookieConsent);
     </script>
 

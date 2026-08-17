@@ -177,6 +177,7 @@ body {
     margin-bottom: 30px;
     border-bottom: 1px solid rgba(0, 229, 255, 0.1);
     padding-bottom: 20px;
+    color: #ffffff; /* ← ДОБАВИТЬ ЭТУ СТРОКУ */
 }
 
     .tariff-price span {
@@ -361,7 +362,7 @@ body {
 .module-price {
     font-size: 24px;
     font-weight: 400;
-    color: #fff;
+    color: #ffffff; /* ← ИЗМЕНИТЬ НА #ffffff */
     letter-spacing: 0.5px;
 }
 

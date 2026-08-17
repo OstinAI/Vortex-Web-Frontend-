@@ -1,0 +1,156 @@
+/* ============================================
+   МОДАЛЬНОЕ ОКНО
+   ============================================ */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.4s ease;
+}
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+.modal-content.glass-modal {
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 40px 44px;
+    max-width: 480px;
+    width: 92%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+    /* Скрываем скроллбар */
+    .modal-content.glass-modal::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .modal-content.glass-modal::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .modal-content.glass-modal::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+    }
+
+/* Кнопка закрытия */
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.4);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+    .modal-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+/* Заголовок модального окна */
+.modal-header {
+    margin-bottom: 24px;
+}
+
+    .modal-header .vortex-title {
+        font-size: 28px;
+        margin-bottom: 2px;
+    }
+
+    .modal-header .vortex-sub {
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+
+/* Футер модального окна */
+.modal-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Анимации */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalSlideDown {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .modal-content.glass-modal {
+        padding: 28px 20px;
+        width: 95%;
+        border-radius: 20px;
+    }
+
+    .modal-header .vortex-title {
+        font-size: 24px;
+    }
+
+    .modal-close {
+        top: 12px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+}

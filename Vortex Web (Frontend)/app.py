@@ -98,10 +98,6 @@ def inject_vortex_favicon(response):
             pass
     return response
 
-@app.route('/registration')
-def registration():
-    return render_template('registration.html')
-
 @app.route('/crm/dashboard/<path:filename>')
 def serve_dashboard(filename):
     return send_from_directory(get_path('crm', 'dashboard'), filename)
@@ -282,6 +278,51 @@ def serve_cabinet(filename):
         get_path('crm', 'company', 'right', 'cabinet'),
         filename
     )
+
+# ============================================
+# РЕГИСТРАЦИЯ
+# ============================================
+
+@app.route('/registration')
+def registration():
+    """Страница регистрации компании"""
+    return send_from_directory(
+        get_path('home', 'registration'),
+        'registration.html'
+    )
+
+@app.route('/home/registration/registration.css')
+def registration_css():
+    """CSS для страницы регистрации"""
+    return send_from_directory(
+        get_path('home', 'registration'),
+        'registration.css'
+    )
+
+@app.route('/home/registration/registration.js')
+def registration_js():
+    """JS для страницы регистрации"""
+    return send_from_directory(
+        get_path('home', 'registration'),
+        'registration.js'
+    )
+
+@app.route('/home/registration/<path:filename>')
+def registration_files(filename):
+    """Любые другие файлы из папки registration"""
+    return send_from_directory(
+        get_path('home', 'registration'),
+        filename
+    )
+
+
+# ==========================================
+# РОУТ ДЛЯ ВИДЕОФОНА 
+# ==========================================
+@app.route('/video-bg.html')
+def video_bg():
+    """Отдает фоновое видео (загружается 1 раз)"""
+    return send_from_directory('Home/style/video', 'video-bg.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))

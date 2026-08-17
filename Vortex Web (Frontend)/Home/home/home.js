@@ -1,27 +1,151 @@
-﻿// Функция открытия формы авторизации
+﻿// ============================================
+// УПРАВЛЕНИЕ ФОРМОЙ АВТОРИЗАЦИИ (TOGGLE)
+// ============================================
+
+let authFormState = {
+    isOpen: false,
+    isAnimating: false
+};
+
+// Функция открытия/закрытия формы авторизации
+function toggleAuthForm() {
+    console.log('🔄 toggleAuthForm() вызвана');
+
+    const authForm = document.getElementById("auth-form");
+    if (!authForm) {
+        console.error('❌ Форма авторизации не найдена!');
+        return;
+    }
+
+    // Если анимация в процессе - игнорируем
+    if (authFormState.isAnimating) {
+        console.log('⏳ Анимация в процессе, игнорируем');
+        return;
+    }
+
+    // Проверяем текущее состояние
+    const isVisible = authForm.classList.contains('active') &&
+        authForm.style.display !== 'none' &&
+        window.getComputedStyle(authForm).display !== 'none';
+
+    console.log(`📋 Текущее состояние: ${isVisible ? 'открыта' : 'закрыта'}`);
+
+    if (isVisible) {
+        // Закрываем форму
+        closeAuthForm();
+    } else {
+        // Открываем форму
+        openAuthForm();
+    }
+}
+
+// Открытие формы авторизации
+function openAuthForm() {
+    console.log('🔓 openAuthForm() вызвана');
+
+    const authForm = document.getElementById("auth-form");
+    if (!authForm) return;
+
+    // Если уже открыта - выходим
+    if (authForm.classList.contains('active') && authForm.style.display !== 'none') {
+        console.log('⚠️ Форма уже открыта');
+        return;
+    }
+
+    authFormState.isAnimating = true;
+
+    // Показываем форму
+    authForm.style.display = "block";
+    authForm.classList.add("active");
+
+    // Плавный скролл к форме
+    setTimeout(() => {
+        authForm.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Фокус на поле "Компания"
+        setTimeout(() => {
+            const companyInput = document.getElementById("company");
+            if (companyInput) {
+                companyInput.focus();
+                companyInput.select();
+            }
+            authFormState.isAnimating = false;
+        }, 400);
+    }, 100);
+
+    // Обновляем URL hash
+    if (window.location.hash !== '#auth') {
+        history.pushState(null, '', '#auth');
+    }
+
+    authFormState.isOpen = true;
+    console.log('✅ Форма открыта');
+}
+
+// Закрытие формы авторизации
+function closeAuthForm() {
+    console.log('🔒 closeAuthForm() вызвана');
+
+    const authForm = document.getElementById("auth-form");
+    if (!authForm) return;
+
+    // Если уже закрыта - выходим
+    if (!authForm.classList.contains('active') || authForm.style.display === 'none') {
+        console.log('⚠️ Форма уже закрыта');
+        return;
+    }
+
+    authFormState.isAnimating = true;
+
+    // Скрываем форму
+    authForm.style.display = "none";
+    authForm.classList.remove("active");
+
+    // Убираем hash из URL
+    if (window.location.hash === '#auth') {
+        history.pushState(null, '', window.location.pathname);
+    }
+
+    authFormState.isAnimating = false;
+    authFormState.isOpen = false;
+    console.log('✅ Форма закрыта');
+}
+
+// Функция проверки hash при загрузке
 function checkAndOpenAuth() {
+    console.log('🔍 checkAndOpenAuth() вызвана, hash:', window.location.hash);
+
     if (window.location.hash === "#auth") {
         const authForm = document.getElementById("auth-form");
-
         if (authForm) {
-            authForm.style.display = "";
-            authForm.classList.add("active");
+            // Проверяем, не открыта ли уже форма
+            const isVisible = authForm.classList.contains('active') &&
+                authForm.style.display !== 'none' &&
+                window.getComputedStyle(authForm).display !== 'none';
 
-            const currentDisplay = window.getComputedStyle(authForm).display;
-            if (currentDisplay === "none") {
-                authForm.style.display = "block";
+            if (!isVisible) {
+                openAuthForm();
             }
+        }
+    } else {
+        // Если hash не #auth, но форма открыта - закрываем
+        const authForm = document.getElementById("auth-form");
+        if (authForm) {
+            const isVisible = authForm.classList.contains('active') &&
+                authForm.style.display !== 'none' &&
+                window.getComputedStyle(authForm).display !== 'none';
 
-            setTimeout(() => {
-                authForm.scrollIntoView({ behavior: "smooth", block: "center" });
-                const companyInput = document.getElementById("company");
-                if (companyInput) companyInput.focus();
-            }, 100);
+            if (isVisible) {
+                closeAuthForm();
+            }
         }
     }
 }
 
-// ===== МОДАЛЬНОЕ ОКНО ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ =====
+// ============================================
+// МОДАЛЬНОЕ ОКНО ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ
+// ============================================
+
 function openPrivacyModal() {
     // Создаем модальное окно
     const modal = document.createElement('div');
@@ -392,12 +516,15 @@ function openPrivacyModal() {
         }
     });
 
-    // Закрытие по Escape
-    document.addEventListener('keydown', function (e) {
+    // Закрытие по Escape (добавляем только один обработчик)
+    const escapeHandler = function (e) {
         if (e.key === 'Escape') {
             closePrivacyModal();
         }
-    });
+    };
+    document.addEventListener('keydown', escapeHandler);
+    // Сохраняем ссылку на обработчик для возможного удаления
+    modal._escapeHandler = escapeHandler;
 }
 
 // Закрытие модального окна
@@ -405,6 +532,10 @@ function closePrivacyModal() {
     const modal = document.getElementById('privacyModal');
     if (modal) {
         modal.style.animation = 'fadeOut 0.3s ease';
+        // Удаляем обработчик Escape
+        if (modal._escapeHandler) {
+            document.removeEventListener('keydown', modal._escapeHandler);
+        }
         setTimeout(() => {
             modal.remove();
         }, 300);
@@ -421,8 +552,30 @@ styleSheet.textContent = `
 `;
 document.head.appendChild(styleSheet);
 
-// Перехватываем клик по ссылке политики конфиденциальности
+// ============================================
+// ОБРАБОТЧИКИ СОБЫТИЙ
+// ============================================
+
+// Инициализация при загрузке DOM
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('🚀 DOM загружен');
+
+    // Находим кнопку "Вход"
+    const loginBtn = document.getElementById('login-nav');
+    if (loginBtn) {
+        console.log('✅ Кнопка "Вход" найдена');
+
+        // Убираем стандартное поведение ссылки
+        loginBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // Отменяем переход по ссылке
+            console.log('🖱️ Клик по "Вход"');
+            toggleAuthForm(); // Переключаем форму
+        });
+    } else {
+        console.warn('⚠️ Кнопка "Вход" не найдена');
+    }
+
+    // Перехватываем клик по ссылке политики конфиденциальности
     const privacyLinks = document.querySelectorAll('a[href="/privacy-policy"]');
     privacyLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -430,7 +583,67 @@ document.addEventListener('DOMContentLoaded', function () {
             openPrivacyModal();
         });
     });
+
+    // Проверяем hash при загрузке
+    setTimeout(checkAndOpenAuth, 100);
 });
 
-document.addEventListener("DOMContentLoaded", checkAndOpenAuth);
-window.addEventListener("hashchange", checkAndOpenAuth);
+// Слушаем изменения hash (для навигации)
+window.addEventListener("hashchange", function () {
+    console.log('🔄 Hash изменился:', window.location.hash);
+    checkAndOpenAuth();
+});
+
+// ============================================
+// ЗАКРЫТИЕ ФОРМЫ ПРИ КЛИКЕ ВНЕ
+// ============================================
+
+document.addEventListener('mousedown', function (event) {
+    const form = document.getElementById('auth-form');
+    const authCard = document.querySelector('.auth-card');
+    const loginBtn = document.getElementById('login-nav');
+    const burgerBtn = document.getElementById('burgerToggle');
+
+    // Если формы нет или она скрыта - выходим
+    if (!form) return;
+
+    const isVisible = form.classList.contains('active') &&
+        form.style.display !== 'none' &&
+        window.getComputedStyle(form).display !== 'none';
+
+    if (!isVisible) return;
+
+    // Проверяем, был ли клик по форме или по кнопке "Вход" или по бургеру
+    const isClickInsideForm = authCard && authCard.contains(event.target);
+    const isClickOnLoginBtn = event.target === loginBtn || (loginBtn && loginBtn.contains(event.target));
+    const isClickOnBurger = event.target === burgerBtn || (burgerBtn && burgerBtn.contains(event.target));
+
+    // Если клик вне формы и не по кнопкам управления
+    if (!isClickInsideForm && !isClickOnLoginBtn && !isClickOnBurger) {
+        console.log('👆 Клик вне формы, закрываем');
+        closeAuthForm();
+    }
+});
+
+// ============================================
+// ЗАКРЫТИЕ ПО ESC
+// ============================================
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        const form = document.getElementById('auth-form');
+        if (form) {
+            const isVisible = form.classList.contains('active') &&
+                form.style.display !== 'none' &&
+                window.getComputedStyle(form).display !== 'none';
+
+            if (isVisible) {
+                console.log('⌨️ Escape нажат, закрываем форму');
+                closeAuthForm();
+            }
+        }
+    }
+});
+
+console.log('✅ home.js загружен');
+console.log('📌 Используйте toggleAuthForm() для ручного переключения');

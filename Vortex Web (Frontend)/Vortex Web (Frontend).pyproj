@@ -92,8 +92,9 @@
     <Content Include="crm\tools\tools.js" />
     <Content Include="home\home\home.html" />
     <Content Include="home\home\home.js" />
-    <Content Include="home\home\images\1.jpg" />
-    <Content Include="home\home\images\2.jpg" />
+    <Content Include="home\registration\registration.css" />
+    <Content Include="home\registration\registration.js" />
+    <Content Include="Home\style\video\video-bg.html" />
     <Content Include="images\population.png" />
     <Content Include="images\population.gif" />
     <Content Include="requirements.txt" />
@@ -113,7 +114,7 @@
     <Content Include="static\employees\employees.css" />
     <Content Include="static\css\settings.css" />
     <Content Include="static\css\stats.css" />
-    <Content Include="static\css\style.css" />
+    <Content Include="home\registration\style.css" />
     <Content Include="static\css\tasks.css" />
     <Content Include="static\css\telegram.css" />
     <Content Include="static\css\warehouse.css" />
@@ -221,7 +222,6 @@
     <Content Include="static\js\mailru\contactmail.js" />
     <Content Include="static\js\mailru\mailru.js" />
     <Content Include="static\js\mailru\massagenewmail.js" />
-    <Content Include="static\js\registration.js" />
     <Content Include="static\js\settings.js" />
     <Content Include="static\js\stats.js" />
     <Content Include="home\about\about.css" />
@@ -269,7 +269,6 @@
     <Content Include="templates\crm.html" />
     <Content Include="crm\dashboard\dashboard.html" />
     <Content Include="static\employees\employees.html" />
-    <Content Include="templates\registration.html" />
     <Content Include="templates\settings.html" />
     <Content Include="templates\stats.html" />
     <Content Include="templates\tasks.html" />
@@ -309,7 +308,9 @@
     <Folder Include="crm\tools\" />
     <Folder Include="home\home\" />
     <Folder Include="home\home\images\" />
+    <Folder Include="home\registration\" />
     <Folder Include="Home\style\menu\" />
+    <Folder Include="Home\style\video\" />
     <Folder Include="images\" />
     <Folder Include="images\PNG\" />
     <Folder Include="administrator\" />
