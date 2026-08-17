@@ -154,3 +154,183 @@
         font-size: 16px;
     }
 }
+
+
+/* ============================================
+   ПЕРЕОПРЕДЕЛЕНИЕ ДЛЯ МОДАЛЬНОГО ОКНА
+   ============================================ */
+
+/* Принудительное центрирование модального окна */
+#registration-modal.modal-overlay {
+    display: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    z-index: 99999 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+    #registration-modal.modal-overlay.active {
+        display: flex !important;
+    }
+
+/* Контент модального окна - строго по центру */
+#registration-modal .modal-content.glass-modal {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    background: rgba(10, 25, 47, 0.85) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 28px !important;
+    padding: 40px 44px !important;
+    max-width: 480px !important;
+    width: 92% !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Кнопка закрытия в модальном окне */
+#registration-modal .modal-close {
+    position: absolute !important;
+    top: 16px !important;
+    right: 20px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: 'Inter', sans-serif !important;
+    z-index: 10 !important;
+}
+
+    #registration-modal .modal-close:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+/* Заголовок модального окна */
+#registration-modal .modal-header {
+    margin-bottom: 24px !important;
+}
+
+    #registration-modal .modal-header .vortex-title {
+        font-size: 28px !important;
+        margin-bottom: 2px !important;
+    }
+
+    #registration-modal .modal-header .vortex-sub {
+        font-size: 12px !important;
+        letter-spacing: 4px !important;
+    }
+
+/* Футер модального окна */
+#registration-modal .modal-footer {
+    margin-top: 20px !important;
+    text-align: center !important;
+}
+
+/* Поля ввода в модальном окне */
+#registration-modal .input-field {
+    position: relative !important;
+    margin-bottom: 20px !important;
+    text-align: left !important;
+}
+
+    #registration-modal .input-field input {
+        width: 100% !important;
+        padding: 10px 0 !important;
+        font-size: 18px !important;
+        color: white !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 2px solid rgba(255,255,255,0.2) !important;
+        outline: none !important;
+        transition: 0.3s !important;
+        box-sizing: border-box !important;
+    }
+
+    #registration-modal .input-field label {
+        position: absolute !important;
+        top: 10px !important;
+        left: 0 !important;
+        color: rgba(255,255,255,0.5) !important;
+        pointer-events: none !important;
+        transition: 0.3s !important;
+    }
+
+    #registration-modal .input-field input:focus ~ label,
+    #registration-modal .input-field input:not(:placeholder-shown) ~ label {
+        top: -12px !important;
+        font-size: 12px !important;
+        color: var(--neon-blue, #00FFFF) !important;
+    }
+
+#registration-modal .login-btn {
+    width: 100% !important;
+    padding: 15px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, var(--vortex-dark, #0e2e47), var(--vortex-light, #2c5474)) !important;
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
+}
+
+    #registration-modal .login-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 0 30px rgba(44, 84, 116, 0.7) !important;
+    }
+
+#registration-modal .error-message {
+    color: #ff4d4d !important;
+    font-size: 14px !important;
+    min-height: 20px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    #registration-modal .modal-content.glass-modal {
+        padding: 28px 20px !important;
+        width: 95% !important;
+        border-radius: 20px !important;
+    }
+
+    #registration-modal .modal-header .vortex-title {
+        font-size: 24px !important;
+    }
+
+    #registration-modal .modal-close {
+        top: 12px !important;
+        right: 14px !important;
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 16px !important;
+    }
+}
