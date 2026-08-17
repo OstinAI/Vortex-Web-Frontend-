@@ -28,6 +28,31 @@ def home_menu(filename):
 def home_cap(filename):
     return send_from_directory(get_path('Home', 'style', 'cap'), filename)
 
+# ✅ ДОБАВЛЯЕМ МАРШРУТ ДЛЯ REGISTRATION CSS И ДРУГИХ ФАЙЛОВ
+@app.route('/home/registration/<path:filename>')
+def home_registration_files(filename):
+    return send_from_directory(get_path('Home', 'registration'), filename)
+
+# ✅ ДОБАВЛЯЕМ МАРШРУТ ДЛЯ STYLE.CSS ИЗ REGISTRATION
+@app.route('/home/registration/style.css')
+def home_registration_style():
+    return send_from_directory(get_path('Home', 'registration'), 'style.css')
+
+# ✅ ДОБАВЛЯЕМ МАРШРУТ ДЛЯ REGISTRATION.CSS
+@app.route('/home/registration/registration.css')
+def home_registration_css():
+    return send_from_directory(get_path('Home', 'registration'), 'registration.css')
+
+# ✅ ДОБАВЛЯЕМ МАРШРУТ ДЛЯ REGISTRATION.JS
+@app.route('/home/registration/registration.js')
+def home_registration_js():
+    return send_from_directory(get_path('Home', 'registration'), 'registration.js')
+
+# ✅ ДОБАВЛЯЕМ МАРШРУТ ДЛЯ STYLE.CSS (ОСНОВНОЙ)
+@app.route('/home/style.css')
+def home_main_style():
+    return send_from_directory(get_path('Home'), 'style.css')
+
 @app.route('/home/about/<path:filename>')
 def home_about(filename):
     return send_from_directory(get_path('Home', 'about'), filename)
@@ -291,29 +316,10 @@ def registration():
         'registration.html'
     )
 
-@app.route('/home/registration/registration.css')
-def registration_css():
-    """CSS для страницы регистрации"""
-    return send_from_directory(
-        get_path('home', 'registration'),
-        'registration.css'
-    )
-
-@app.route('/home/registration/registration.js')
-def registration_js():
-    """JS для страницы регистрации"""
-    return send_from_directory(
-        get_path('home', 'registration'),
-        'registration.js'
-    )
-
-@app.route('/home/registration/<path:filename>')
-def registration_files(filename):
-    """Любые другие файлы из папки registration"""
-    return send_from_directory(
-        get_path('home', 'registration'),
-        filename
-    )
+# ✅ ЭТИ МАРШРУТЫ УЖЕ ДОБАВЛЕНЫ ВЫШЕ
+# @app.route('/home/registration/registration.css')
+# @app.route('/home/registration/registration.js')
+# @app.route('/home/registration/<path:filename>')
 
 
 # ==========================================
@@ -326,5 +332,5 @@ def video_bg():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)  # debug=True для локальной разработки
