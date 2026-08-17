@@ -130,20 +130,19 @@ async function handleRegistration() {
         const passwordHash = await hashSHA256(pass);
         const passwordHash2 = await hashSHA256(pass2);
 
-        // Формируем тело запроса КАК ОЖИДАЕТ БЕКЕНД
+        // Формируем тело запроса
         const body = {
             "company": company,
             "username": username,
             "password": passwordHash,
             "password2": passwordHash2,
-            "fields": {},      // Пустой объект для дополнительных полей
-            "required_fields": []  // Пустой массив для обязательных полей
+            "fields": {},
+            "required_fields": []
         };
 
         console.log("📤 Отправка на сервер:", body);
 
-        // Получаем API_BASE_URL из auth.js
-        const API_BASE_URL = window.API_BASE_URL || 'http://127.0.0.1:8080';
+        // ✅ ТАК ЖЕ КАК В auth.js
         const url = `${API_BASE_URL}/api/auth/register_company`;
         console.log("🌐 URL:", url);
 
